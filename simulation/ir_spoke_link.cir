@@ -1,47 +1,82 @@
-* IR Spoke Link — ngspice behavioral reference model
-* Shared nominal values: config/system.json
-* Nodes: TX_GPIO LED_K OPTICAL ENV RX_GPIO VCC
+* IR Spoke Sensor - component-valued custom receiver and remote LED board
+* Shared values are generated from config/system.json.
+.include generated_params.inc
 
-.param VCC=3.3 FC=38k RLED=39 VF=1.35 VCESAT=0.18
-.param SPOKE_PERIOD=4.132m BLOCKED=168u RESIDUAL=0.08
-.param BURST_ON=789.474u BURST_PERIOD=1.389474m
-.param TAU=120u VTH_ON=220m VTH_OFF=140m
+.param SPOKE_PERIOD=4.135121m
+.param SPOKE_BLOCK=168.48u
+.param IPHOTO_SIGNAL=0.5664u
+.param IPHOTO_AMBIENT=12u
+.param RCABLE=0.1284
+.param RCONTACT=0.03
 
-VCC VCC 0 {VCC}
-VCARR CARRIER 0 PULSE(0 {VCC} 0 20n 20n {0.5/FC} {1/FC})
-BBURST TX_GPIO 0 V=if(mod(time,{BURST_PERIOD})<{BURST_ON},V(CARRIER),0)
+V3V3 3V3 0 {VSUP}
+VTX TX_GPIO 0 PULSE(0 {VSUP} 0 2n 2n {0.5/FCARRIER} {1/FCARRIER})
 
-* Saturated low-side driver and IR LED electrical load.
-SLED LED_K 0 TX_GPIO 0 SWLED
-RLED VCC LED_A {RLED}
-DLED LED_A LED_K DIR940
-.model SWLED SW(Ron=3 Roff=1G Vt=1.5 Vh=0.1)
-.model DIR940 D(Is=4n N=1.8 Rs=1.5 Cjo=12p Eg=1.12)
+* Main-board low-side driver and two contacts/conductors of the 600 mm AWG28
+* cable. JTX is the board connector; JLED is the remote emitter-board connector.
+RBASE TX_GPIO QB 1k
+QTX LED_K_MAIN QB 0 S8050
+RCONTACT_K LED_K_MAIN JTX_K {RCONTACT}
+RCABLE_K JTX_K JLED_K {RCABLE}
+RCONTACT_A 3V3 JTX_A {RCONTACT}
+RCABLE_A JTX_A JLED_A {RCABLE}
+RLED JLED_A LED_A 39
+DLED LED_A JLED_K IRLED
 
-* Spoke mask: repeats at the spoke-passing rate, leaving 8% scattered light.
-BMASK MASK 0 V=if(mod(time,{SPOKE_PERIOD})<{BLOCKED},{RESIDUAL},1)
-* Normalized received 38 kHz optical amplitude.
-BOPT OPTICAL 0 V=V(MASK)*if(V(TX_GPIO)>1.5,1,0)+0.08
+* Wheel mask: 5 % residual optical transmission during spoke blockage.
+BSPOKE SPOKE 0 V=if(mod(time,{SPOKE_PERIOD})<{SPOKE_BLOCK},0.05,1)
+BCARRIER CARRIER 0 V=if(V(LED_A,JLED_K)>0.7,1,0)
 
-* Receiver approximation: synchronous magnitude followed by envelope RC.
-BDEMOD DEMOD 0 V=abs((V(OPTICAL)-0.08)*(2*if(V(CARRIER)>1.5,1,0)-1))
-RDEM DEMOD ENV 12k
-CDEM ENV 0 10n
+* VEMD10940FX01: reverse-biased 3.3 pF typ. PIN photodiode with dark current.
+RVR_TOP 3V3 VREF 10k
+RVR_BOT VREF 0 10k
+CVREF VREF 0 1u
+BPHOTO PD_A PD_K I={IPHOTO_AMBIENT}+{IPHOTO_SIGNAL}*V(CARRIER)*V(SPOKE)
+IDARK PD_A PD_K DC 1n
+CPD PD_A PD_K 3.3p
+VPD_BIAS 3V3 PD_K 0
 
-* Active-low receiver output with hysteresis, then ESP32 input network.
-BOUT RX_RAW 0 V=if(V(ENV)>{VTH_ON},0,if(V(ENV)<{VTH_OFF},{VCC},V(RX_RAW)))
-RPULL VCC RX_RAW 10k
-RSER RX_RAW RX_GPIO 100
-CSER RX_GPIO 0 47p
+* TLV9062 channel A: 33k || 120p TIA around 1.65 V.
+XU1A TIA VREF PD_A 3V3 0 TLV9062_TYP
+RF_TIA TIA PD_A {RF_TIA}
+CF_TIA TIA PD_A {CF_TIA}
 
-.tran 1u 24m
+* TLV9062 channel B: AC coupling/high-pass plus gain of 11 and 59 kHz pole.
+CAC TIA BP_IN {C_AC}
+RAC BP_IN VREF {R_AC}
+XU1B BANDPASS BP_IN BP_NEG 3V3 0 TLV9062_TYP
+RG BP_NEG VREF {RG_GAIN}
+RF BANDPASS BP_NEG {RF_GAIN}
+CF BANDPASS BP_NEG {CF_GAIN}
+
+* TLV7011: fixed VREF threshold. 10k signal input and 1M positive feedback
+* create ~32.7 mV external hysteresis; the part adds 4.2 mV typical internally.
+RCOMP_IN BANDPASS COMP_PLUS {R_COMP_IN}
+RHYST GPIO_RAW COMP_PLUS {R_HYST}
+BCOMP COMP_IDEAL 0 V={VSUP}/2*(1+tanh(350*(V(COMP_PLUS)-V(VREF))))
+RDELAY COMP_IDEAL GPIO_RAW 1k
+CDELAY GPIO_RAW 0 {TPD_COMP/1000}
+RGPIO GPIO_RAW GPIO_RMT 100
+
+* A compact finite-GBW approximation. A0=100k and dominant pole=100 Hz gives
+* the TLV9062 typical 10 MHz gain-bandwidth value from its current datasheet.
+.subckt TLV9062_TYP OUT INP INN VCC VSS
+EERR ERR VSS INP INN 100k
+RDOM ERR INT 1k
+CDOM INT VSS 1.591549u
+BOUT OUT VSS V=limit(V(INT),0.04,V(VCC)-0.04)
+.ends TLV9062_TYP
+
+.model S8050 NPN(BF=180 VAF=80 IS=1e-13 CJE=20p CJC=8p TF=20n)
+.model IRLED D(IS=1e-20 N=1.8 RS=2 CJO=20p TT=10n BV=5 IBV=10u)
+
+.tran 0.1u 16m
 .control
-set filetype=ascii
 run
-wrdata output/ngspice_waveforms.csv time v(tx_gpio) v(mask) v(optical) v(env) v(rx_gpio)
-meas tran led_i_avg AVG i(VCC) from=4m to=20m
-meas tran env_min MIN v(env) from=4m to=20m
-meas tran env_max MAX v(env) from=4m to=20m
+wrdata output/spice_waveforms.csv time v(TX_GPIO) v(SPOKE) v(TIA) v(BANDPASS) v(GPIO_RAW)
+meas tran TIA_MIN min v(TIA) from=2m to=16m
+meas tran TIA_MAX max v(TIA) from=2m to=16m
+meas tran BP_PP pp v(BANDPASS) from=2m to=16m
 quit
 .endc
 .end

@@ -1,0 +1,10 @@
+{
+  "config": "config\\system.json",
+  "generated_header": "firmware\\include\\ir_spoke_generated.h",
+  "generated_spice": "simulation\\generated_params.inc",
+  "tia_pole_hz": 40190.64219492307,
+  "bandpass_highpass_hz": 9947.183943243459,
+  "bandpass_lowpass_hz": 58946.2752192205,
+  "calculated_led_current_ma": 45.38461538461538,
+  "max_spoke_event_hz": 362.7463090413569
+}

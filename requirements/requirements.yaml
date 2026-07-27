@@ -1,0 +1,63 @@
+project: IR Spoke Sensor
+baseline: config/system.json
+requirements:
+  - id: SYS-001
+    statement: Detect every modeled spoke blockage at 60 km/h with 16–48 spokes and a 2.0 mm nominal spoke.
+    verification: T-SIM-001
+  - id: SYS-002
+    statement: Retain timing margin at the 80 km/h stress speed.
+    verification: T-CALC-001
+  - id: OPT-001
+    statement: Emit a continuous 38 kHz, 50 percent duty, 940 nm optical carrier.
+    verification: T-CFG-001
+  - id: OPT-002
+    statement: Limit typical IR LED current to 50 mA or less and absolute-rating margin below 100 mA.
+    verification: T-CALC-002
+  - id: OPT-003
+    statement: Route the emitter through a 600 mm two-conductor harness to a remote PCB facing the detector through the spokes.
+    verification: T-HW-004
+  - id: AFE-001
+    statement: Use a discrete photodiode, TIA, active band-pass and Schmitt comparator; no integrated AGC receiver.
+    verification: T-HW-001
+  - id: AFE-002
+    statement: TIA and gain-stage poles shall bracket the 38 kHz carrier using installed values.
+    verification: T-CALC-003
+  - id: AFE-003
+    statement: Nominal AFE output shall cross both comparator thresholds while blocked residual carrier shall not.
+    verification: T-SIM-002
+  - id: AFE-004
+    statement: TIA output shall retain at least 100 mV headroom from both 3.3 V rails in the nominal simulation.
+    verification: T-SIM-003
+  - id: MCU-001
+    statement: RMT TX shall synthesize the carrier and RMT RX shall remove it in hardware before interval processing.
+    verification: T-SW-001
+  - id: MCU-002
+    statement: MCPWM capture shall only be selected if an external envelope stage is added; raw-carrier capture uses RMT.
+    verification: T-ANALYSIS-001
+  - id: SW-001
+    statement: All firmware timing constants shall be generated at compile time from config/system.json.
+    verification: T-GEN-001
+  - id: SW-002
+    statement: Infer a spoke-count candidate from 16 through 48 using repeating interval-pattern matching.
+    verification: T-SW-002
+  - id: SW-003
+    statement: A perfectly uniform pattern shall not be reported as uniquely observable with high confidence.
+    verification: T-SW-003
+  - id: SW-004
+    statement: Maintain a continuously updated per-spoke interval LUT using bounded exponential adaptation and outlier rejection.
+    verification: T-SW-004
+  - id: PCB-001
+    statement: Every fitted SMT footprint shall have the expected complete pad set, assigned electrical nets and an LCSC identifier.
+    verification: T-PCB-001
+  - id: PCB-002
+    statement: Remote emitter PCB shall pass KiCad DRC with zero violations and zero unconnected pads.
+    verification: T-PCB-002
+  - id: PCB-003
+    statement: JLC export shall be blocked unless each board has zero DRC violations and zero unconnected pads.
+    verification: T-PCB-003
+  - id: DOC-001
+    statement: Current manufacturer datasheets and extracted simulation values shall be locally linked and cross-validated.
+    verification: T-DOC-001
+  - id: ENV-001
+    statement: Direct sunlight, wet contamination, alignment and cable vibration shall be validated on hardware before release.
+    verification: T-PHYS-001

@@ -1,0 +1,5 @@
+Item,Manufacturer Part Number,LCSC Part Number,Quantity,Specification,Procurement
+Housing,GHR-02V-S,C50396276,2,JST GH 2 circuit secure-lock,LCSC stock low at check; source from authorized distributor if unavailable
+Crimp contact,SSHL-002T-P0.2,C189897,4,AWG30-26 tin contact,LCSC
+Wire,UL1061 AWG28 twisted pair,DNI,0.6m,Red/black 600mm; 0.214 ohm/m per conductor,Harness supplier
+Strain relief,Heat-shrink + frame clips,DNI,As required,Fix cable at both boards and along stationary frame,Mechanical assembly

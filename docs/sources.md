@@ -20,17 +20,21 @@ approximately 168 µs blocked per spoke and 3.97 ms clear between spokes.
   https://jlcpcb.com/help/article/terms-and-conditions-of-jlcpcb-assembly-service
 - Vishay VSMB1940X01 940 nm IR LED, LCSC C3151600:
   https://www.lcsc.com/product-detail/C3151600.html
-- Vishay TSOP57438TT1 38 kHz SMD receiver, LCSC C3742825:
-  https://www.lcsc.com/product-detail/C3742825.html
-- Vishay TSOP572/TSOP574 product family and pinout:
-  https://www.vishay.com/en/product/82434/
-- Vishay IR receiver family data sheet:
-  https://datasheet.lcsc.com/datasheet/pdf/a2c7263ca37c42b99ff2b0fcd0481e22.pdf
+- Vishay VEMD10940FX01 side-view photodiode, LCSC C7104273:
+  https://www.vishay.com/docs/84217/vemd10940fx01.pdf
+- TI TLV9062 10 MHz RRIO dual op amp, LCSC C2867884:
+  https://www.ti.com/lit/ds/symlink/tlv9062.pdf
+- TI TLV7011 nanopower comparator, LCSC C193688:
+  https://www.ti.com/lit/ds/symlink/tlv7011.pdf
+- JST GH 1.25 mm secure-lock connector family:
+  https://www.jst-mfg.com/product/pdf/eng/eGH.pdf
+- ESP32-S3 RMT peripheral:
+  https://docs.espressif.com/projects/esp-idf/en/release-v5.3/esp32s3/api-reference/peripherals/rmt.html
 
 ## Engineering status
 
 LCSC stock and JLCPCB library class are live commercial data and can change
 without notice. The BOM captures the checked candidate set, but it is not a
-purchase guarantee. The integrated receiver behavior is represented with a
-datasheet-level behavioral model. Direct-sun, alignment, vibration, dirt and
-water tests are required before treating the link as safety-related.
+purchase guarantee. Active performance parts are Extended; common passives and
+the S8050 driver are Basic. Direct-sun, alignment, vibration, dirt and water
+tests are required before treating the link as safety-related.

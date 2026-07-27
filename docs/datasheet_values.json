@@ -1,0 +1,48 @@
+{
+  "VSMB1940X01": {
+    "source": "docs/datasheets/VSMB1940X01.pdf",
+    "source_url": "https://www.vishay.com/docs/81933/vsmb1940.pdf",
+    "peak_wavelength_nm_typ": 940,
+    "radiant_intensity_mw_sr_at_100ma_typ": 16,
+    "continuous_forward_current_ma_max": 100
+  },
+  "VEMD10940FX01": {
+    "source": "docs/datasheets/VEMD10940FX01.pdf",
+    "source_url": "https://www.vishay.com/docs/84217/vemd10940fx01.pdf",
+    "revision": "1.4, 2025-10-28",
+    "active_area_mm2": 0.23,
+    "reverse_light_current_ua_at_10wm2_typ": 3.0,
+    "capacitance_pf_at_0v_typ": 3.3,
+    "dark_current_na_typ": 1.0,
+    "dark_current_na_max": 10.0,
+    "rise_time_ns_typ": 100,
+    "fall_time_ns_typ": 100
+  },
+  "TLV9062": {
+    "source": "docs/datasheets/TLV9062.pdf",
+    "source_url": "https://www.ti.com/lit/ds/symlink/tlv9062.pdf",
+    "gbw_hz_typ": 10000000,
+    "slew_v_us_typ": 6.5,
+    "input_bias_pa_typ": 0.5,
+    "supply_v_min": 1.8,
+    "supply_v_max": 5.5
+  },
+  "TLV7011": {
+    "source": "docs/datasheets/TLV7011.pdf",
+    "source_url": "https://www.ti.com/lit/ds/symlink/tlv7011.pdf",
+    "propagation_delay_ns_typ": 260,
+    "internal_hysteresis_mv_typ": 4.2,
+    "supply_v_min": 1.6,
+    "supply_v_max": 5.5
+  },
+  "JST_GH": {
+    "source": "docs/datasheets/JST_GH.pdf",
+    "source_url": "https://www.jst-mfg.com/product/pdf/eng/eGH.pdf",
+    "pitch_mm": 1.25,
+    "current_rating_a_awg26": 1.0,
+    "voltage_rating_v": 50,
+    "wire_awg_min": 30,
+    "wire_awg_max": 26,
+    "secure_lock": true
+  }
+}

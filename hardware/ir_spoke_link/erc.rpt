@@ -1,39 +1,51 @@
-ERC report (2026-07-27T20:57:03, Encoding UTF8)
+ERC report (2026-07-27T21:47:13, Encoding UTF8)
 Report includes: Errors, Warnings
 
 ***** Sheet /
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 69.85 mm): Label 'XIAO_D2_GPIO3'
+    @(22.86 mm, 45.72 mm): Label 'XIAO_D2'
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 72.39 mm): Label 'XIAO_D3_GPIO4'
+    @(22.86 mm, 48.26 mm): Label 'XIAO_D3'
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 74.93 mm): Label 'XIAO_D4_GPIO5'
+    @(22.86 mm, 50.80 mm): Label 'XIAO_D4'
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 77.47 mm): Label 'XIAO_D5_GPIO6'
+    @(22.86 mm, 53.34 mm): Label 'XIAO_D5'
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 80.01 mm): Label 'XIAO_D6_GPIO43'
+    @(22.86 mm, 55.88 mm): Label 'XIAO_D6'
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 102.87 mm): Label 'XIAO_D10_GPIO9'
+    @(22.86 mm, 69.85 mm): Label 'XIAO_D10'
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 105.41 mm): Label 'XIAO_D9_GPIO8'
+    @(22.86 mm, 72.39 mm): Label 'XIAO_D9'
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 107.95 mm): Label 'XIAO_D8_GPIO7'
+    @(22.86 mm, 74.93 mm): Label 'XIAO_D8'
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 110.49 mm): Label 'XIAO_D7_GPIO44'
+    @(22.86 mm, 77.47 mm): Label 'XIAO_D7'
 [isolated_pin_label]: Label connected to only one pin
     ; warning
-    @(30.48 mm, 118.11 mm): Label '+5V_USB'
+    @(22.86 mm, 85.09 mm): Label '+5V_USB'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(53.34 mm, 128.27 mm): Label 'NC_MECHANICAL'
+[lib_symbol_mismatch]: Symbol "TLV9062" stimmt nicht mit Kopie in Bibliothek "Amplifier_Operational" überein
+    ; warning
+    @(83.82 mm, 128.27 mm): Symbol U1 [TLV9062]
+[lib_symbol_mismatch]: Symbol "TLV9062" stimmt nicht mit Kopie in Bibliothek "Amplifier_Operational" überein
+    ; warning
+    @(138.43 mm, 128.27 mm): Symbol U1 [TLV9062]
+[lib_symbol_mismatch]: Symbol "TLV9062" stimmt nicht mit Kopie in Bibliothek "Amplifier_Operational" überein
+    ; warning
+    @(138.43 mm, 151.13 mm): Symbol U1 [TLV9062]
 
- ** ERC messages: 10  Errors 0  Warnings 10
+ ** ERC messages: 14  Errors 0  Warnings 14
 
  ** Ignored checks:
     - Global label only appears once in the schematic

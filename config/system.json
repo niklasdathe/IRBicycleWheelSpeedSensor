@@ -1,47 +1,134 @@
 {
-  "design_name": "IR Spoke Link / XIAO ESP32-S3 carrier",
+  "schema_version": 2,
+  "design_name": "IR Spoke Sensor / XIAO ESP32-S3 carrier",
   "wheel": {
     "effective_diameter_m": 0.702,
     "max_speed_kmh": 60.0,
     "stress_speed_kmh": 80.0,
-    "spoke_count": 32,
+    "spoke_count_design": 32,
+    "spoke_count_min": 16,
+    "spoke_count_max": 48,
     "spoke_width_mm": 2.0,
     "beam_radius_m": 0.25,
-    "residual_transmission_blocked": 0.08
+    "residual_transmission_blocked": 0.05
   },
   "optical": {
     "carrier_hz": 38000,
-    "burst_cycles": 30,
-    "burst_gap_us": 600,
+    "carrier_duty": 0.5,
     "led_peak_nm": 940,
-    "led_current_ma": 45,
-    "receiver_threshold_on": 0.22,
-    "receiver_threshold_off": 0.14,
-    "envelope_tau_us": 120,
-    "ambient_normalized": 0.08,
-    "noise_rms_normalized": 0.025
+    "led_current_ma_target": 45.0,
+    "emitter_radiant_intensity_mw_sr_at_100ma_typ": 16.0,
+    "emitter_receiver_distance_mm": 50.0,
+    "alignment_factor_nominal": 0.65,
+    "photodiode_reverse_light_current_ua_at_10wm2_typ": 3.0,
+    "photodiode_active_area_mm2": 0.23,
+    "photodiode_capacitance_pf_typ": 3.3,
+    "ambient_photocurrent_ua": 12.0,
+    "signal_noise_rms_ua": 0.025
   },
-  "electrical": {
+  "analog_frontend": {
     "supply_v": 3.3,
-    "led_vf_v": 1.35,
-    "driver_vce_sat_v": 0.18,
+    "vref_v": 1.65,
+    "tia_feedback_ohm": 33000,
+    "tia_feedback_pf": 120,
+    "ac_coupling_nf": 1.0,
+    "ac_bias_ohm": 16000,
+    "gain_ground_ohm": 10000,
+    "gain_feedback_ohm": 100000,
+    "gain_feedback_pf": 27,
+    "comparator_input_ohm": 10000,
+    "comparator_feedback_ohm": 1000000,
+    "comparator_internal_hysteresis_mv_typ": 4.2,
+    "gpio_series_ohm": 100,
+    "opamp_gbw_hz_typ": 10000000,
+    "opamp_slew_v_us_typ": 6.5,
+    "comparator_delay_ns_typ": 260,
+    "photodiode_dark_current_na_typ": 1.0,
+    "photodiode_dark_current_na_max": 10.0
+  },
+  "transmitter": {
+    "supply_v": 3.3,
+    "led_vf_v_typ": 1.35,
+    "driver_vce_sat_v_typ": 0.18,
     "led_series_ohm": 39,
-    "receiver_supply_filter_ohm": 100,
-    "receiver_supply_filter_uf": 4.7,
-    "receiver_decoupling_nf": 100,
-    "output_pullup_kohm": 10,
-    "output_series_ohm": 100,
-    "output_shunt_pf": 47
+    "base_resistor_ohm": 1000,
+    "remote_board": true,
+    "cable_length_mm": 600,
+    "cable_awg": 28,
+    "cable_conductor_ohm_per_m": 0.214,
+    "connector_contact_ohm_max": 0.03,
+    "connector_current_rating_a": 1.0,
+    "connector_voltage_rating_v": 50,
+    "pin_1": "+3V3_LED",
+    "pin_2": "LED_K_SWITCHED"
   },
   "esp32": {
     "module": "Seeed Studio XIAO ESP32S3",
+    "esp_idf_target": "esp32s3",
     "tx_gpio": 1,
     "rx_gpio": 2,
     "carrier_peripheral": "RMT TX",
-    "capture_peripheral": "RMT RX",
-    "rx_glitch_filter_us": 80,
-    "valid_low_min_us": 400,
-    "valid_low_max_us": 1200,
-    "link_loss_timeout_us": 10000
+    "capture_peripheral": "RMT RX with hardware carrier demodulation",
+    "rmt_resolution_hz": 1000000,
+    "rx_demod_frequency_hz": 25000,
+    "rx_demod_duty": 0.5,
+    "rx_glitch_filter_us": 4,
+    "minimum_blocked_us": 70,
+    "maximum_blocked_us": 600,
+    "link_loss_timeout_us": 15000,
+    "lut_bins": 64,
+    "learning_rate": 0.08,
+    "spoke_count_confidence_events": 192,
+    "outlier_sigma": 3.5
+  },
+  "parts": {
+    "photodiode": {
+      "mpn": "VEMD10940FX01",
+      "lcsc": "C7104273",
+      "jlc_library": "Extended",
+      "package": "SMD side-view 3.0x2.0mm"
+    },
+    "opamp": {
+      "mpn": "TLV9062IDDFR",
+      "lcsc": "C2867884",
+      "jlc_library": "Extended",
+      "package": "TSOT-23-8"
+    },
+    "comparator": {
+      "mpn": "TLV7011DCKR",
+      "lcsc": "C193688",
+      "jlc_library": "Extended",
+      "package": "SC-70-5"
+    },
+    "emitter": {
+      "mpn": "VSMB1940X01",
+      "lcsc": "C3151600",
+      "jlc_library": "Extended",
+      "package": "0805 side-view"
+    },
+    "driver": {
+      "mpn": "S8050 J3Y",
+      "lcsc": "C2146",
+      "jlc_library": "Basic",
+      "package": "SOT-23"
+    },
+    "tx_connector": {
+      "mpn": "BM02B-GHS-TBT(LF)(SN)",
+      "lcsc": "C161690",
+      "jlc_library": "Extended",
+      "package": "JST GH 2-pin 1.25mm top-entry"
+    },
+    "tx_cable_housing": {
+      "mpn": "GHR-02V-S",
+      "lcsc": "C50396276",
+      "jlc_library": "Hand assembly",
+      "package": "JST GH 2-pin housing"
+    },
+    "tx_cable_contact": {
+      "mpn": "SSHL-002T-P0.2",
+      "lcsc": "C189897",
+      "jlc_library": "Hand assembly",
+      "package": "JST GH crimp contact AWG30-26"
+    }
   }
 }

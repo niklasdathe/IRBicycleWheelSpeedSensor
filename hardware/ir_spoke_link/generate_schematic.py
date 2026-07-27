@@ -1,203 +1,172 @@
 #!/usr/bin/env python3
-"""Generate the editable KiCad schematic from the reviewed component set."""
+"""Generate a clean, block-organized system schematic for the IR sensor."""
 
 from pathlib import Path
-
 import kicad_sch_api as ksa
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "ir_spoke_link.kicad_sch"
+sch = ksa.create_schematic("IR Spoke Sensor")
 
-sch = ksa.create_schematic("IR Spoke Link")
 
-
-def add(lib_id, ref, value, pos, footprint, rotation=0, **fields):
+def add(lib_id, ref, value, pos, footprint, rotation=0, unit=1, **fields):
     return sch.components.add(
-        lib_id=lib_id,
-        reference=ref,
-        value=value,
-        position=pos,
-        footprint=footprint,
-        rotation=rotation,
-        **fields,
+        lib_id=lib_id, reference=ref, value=value, position=pos,
+        footprint=footprint, rotation=rotation, unit=unit, **fields
     )
 
 
-# XIAO ESP32S3 carrier headers. Pin names are stated in adjacent text/labels.
-add(
-    "Connector_Generic:Conn_01x07",
-    "J1",
-    "XIAO_LEFT: D0,D1,D2,D3,D4,D5,D6",
-    (35, 72),
-    "Connector_PinSocket_2.54mm:PinSocket_1x07_P2.54mm_Vertical",
-    LCSC="DNI",
-)
-add(
-    "Connector_Generic:Conn_01x07",
-    "J2",
-    "XIAO_RIGHT: D10,D9,D8,D7,3V3,GND,5V",
-    (35, 110),
-    "Connector_PinSocket_2.54mm:PinSocket_1x07_P2.54mm_Vertical",
-    LCSC="DNI",
-)
+def heading(text, x, y):
+    sch.add_text(text, (x, y), size=1.6, bold=True)
 
-# Transmitter.
-add(
-    "Device:R",
-    "R2",
-    "1k",
-    (70, 72),
-    "Resistor_SMD:R_0402_1005Metric",
-    rotation=90,
-    LCSC="C11702",
-)
-add(
-    "Transistor_BJT:Q_NPN_BCE",
-    "Q1",
-    "S8050",
-    (96, 72),
-    "Package_TO_SOT_SMD:SOT-23",
-    LCSC="C2146",
-)
-add(
-    "Device:LED",
-    "D1",
-    "VSMB1940X01 940nm",
-    (96, 48),
-    "LED_SMD:LED_0805_2012Metric",
-    LCSC="C3151600",
-    Datasheet="https://www.lcsc.com/product-detail/C3151600.html",
-)
-add(
-    "Device:R",
-    "R1",
-    "39R 0.1W",
-    (96, 34),
-    "Resistor_SMD:R_0603_1608Metric",
-    LCSC="C23154",
-)
-add(
-    "Device:C",
-    "C1",
-    "100n X7R",
-    (118, 45),
-    "Capacitor_SMD:C_0402_1005Metric",
-    LCSC="C1525",
-)
 
-# Integrated 38 kHz receiver. Belobog pinning:
-# pin 1 = OUT; 2,3,6,7,8 = GND; 4,5 = VS.
-add(
-    "Connector_Generic:Conn_01x08",
-    "U1",
-    "TSOP57438TT1 38kHz",
-    (158, 72),
-    "IR_Spoke_Link:TSOP57_Belobog_4x4mm",
-    LCSC="C3742825",
-    Datasheet="https://www.vishay.com/en/product/82434/",
-)
-add(
-    "Device:R",
-    "R3",
-    "100R",
-    (158, 48),
-    "Resistor_SMD:R_0402_1005Metric",
-    LCSC="C25076",
-)
-add(
-    "Device:C",
-    "C2",
-    "4.7u X5R",
-    (178, 54),
-    "Capacitor_SMD:C_0603_1608Metric",
-    LCSC="C19666",
-)
-add(
-    "Device:C",
-    "C3",
-    "100n X7R",
-    (192, 54),
-    "Capacitor_SMD:C_0402_1005Metric",
-    LCSC="C1525",
-)
-add(
-    "Device:R",
-    "R4",
-    "10k",
-    (178, 83),
-    "Resistor_SMD:R_0402_1005Metric",
-    LCSC="C25744",
-)
-add(
-    "Device:R",
-    "R5",
-    "100R",
-    (205, 72),
-    "Resistor_SMD:R_0402_1005Metric",
-    rotation=90,
-    LCSC="C25076",
-)
-add(
-    "Device:C",
-    "C4",
-    "47p C0G",
-    (224, 83),
-    "Capacitor_SMD:C_0402_1005Metric",
-    LCSC="C1671",
-)
+def note(text, x, y):
+    sch.add_text(text, (x, y), size=0.9, italic=True)
 
-# Label-based connectivity keeps the schematic legible and produces named
-# nets shared with firmware and simulation.
+
+# ---------------------------------------------------------------------------
+# Host / control
+heading("1  ESP32-S3 HOST + RMT", 28, 25)
+add("Connector_Generic:Conn_01x07", "J1", "XIAO LEFT", (28, 48),
+    "Connector_PinSocket_2.54mm:PinSocket_1x07_P2.54mm_Vertical", LCSC="DNI")
+add("Connector_Generic:Conn_01x07", "J2", "XIAO RIGHT", (28, 78),
+    "Connector_PinSocket_2.54mm:PinSocket_1x07_P2.54mm_Vertical", LCSC="DNI")
+add("power:PWR_FLAG", "#FLG01", "PWR_FLAG", (42, 72), "")
+add("power:PWR_FLAG", "#FLG02", "PWR_FLAG", (48, 72), "")
+note("GPIO1: 38 kHz continuous TX  |  GPIO2: comparator carrier into RMT RX", 18, 92)
+
+# ---------------------------------------------------------------------------
+# Remote transmitter and cable boundary
+heading("2  LOW-SIDE DRIVER + LOCKING CABLE", 72, 25)
+add("Device:R", "R2", "1k", (64, 42), "Resistor_SMD:R_0402_1005Metric",
+    rotation=90, LCSC="C11702")
+add("Transistor_BJT:Q_NPN_BCE", "Q1", "S8050 J3Y", (82, 42),
+    "Package_TO_SOT_SMD:SOT-23", LCSC="C2146")
+add("Connector_Generic:Conn_01x02", "J3", "JST GH MAIN", (102, 42),
+    "Connector_JST:JST_GH_BM02B-GHS-TBT_1x02-1MP_P1.25mm_Vertical",
+    LCSC="C161690", Datasheet="https://www.jst-mfg.com/product/pdf/eng/eGH.pdf")
+note("600 mm AWG28 pair, GHR-02V-S + SSHL-002T-P0.2; secure lock", 64, 56)
+
+heading("3  REMOTE EMITTER BOARD", 128, 25)
+add("Connector_Generic:Conn_01x02", "J4", "JST GH LED", (122, 42),
+    "Connector_JST:JST_GH_BM02B-GHS-TBT_1x02-1MP_P1.25mm_Vertical",
+    LCSC="C161690")
+add("Device:R", "R1", "39R", (140, 38), "Resistor_SMD:R_0603_1608Metric",
+    rotation=90, LCSC="C23154")
+add("Device:LED", "D1", "VSMB1940X01", (158, 42),
+    "LED_SMD:LED_0805_2012Metric", LCSC="C3151600",
+    Datasheet="https://www.vishay.com/docs/81933/vsmb1940.pdf")
+note("Emitter faces across spoke plane toward D2", 126, 56)
+
+# ---------------------------------------------------------------------------
+# Reference and detector
+heading("4  REFERENCE + PHOTODIODE TIA", 33, 108)
+add("Device:R", "R3", "10k", (28, 124), "Resistor_SMD:R_0402_1005Metric",
+    rotation=90, LCSC="C25744")
+add("Device:R", "R4", "10k", (28, 140), "Resistor_SMD:R_0402_1005Metric",
+    rotation=90, LCSC="C25744")
+add("Device:C", "C1", "1u", (43, 140), "Capacitor_SMD:C_0603_1608Metric",
+    LCSC="C15849")
+add("Connector_Generic:Conn_01x03", "D2", "VEMD10940FX01", (58, 128),
+    "IR_Spoke_Link:VEMD10940F_SideView", LCSC="C7104273",
+    Datasheet="https://www.vishay.com/docs/84217/vemd10940fx01.pdf")
+u1a = add("Amplifier_Operational:TLV9062", "U1", "TLV9062IDDFR", (84, 128),
+    "Package_TO_SOT_SMD:SOT-23-8", unit=1, LCSC="C2867884",
+    Datasheet="https://www.ti.com/lit/ds/symlink/tlv9062.pdf")
+add("Device:R", "R5", "33k", (84, 114), "Resistor_SMD:R_0402_1005Metric",
+    LCSC="C25779")
+add("Device:C", "C2", "120p C0G", (99, 114), "Capacitor_SMD:C_0402_1005Metric",
+    LCSC="C1548")
+note("D2 pins: 1 cathode, 2 mechanical NC, 3 anode", 51, 148)
+
+# ---------------------------------------------------------------------------
+# Active band-pass
+heading("5  10 kHz–59 kHz ACTIVE BAND-PASS", 125, 108)
+add("Device:C", "C3", "1n C0G", (112, 128), "Capacitor_SMD:C_0402_1005Metric",
+    LCSC="C1523")
+add("Device:R", "R6", "16k", (120, 142), "Resistor_SMD:R_0402_1005Metric",
+    LCSC="C25770")
+u1b = add("Amplifier_Operational:TLV9062", "U1", "TLV9062IDDFR", (139, 128),
+    "Package_TO_SOT_SMD:SOT-23-8", unit=2, LCSC="C2867884")
+u1p = add("Amplifier_Operational:TLV9062", "U1", "TLV9062IDDFR", (139, 151),
+    "Package_TO_SOT_SMD:SOT-23-8", unit=3, LCSC="C2867884")
+add("Device:R", "R7", "10k", (139, 142), "Resistor_SMD:R_0402_1005Metric",
+    LCSC="C25744")
+add("Device:R", "R8", "100k", (151, 114), "Resistor_SMD:R_0402_1005Metric",
+    LCSC="C25741")
+add("Device:C", "C4", "27p C0G", (165, 114), "Capacitor_SMD:C_0402_1005Metric",
+    LCSC="C1573")
+
+# ---------------------------------------------------------------------------
+# Comparator and GPIO
+heading("6  SCHMITT COMPARATOR + RMT INPUT", 190, 108)
+add("Device:R", "R9", "10k", (174, 128), "Resistor_SMD:R_0402_1005Metric",
+    LCSC="C25744")
+add("Comparator:LMV331", "U2", "TLV7011DCKR", (194, 128),
+    "Package_TO_SOT_SMD:SOT-353_SC-70-5", LCSC="C193688",
+    Datasheet="https://www.ti.com/lit/ds/symlink/tlv7011.pdf")
+add("Device:R", "R10", "1M", (194, 114), "Resistor_SMD:R_0402_1005Metric",
+    LCSC="C26083")
+add("Device:R", "R11", "100R", (214, 128), "Resistor_SMD:R_0402_1005Metric",
+    LCSC="C25076")
+add("Device:C", "C5", "100n X7R", (182, 151), "Capacitor_SMD:C_0402_1005Metric",
+    LCSC="C1525")
+add("Device:C", "C6", "100n X7R", (205, 151), "Capacitor_SMD:C_0402_1005Metric",
+    LCSC="C1525")
+note("~36.9 mV total hysteresis typ.; raw 38 kHz is demodulated by RMT RX", 171, 163)
+
 pin_nets = {
-    ("J1", "1"): "TX_CARRIER_GPIO1",
-    ("J1", "2"): "RX_RMT_GPIO2",
-    ("J1", "3"): "XIAO_D2_GPIO3",
-    ("J1", "4"): "XIAO_D3_GPIO4",
-    ("J1", "5"): "XIAO_D4_GPIO5",
-    ("J1", "6"): "XIAO_D5_GPIO6",
-    ("J1", "7"): "XIAO_D6_GPIO43",
-    ("J2", "1"): "XIAO_D10_GPIO9",
-    ("J2", "2"): "XIAO_D9_GPIO8",
-    ("J2", "3"): "XIAO_D8_GPIO7",
-    ("J2", "4"): "XIAO_D7_GPIO44",
-    ("J2", "5"): "+3V3",
-    ("J2", "6"): "GND",
+    ("J1", "1"): "TX_CARRIER_GPIO1", ("J1", "2"): "RX_RMT_GPIO2",
+    ("J1", "3"): "XIAO_D2", ("J1", "4"): "XIAO_D3", ("J1", "5"): "XIAO_D4",
+    ("J1", "6"): "XIAO_D5", ("J1", "7"): "XIAO_D6",
+    ("J2", "1"): "XIAO_D10", ("J2", "2"): "XIAO_D9", ("J2", "3"): "XIAO_D8",
+    ("J2", "4"): "XIAO_D7", ("J2", "5"): "+3V3", ("J2", "6"): "GND",
     ("J2", "7"): "+5V_USB",
-    ("R2", "1"): "TX_CARRIER_GPIO1",
-    ("R2", "2"): "Q_BASE",
-    ("Q1", "1"): "Q_BASE",
-    ("Q1", "2"): "LED_K",
-    ("Q1", "3"): "GND",
-    ("D1", "1"): "LED_K",
-    ("D1", "2"): "LED_A",
-    ("R1", "1"): "+3V3",
-    ("R1", "2"): "LED_A",
-    ("C1", "1"): "+3V3",
-    ("C1", "2"): "GND",
-    ("U1", "1"): "RX_RAW_ACTIVE_LOW",
-    ("U1", "2"): "GND",
-    ("U1", "3"): "GND",
-    ("U1", "4"): "RX_VS_FILTERED",
-    ("U1", "5"): "RX_VS_FILTERED",
-    ("U1", "6"): "GND",
-    ("U1", "7"): "GND",
-    ("U1", "8"): "GND",
-    ("R3", "1"): "+3V3",
-    ("R3", "2"): "RX_VS_FILTERED",
-    ("C2", "1"): "RX_VS_FILTERED",
-    ("C2", "2"): "GND",
-    ("C3", "1"): "RX_VS_FILTERED",
-    ("C3", "2"): "GND",
-    ("R4", "1"): "+3V3",
-    ("R4", "2"): "RX_RAW_ACTIVE_LOW",
-    ("R5", "1"): "RX_RAW_ACTIVE_LOW",
-    ("R5", "2"): "RX_RMT_GPIO2",
-    ("C4", "1"): "RX_RMT_GPIO2",
-    ("C4", "2"): "GND",
+    ("#FLG01", "1"): "+3V3", ("#FLG02", "1"): "GND",
+    ("R2", "1"): "TX_CARRIER_GPIO1", ("R2", "2"): "Q_BASE",
+    ("Q1", "1"): "Q_BASE", ("Q1", "2"): "LED_K_SWITCHED", ("Q1", "3"): "GND",
+    ("J3", "1"): "+3V3_LED", ("J3", "2"): "LED_K_SWITCHED",
+    ("J4", "1"): "+3V3_LED", ("J4", "2"): "LED_K_SWITCHED",
+    ("R1", "1"): "+3V3_LED", ("R1", "2"): "LED_A",
+    ("D1", "1"): "LED_K_SWITCHED", ("D1", "2"): "LED_A",
+    ("R3", "1"): "+3V3", ("R3", "2"): "VREF",
+    ("R4", "1"): "VREF", ("R4", "2"): "GND",
+    ("C1", "1"): "VREF", ("C1", "2"): "GND",
+    ("D2", "1"): "+3V3", ("D2", "2"): "NC_MECHANICAL", ("D2", "3"): "PD_ANODE",
+    ("R5", "1"): "TIA_OUT", ("R5", "2"): "PD_ANODE",
+    ("C2", "1"): "TIA_OUT", ("C2", "2"): "PD_ANODE",
+    ("C3", "1"): "TIA_OUT", ("C3", "2"): "BP_IN",
+    ("R6", "1"): "BP_IN", ("R6", "2"): "VREF",
+    ("R7", "1"): "BP_NEG", ("R7", "2"): "VREF",
+    ("R8", "1"): "BANDPASS", ("R8", "2"): "BP_NEG",
+    ("C4", "1"): "BANDPASS", ("C4", "2"): "BP_NEG",
+    ("R9", "1"): "BANDPASS", ("R9", "2"): "COMP_PLUS",
+    ("U2", "1"): "COMP_OUT", ("U2", "2"): "GND", ("U2", "3"): "COMP_PLUS",
+    ("U2", "4"): "VREF", ("U2", "5"): "+3V3",
+    ("R10", "1"): "COMP_OUT", ("R10", "2"): "COMP_PLUS",
+    ("R11", "1"): "COMP_OUT", ("R11", "2"): "RX_RMT_GPIO2",
+    ("C5", "1"): "+3V3", ("C5", "2"): "GND",
+    ("C6", "1"): "+3V3", ("C6", "2"): "GND",
 }
 
 for (ref, pin), net in pin_nets.items():
-    sch.add_label(net, pin=(ref, pin), size=1.0)
+    sch.add_label(net, pin=(ref, pin), size=0.85)
 
+for component, mapping in [
+    (u1a, {"1": "TIA_OUT", "2": "PD_ANODE", "3": "VREF"}),
+    (u1b, {"5": "BP_IN", "6": "BP_NEG", "7": "BANDPASS"}),
+    (u1p, {"4": "GND", "8": "+3V3"}),
+]:
+    for pin, net in mapping.items():
+        sch.add_label(net, position=component.get_pin_position(pin), size=0.85)
+
+sch.add_text(
+    "SYSTEM NOTES\n"
+    "• RMT TX drives a continuous 38 kHz carrier.\n"
+    "• The discrete AFE rejects DC sunlight; the Schmitt stage restores logic.\n"
+    "• RMT RX carrier removal yields spoke-blockage intervals for the adaptive LUT.\n"
+    "• J3/J4 are a cable boundary; J4/R1/D1 live on the remote emitter PCB.",
+    (18, 177), size=0.95
+)
 sch.save(str(OUT))
 print(OUT)
