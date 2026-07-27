@@ -217,11 +217,19 @@ function TraceCanvas({ result }: { result: DynamicResult }) {
 function Control({ label, value, unit, min, max, step, onChange }:
   { label: string; value: number; unit: string; min: number; max: number;
     step: number; onChange: (value: number) => void }) {
+  const [draft, setDraft] = useState(String(value));
+  useEffect(() => setDraft(String(value)), [value]);
+  const commit = () => {
+    const parsed = Number(draft);
+    if (Number.isFinite(parsed)) onChange(Math.min(max, Math.max(min, parsed)));
+    else setDraft(String(value));
+  };
   return <label>{label}<span className="number-value">
     <input type="number" aria-label={`${label} numeric value`}
-      min={min} max={max} step={step} value={value}
-      onInput={(e) => onChange(+e.currentTarget.value)}
-      onChange={(e) => onChange(+e.target.value)} /> {unit}</span>
+      min={min} max={max} step={step} value={draft}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={commit}
+      onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); }} /> {unit}</span>
     <input type="range" min={min} max={max} step={step} value={value}
       onInput={(e) => onChange(+e.currentTarget.value)}
       onChange={(e) => onChange(+e.target.value)} /></label>;
