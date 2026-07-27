@@ -1,0 +1,47 @@
+* IR Spoke Link — ngspice behavioral reference model
+* Shared nominal values: config/system.json
+* Nodes: TX_GPIO LED_K OPTICAL ENV RX_GPIO VCC
+
+.param VCC=3.3 FC=38k RLED=39 VF=1.35 VCESAT=0.18
+.param SPOKE_PERIOD=4.132m BLOCKED=168u RESIDUAL=0.08
+.param BURST_ON=789.474u BURST_PERIOD=1.389474m
+.param TAU=120u VTH_ON=220m VTH_OFF=140m
+
+VCC VCC 0 {VCC}
+VCARR CARRIER 0 PULSE(0 {VCC} 0 20n 20n {0.5/FC} {1/FC})
+BBURST TX_GPIO 0 V=if(mod(time,{BURST_PERIOD})<{BURST_ON},V(CARRIER),0)
+
+* Saturated low-side driver and IR LED electrical load.
+SLED LED_K 0 TX_GPIO 0 SWLED
+RLED VCC LED_A {RLED}
+DLED LED_A LED_K DIR940
+.model SWLED SW(Ron=3 Roff=1G Vt=1.5 Vh=0.1)
+.model DIR940 D(Is=4n N=1.8 Rs=1.5 Cjo=12p Eg=1.12)
+
+* Spoke mask: repeats at the spoke-passing rate, leaving 8% scattered light.
+BMASK MASK 0 V=if(mod(time,{SPOKE_PERIOD})<{BLOCKED},{RESIDUAL},1)
+* Normalized received 38 kHz optical amplitude.
+BOPT OPTICAL 0 V=V(MASK)*if(V(TX_GPIO)>1.5,1,0)+0.08
+
+* Receiver approximation: synchronous magnitude followed by envelope RC.
+BDEMOD DEMOD 0 V=abs((V(OPTICAL)-0.08)*(2*if(V(CARRIER)>1.5,1,0)-1))
+RDEM DEMOD ENV 12k
+CDEM ENV 0 10n
+
+* Active-low receiver output with hysteresis, then ESP32 input network.
+BOUT RX_RAW 0 V=if(V(ENV)>{VTH_ON},0,if(V(ENV)<{VTH_OFF},{VCC},V(RX_RAW)))
+RPULL VCC RX_RAW 10k
+RSER RX_RAW RX_GPIO 100
+CSER RX_GPIO 0 47p
+
+.tran 1u 24m
+.control
+set filetype=ascii
+run
+wrdata output/ngspice_waveforms.csv time v(tx_gpio) v(mask) v(optical) v(env) v(rx_gpio)
+meas tran led_i_avg AVG i(VCC) from=4m to=20m
+meas tran env_min MIN v(env) from=4m to=20m
+meas tran env_max MAX v(env) from=4m to=20m
+quit
+.endc
+.end

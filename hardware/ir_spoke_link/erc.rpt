@@ -1,0 +1,42 @@
+ERC report (2026-07-27T20:57:03, Encoding UTF8)
+Report includes: Errors, Warnings
+
+***** Sheet /
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 69.85 mm): Label 'XIAO_D2_GPIO3'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 72.39 mm): Label 'XIAO_D3_GPIO4'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 74.93 mm): Label 'XIAO_D4_GPIO5'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 77.47 mm): Label 'XIAO_D5_GPIO6'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 80.01 mm): Label 'XIAO_D6_GPIO43'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 102.87 mm): Label 'XIAO_D10_GPIO9'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 105.41 mm): Label 'XIAO_D9_GPIO8'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 107.95 mm): Label 'XIAO_D8_GPIO7'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 110.49 mm): Label 'XIAO_D7_GPIO44'
+[isolated_pin_label]: Label connected to only one pin
+    ; warning
+    @(30.48 mm, 118.11 mm): Label '+5V_USB'
+
+ ** ERC messages: 10  Errors 0  Warnings 10
+
+ ** Ignored checks:
+    - Global label only appears once in the schematic
+    - Four connection points are joined together
+    - SPICE model issue
+    - Assigned footprint doesn't match footprint filters

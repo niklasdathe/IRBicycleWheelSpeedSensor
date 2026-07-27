@@ -1,0 +1,47 @@
+{
+  "design_name": "IR Spoke Link / XIAO ESP32-S3 carrier",
+  "wheel": {
+    "effective_diameter_m": 0.702,
+    "max_speed_kmh": 60.0,
+    "stress_speed_kmh": 80.0,
+    "spoke_count": 32,
+    "spoke_width_mm": 2.0,
+    "beam_radius_m": 0.25,
+    "residual_transmission_blocked": 0.08
+  },
+  "optical": {
+    "carrier_hz": 38000,
+    "burst_cycles": 30,
+    "burst_gap_us": 600,
+    "led_peak_nm": 940,
+    "led_current_ma": 45,
+    "receiver_threshold_on": 0.22,
+    "receiver_threshold_off": 0.14,
+    "envelope_tau_us": 120,
+    "ambient_normalized": 0.08,
+    "noise_rms_normalized": 0.025
+  },
+  "electrical": {
+    "supply_v": 3.3,
+    "led_vf_v": 1.35,
+    "driver_vce_sat_v": 0.18,
+    "led_series_ohm": 39,
+    "receiver_supply_filter_ohm": 100,
+    "receiver_supply_filter_uf": 4.7,
+    "receiver_decoupling_nf": 100,
+    "output_pullup_kohm": 10,
+    "output_series_ohm": 100,
+    "output_shunt_pf": 47
+  },
+  "esp32": {
+    "module": "Seeed Studio XIAO ESP32S3",
+    "tx_gpio": 1,
+    "rx_gpio": 2,
+    "carrier_peripheral": "RMT TX",
+    "capture_peripheral": "RMT RX",
+    "rx_glitch_filter_us": 80,
+    "valid_low_min_us": 400,
+    "valid_low_max_us": 1200,
+    "link_loss_timeout_us": 10000
+  }
+}

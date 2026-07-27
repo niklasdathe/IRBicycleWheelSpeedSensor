@@ -1,0 +1,14 @@
+(version 1)
+
+(rule "JLCPCB minimum copper clearance"
+  (constraint clearance (min 0.15mm)))
+
+(rule "JLCPCB minimum track width"
+  (constraint track_width (min 0.15mm)))
+
+(rule "JLCPCB minimum via"
+  (constraint via_diameter (min 0.60mm))
+  (constraint hole_size (min 0.30mm)))
+
+(rule "Conservative copper to edge"
+  (constraint edge_clearance (min 0.30mm)))
