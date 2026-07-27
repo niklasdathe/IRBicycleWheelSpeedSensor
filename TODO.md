@@ -11,8 +11,13 @@
 - [x] Route and DRC-clean the remote emitter PCB.
 - [x] Audit all footprint pad sets, assigned nets and LCSC metadata.
 - [x] Add terse technical HTML documentation for modulation, analog chain, RMT demodulation and adaptive spoke learning.
+- [x] Replace the fixed 38 kHz assumption with a validated 25–50 kHz runtime carrier; retain 38 kHz only as the default.
+- [x] Split firmware into portable C99 processing modules and a separate ESP-IDF RMT adapter.
+- [x] Cross-check current manufacturer datasheet limits and re-run nominal plus tolerance simulations.
+- [x] Add live JLCPCB/LCSC metadata preferences to the KiCad Konnect project configuration.
+- [ ] Compile and hardware-in-loop test the ESP-IDF adapter with the target ESP-IDF release.
 - [ ] Route the main carrier PCB; current placed board has no geometric DRC violations but 41 open connections.
 - [ ] Run physical sunlight/alignment tests and write measured photocurrent/noise values back to `config/system.json`.
 - [ ] Re-run the simulation and compile firmware with the measured parameter set.
 - [ ] Upload both boards to JLCPCB's BOM/CPL preview and confirm rotations against the rendered assembly view.
-- [ ] Remove `C:\Users\nikla\OneDrive\Dokumente\Bicycle OBU` after Codex releases its workspace handle; the authoritative project is now under `Projekte\IR Spoke Sensor`.
+- [ ] Remove the obsolete workspace copy only after confirming no desktop task still holds it; the authoritative project is `Projekte\BicycleOBU\IR Spoke Sensor`.

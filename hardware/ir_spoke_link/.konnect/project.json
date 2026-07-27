@@ -1,0 +1,16 @@
+{
+  "component_selection": {
+    "prefer_jlc_basic": true
+  },
+  "design_rules": [
+    "Prefer JLCPCB Basic parts when the electrical limits, package, temperature range, and noise or speed performance remain compatible; record Extended exceptions with an LCSC code.",
+    "Use 0402 or larger passives; do not use packages smaller than 0402.",
+    "Keep the photodiode-to-TIA summing node and the 33 kohm/120 pF feedback loop short, guarded from TX carrier and digital edges, and free of test-point stubs.",
+    "JLCPCB export must fail closed when DRC reports violations or unconnected pads; verify BOM and CPL designator coverage before fabrication.",
+    "Route the remote LED on the two-conductor 600 mm JST-GH harness and provide local connector strain relief."
+  ],
+  "fab_constraints": {
+    "fab_house": "JLCPCB"
+  },
+  "naming_conventions": {}
+}

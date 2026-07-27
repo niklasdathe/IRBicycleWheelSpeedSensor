@@ -2,9 +2,10 @@ $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 Push-Location $Root
 try {
-    py tools\generate_constants.py
-    py simulation\ir_spoke_sim.py
-    py -m unittest tests.test_system -v
+    py -3.14 tools\generate_constants.py
+    py -3.14 simulation\ir_spoke_sim.py --monte-carlo 10000
+    py -3.14 -m unittest discover -s tests -v
+    py -3.14 hardware\ir_spoke_link\generate_schematic.py
     & "C:\Program Files\KiCad\10.0\bin\python.exe" hardware\ir_spoke_link\generate_pcb.py
     & "C:\Program Files\KiCad\10.0\bin\python.exe" hardware\remote_emitter\generate_pcb.py
     & "C:\Program Files\KiCad\10.0\bin\python.exe" hardware\footprint_audit.py

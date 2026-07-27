@@ -1,10 +1,13 @@
 {
   "config": "config\\system.json",
   "generated_header": "firmware\\include\\ir_spoke_generated.h",
+  "generated_c_header": "firmware\\components\\ir_spoke_core\\include\\ir_spoke_generated_c.h",
   "generated_spice": "simulation\\generated_params.inc",
   "tia_pole_hz": 40190.64219492307,
   "bandpass_highpass_hz": 9947.183943243459,
-  "bandpass_lowpass_hz": 58946.2752192205,
-  "calculated_led_current_ma": 45.38461538461538,
+  "bandpass_lowpass_hz": 60469.203302391856,
+  "calculated_led_current_ma": 45.01892320839946,
+  "nominal_signal_photocurrent_ua": 0.21068856061530944,
+  "cable_loop_resistance_ohm_max": 0.31679999999999997,
   "max_spoke_event_hz": 362.7463090413569
 }

@@ -44,6 +44,7 @@ h2 { margin: 0; font-size: 21px; letter-spacing: -.025em; font-weight: 580; }
 .lede { max-width: 650px; margin: 22px 0 0; color: var(--muted); font-size: 16px; line-height: 1.55; }
 .status { font: 12px var(--font-geist-mono), monospace; white-space: nowrap; color: var(--muted); }
 .status span { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); margin-right: 8px; }
+.status.bad span { background: #b91c1c; }
 
 .metrics { display: grid; grid-template-columns: repeat(5, 1fr); border-bottom: 1px solid var(--line); }
 .metrics article { padding: 22px 16px 24px 0; }
@@ -65,7 +66,16 @@ select { margin-left: 10px; border: 1px solid var(--line); background: white; pa
 .lower-grid article { min-height: 328px; padding: 24px; }
 .lower-grid article + article { border-left: 1px solid var(--line); }
 .controls label { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 23px; font-size: 12px; }
-.controls output { font: 11px var(--font-geist-mono), monospace; color: var(--muted); }
+.number-value { font: 11px var(--font-geist-mono), monospace; color: var(--muted); }
+.number-value input {
+  width: 72px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  text-align: right;
+  font: inherit;
+}
 input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
 .note { margin: 25px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
 code { font-family: var(--font-geist-mono), monospace; color: var(--ink); }
@@ -75,11 +85,16 @@ code { font-family: var(--font-geist-mono), monospace; color: var(--ink); }
 .chain li b { font-weight: 560; }
 .chain li span { color: var(--muted); text-align: right; }
 .decision > p:not(.eyebrow) { margin: 24px 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+.decision dl { margin: 22px 0 0; }
+.decision dl div { display: flex; justify-content: space-between; border-top: 1px solid #ece9e5; padding: 10px 0; }
+.decision dt { color: var(--muted); font-size: 11px; }
+.decision dd { margin: 0; font: 500 12px var(--font-geist-mono), monospace; }
 .callout { border-top: 1px solid var(--line); padding-top: 18px; display: flex; justify-content: space-between; align-items: end; }
 .callout span { font-size: 11px; color: var(--muted); }
 .callout strong { color: var(--accent); font: 500 26px var(--font-geist-mono), monospace; }
 
 footer { display: flex; justify-content: space-between; gap: 20px; padding-top: 20px; color: var(--muted); font: 10px var(--font-geist-mono), monospace; }
+footer a { color: var(--teal); text-decoration: none; }
 
 @media (max-width: 900px) {
   main { padding: 26px 18px; }

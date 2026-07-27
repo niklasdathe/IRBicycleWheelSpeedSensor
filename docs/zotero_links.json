@@ -1,0 +1,50 @@
+{
+  "collection": {
+    "name": "IR Spoke Wheel Speed Sensor",
+    "key": "MANPYY9A",
+    "parent": "91 PCB-Design"
+  },
+  "items": {
+    "VSMB1940X01": {
+      "zotero_key_current_reference": "6A6Q65LL",
+      "local_pdf": "docs/datasheets/VSMB1940X01.pdf",
+      "revision": "1.6, 2025-03-24"
+    },
+    "VEMD10940FX01": {
+      "zotero_key": "IWI55EM7",
+      "local_pdf": "docs/datasheets/VEMD10940FX01.pdf",
+      "revision": "1.4, 2025-10-28"
+    },
+    "TLV9062": {
+      "zotero_key": "XGPTLKT2",
+      "local_pdf": "docs/datasheets/TLV9062.pdf",
+      "revision": "revised 2026-07"
+    },
+    "TLV7011": {
+      "zotero_key": "DFFYGITJ",
+      "local_pdf": "docs/datasheets/TLV7011.pdf",
+      "revision": "current local manufacturer PDF checked 2026-07-27"
+    },
+    "JST_GH": {
+      "zotero_key": "PR2Q7MHX",
+      "local_pdf": "docs/datasheets/JST_GH.pdf"
+    },
+    "ESP32_S3_TRM": {
+      "zotero_key": "C5MIHHD4",
+      "local_pdf": "docs/datasheets/ESP32-S3_TRM.pdf"
+    },
+    "S8050_J3Y": {
+      "zotero_key": "UB36J75K",
+      "local_pdf": "docs/datasheets/S8050_J3Y.pdf",
+      "revision": "2.0"
+    },
+    "JLCPCB_CAPABILITIES": {
+      "zotero_key": "5RKW9KLZ",
+      "type": "webpage"
+    },
+    "JLCPCB_ASSEMBLY_FAQ": {
+      "zotero_key": "L4FKT4U2",
+      "type": "webpage"
+    }
+  }
+}

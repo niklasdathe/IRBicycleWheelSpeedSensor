@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid "1c8305bd-239a-417f-8ba9-2c06dd78dff5")
+	(uuid "cbcb504f-99f7-4dc3-a020-7515204d9be3")
 	(paper "A4")
 	(title_block
 		(title "IR Spoke Sensor")
@@ -1803,16 +1803,16 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x07")
-		(at 27.94 48.26 0)
+		(at 30.48 45.72 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "12201049-395b-41fe-b5df-cbf57474b04b")
+		(uuid "8f8f9e67-3728-4327-86df-54f617b70ef9")
 		(property "Reference" "J1"
-			(at 27.94 58.42 0.0000)
+			(at 30.48 55.88 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1821,7 +1821,7 @@
 			)
 		)
 		(property "Value" "XIAO LEFT"
-			(at 27.94 38.1 0.0000)
+			(at 30.48 35.56 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1830,7 +1830,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x07_P2.54mm_Vertical"
-			(at 27.94 48.26 0.0000)
+			(at 30.48 45.72 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1839,7 +1839,7 @@
 			)
 		)
 		(property "LCSC" "DNI"
-			(at 30.48 53.3399 0)
+			(at 33.02 50.7999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1848,29 +1848,29 @@
 			)
 		)
 		(pin "1"
-			(uuid "8f84415a-bd70-46d4-b268-5bf55560c0fa")
+			(uuid "dfe8e4d6-2b65-45e3-9cba-adbd3331cbda")
 		)
 		(pin "2"
-			(uuid "eee67ea4-61de-4096-b87f-c6ab2397f2e4")
+			(uuid "2390f720-8232-423e-9109-e0e5527b2a80")
 		)
 		(pin "3"
-			(uuid "1f55a8af-b372-4427-bd87-4615dbf99cb8")
+			(uuid "cabe9a0f-15d0-40e3-81cb-51f40d068857")
 		)
 		(pin "4"
-			(uuid "cc3e3f1e-96c5-4756-b992-2bb01ebdb58b")
+			(uuid "0e49d808-a4fb-499e-a16c-33aea89c02ae")
 		)
 		(pin "5"
-			(uuid "2774ee41-942d-4f91-84e2-35d1b47e2860")
+			(uuid "1fa4be98-f57c-4175-92fd-244faa5bb07e")
 		)
 		(pin "6"
-			(uuid "c647cb41-d77c-4622-9d74-66209babeb03")
+			(uuid "c20de535-7d29-437c-95da-087526d9a28c")
 		)
 		(pin "7"
-			(uuid "1b3df771-0be8-49d7-a0f7-217c7f7a86d1")
+			(uuid "6a99f887-f93f-42f5-ad9a-f9b95bcfd6c5")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "J1")
 					(unit 1)
 				)
@@ -1879,16 +1879,16 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x07")
-		(at 27.94 77.47 0)
+		(at 30.48 72.39 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "bf1e1afb-480c-430f-97af-43474e94415e")
+		(uuid "011771bd-e7b3-45c0-bcb6-f8df2ea6bf09")
 		(property "Reference" "J2"
-			(at 27.94 87.63 0.0000)
+			(at 30.48 82.55 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1897,7 +1897,7 @@
 			)
 		)
 		(property "Value" "XIAO RIGHT"
-			(at 27.94 67.31 0.0000)
+			(at 30.48 62.23 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1906,7 +1906,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x07_P2.54mm_Vertical"
-			(at 27.94 77.47 0.0000)
+			(at 30.48 72.39 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1915,7 +1915,7 @@
 			)
 		)
 		(property "LCSC" "DNI"
-			(at 30.48 82.5499 0)
+			(at 33.02 77.4699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1924,29 +1924,29 @@
 			)
 		)
 		(pin "1"
-			(uuid "d0ceaad1-bda9-4e98-9d12-98f16a3d9755")
+			(uuid "940db878-5173-410c-b5c1-2a214d70166c")
 		)
 		(pin "2"
-			(uuid "471cd45c-73d6-4d38-a763-b494ed801d1d")
+			(uuid "6494bd49-1157-49da-a35d-f1f659770bc2")
 		)
 		(pin "3"
-			(uuid "5aaeca7d-afeb-452f-9a21-bf7fbfc78aab")
+			(uuid "1e8fd2de-3e23-491e-bc42-db10424c4e08")
 		)
 		(pin "4"
-			(uuid "6e036ef9-db31-4919-8fa5-99f1863e8cd5")
+			(uuid "ce387d51-b0a5-40ff-8241-ed9afebc8a1b")
 		)
 		(pin "5"
-			(uuid "07c8783b-355b-4609-9036-e3eaf1c5abe0")
+			(uuid "5a69baa5-bee7-404a-9e74-846d3cafb77e")
 		)
 		(pin "6"
-			(uuid "785cafc9-156c-4f65-bf2f-7de3aba5f842")
+			(uuid "5fa3063b-26c4-4259-b87b-66bb1a56176e")
 		)
 		(pin "7"
-			(uuid "55ff0cda-7131-4583-877a-5f394e4ee71c")
+			(uuid "a48d4972-02b2-4756-a231-5c6943dbb60a")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "J2")
 					(unit 1)
 				)
@@ -1955,16 +1955,16 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 41.91 72.39 0)
+		(at 44.45 69.85 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "88120324-70e4-46f8-845b-a7ce84e9186a")
+		(uuid "ac4d5c16-4e35-4ba7-a681-b102b47db854")
 		(property "Reference" "#FLG01"
-			(at 41.91 74.295 0.0000)
+			(at 44.45 71.755 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1974,7 +1974,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 41.91 67.31 0)
+			(at 44.45 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1982,7 +1982,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 41.91 72.39 0.0000)
+			(at 44.45 69.85 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1991,11 +1991,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "55051e34-d93a-4475-b525-0451c49102cd")
+			(uuid "eaca9f04-5df7-4f51-b368-b1edc27b1be4")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "#FLG01")
 					(unit 1)
 				)
@@ -2004,16 +2004,16 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 48.26 72.39 0)
+		(at 54.61 69.85 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "b74aced0-c33b-47f2-bafe-c489899bc5d4")
+		(uuid "32b5b13f-8b98-49f9-9ecc-547b3e927466")
 		(property "Reference" "#FLG02"
-			(at 48.26 74.295 0.0000)
+			(at 54.61 71.755 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2023,7 +2023,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 48.26 67.31 0)
+			(at 54.61 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2031,7 +2031,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 48.26 72.39 0.0000)
+			(at 54.61 69.85 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2040,11 +2040,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "efa27008-77a5-410d-907d-962b27a8f89e")
+			(uuid "db8f7a2e-9181-4dc8-97f6-83d21f37a366")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "#FLG02")
 					(unit 1)
 				)
@@ -2053,16 +2053,16 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 63.5 41.91 90)
+		(at 73.66 44.45 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "306ac7d5-5144-458a-88c3-30bbc17a4461")
+		(uuid "b9539da8-d3b2-43d6-a5e8-7ac6575532b5")
 		(property "Reference" "R2"
-			(at 63.5 43.942 180)
+			(at 73.66 46.482 180)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2071,7 +2071,7 @@
 			)
 		)
 		(property "Value" "1k"
-			(at 63.5 41.91 180)
+			(at 73.66 44.45 180)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2080,7 +2080,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 61.722 41.91 90)
+			(at 71.882 44.45 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2089,7 +2089,7 @@
 			)
 		)
 		(property "LCSC" "C11702"
-			(at 66.04 46.9899 0)
+			(at 76.2 49.5299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2098,14 +2098,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "55153ed5-cb7d-4abc-bb45-1e0fa77170e7")
+			(uuid "ba13bfd4-cb5d-4bb9-bfb7-18434823f150")
 		)
 		(pin "2"
-			(uuid "7a9349c9-e8bc-41e5-9a4c-7645eaa40146")
+			(uuid "b37845e9-4c2c-408e-84a4-75370b5e46c6")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R2")
 					(unit 1)
 				)
@@ -2114,16 +2114,16 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:Q_NPN_BCE")
-		(at 82.55 41.91 0)
+		(at 91.44 44.45 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "bcbac355-fd66-4eb7-9c89-f9a3ea88e1de")
+		(uuid "2f17f2ca-a45e-4b79-ba92-e0519f9b81e4")
 		(property "Reference" "Q1"
-			(at 87.63 43.18 0.0000)
+			(at 96.52 45.72 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2132,7 +2132,7 @@
 			)
 		)
 		(property "Value" "S8050 J3Y"
-			(at 87.63 40.64 0.0000)
+			(at 96.52 43.18 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2141,7 +2141,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 87.63 44.45 0.0000)
+			(at 96.52 46.99 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2150,7 +2150,7 @@
 			)
 		)
 		(property "LCSC" "C2146"
-			(at 85.09 46.9899 0)
+			(at 93.98 49.5299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2159,17 +2159,17 @@
 			)
 		)
 		(pin "1"
-			(uuid "abec0b75-cae8-4cb6-b28a-4813534c0ac7")
+			(uuid "8f59b11f-52c0-4f8a-bbfe-d5bdd9424f25")
 		)
 		(pin "2"
-			(uuid "0228ca0f-2840-478a-95c9-c724ea2d8f7d")
+			(uuid "56216966-a060-4716-abed-90a0701ec840")
 		)
 		(pin "3"
-			(uuid "a19fc815-842d-4d4b-9be1-0759e878724f")
+			(uuid "e7f3b01d-5353-45d3-a6a4-78cc3f8a4466")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "Q1")
 					(unit 1)
 				)
@@ -2178,16 +2178,16 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 101.6 41.91 0)
+		(at 110.49 44.45 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "b96b8e96-1407-4158-8ff3-8ac23630332e")
+		(uuid "ef0e9858-dd80-469d-98cd-83f886be749f")
 		(property "Reference" "J3"
-			(at 101.6 44.45 0.0000)
+			(at 110.49 46.99 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2196,7 +2196,7 @@
 			)
 		)
 		(property "Value" "JST GH MAIN"
-			(at 101.6 36.83 0.0000)
+			(at 110.49 39.37 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2205,7 +2205,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_GH_BM02B-GHS-TBT_1x02-1MP_P1.25mm_Vertical"
-			(at 101.6 41.91 0.0000)
+			(at 110.49 44.45 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2214,7 +2214,7 @@
 			)
 		)
 		(property "LCSC" "C161690"
-			(at 104.14 46.9899 0)
+			(at 113.03 49.5299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2223,7 +2223,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.jst-mfg.com/product/pdf/eng/eGH.pdf"
-			(at 101.6 41.91 0)
+			(at 110.49 44.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2232,14 +2232,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "6f60b30b-ebae-47da-a3fb-20a7c01feb79")
+			(uuid "484299f8-990b-4363-a28c-016c5c1c83b2")
 		)
 		(pin "2"
-			(uuid "a0b6d174-ce4c-41af-93ef-aa4084a58965")
+			(uuid "818e7ac8-64bb-4481-8625-526ddd20a251")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "J3")
 					(unit 1)
 				)
@@ -2248,16 +2248,16 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 121.92 41.91 0)
+		(at 143.51 44.45 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "c4c48b65-c233-4d65-8547-260dd6f8f633")
+		(uuid "81717290-cb3a-42aa-b64e-0ef33aee9220")
 		(property "Reference" "J4"
-			(at 121.92 44.45 0.0000)
+			(at 143.51 46.99 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2266,7 +2266,7 @@
 			)
 		)
 		(property "Value" "JST GH LED"
-			(at 121.92 36.83 0.0000)
+			(at 143.51 39.37 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2275,7 +2275,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_GH_BM02B-GHS-TBT_1x02-1MP_P1.25mm_Vertical"
-			(at 121.92 41.91 0.0000)
+			(at 143.51 44.45 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2284,7 +2284,7 @@
 			)
 		)
 		(property "LCSC" "C161690"
-			(at 124.46 46.9899 0)
+			(at 146.05 49.5299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2293,14 +2293,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "e6f747da-076f-4a3b-b9be-72f998ffd2df")
+			(uuid "c620c382-05fc-4464-be71-fc6ea880ae12")
 		)
 		(pin "2"
-			(uuid "c9a1594c-011c-44c4-9c90-2cf7eac95de6")
+			(uuid "0072e986-8b5c-4662-9601-72bef6643eae")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "J4")
 					(unit 1)
 				)
@@ -2309,16 +2309,16 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 139.7 38.1 90)
+		(at 165.1 39.37 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "554735a9-e7b6-4c80-b42e-45cd463b0a4c")
+		(uuid "ebf75516-6098-4121-84a6-5c73ce6e800a")
 		(property "Reference" "R1"
-			(at 139.7 40.132 180)
+			(at 165.1 41.402 180)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2327,7 +2327,7 @@
 			)
 		)
 		(property "Value" "39R"
-			(at 139.7 38.1 180)
+			(at 165.1 39.37 180)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2336,7 +2336,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 137.922 38.1 90)
+			(at 163.322 39.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2345,7 +2345,7 @@
 			)
 		)
 		(property "LCSC" "C23154"
-			(at 142.24 43.1799 0)
+			(at 167.64 44.4499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2354,14 +2354,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "34c017b7-2d83-4252-be10-8d974ec4b6d7")
+			(uuid "c1e1ed36-f224-4023-a9ec-795e44aad496")
 		)
 		(pin "2"
-			(uuid "5e102c0f-6d40-4979-9738-549ff2604ad9")
+			(uuid "a9a5d633-4c93-43ee-82ee-9c61165058b6")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R1")
 					(unit 1)
 				)
@@ -2370,16 +2370,16 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 157.48 41.91 0)
+		(at 187.96 44.45 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "e276c957-c943-4d7c-b251-e283bb5748cf")
+		(uuid "cc640d50-56ea-477c-b836-c7b76d623e7a")
 		(property "Reference" "D1"
-			(at 157.48 44.45 0.0000)
+			(at 187.96 46.99 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2388,7 +2388,7 @@
 			)
 		)
 		(property "Value" "VSMB1940X01"
-			(at 157.48 39.37 0.0000)
+			(at 187.96 41.91 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2397,7 +2397,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0805_2012Metric"
-			(at 157.48 41.91 0.0000)
+			(at 187.96 44.45 0.0000)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2406,7 +2406,7 @@
 			)
 		)
 		(property "LCSC" "C3151600"
-			(at 160.02 46.9899 0)
+			(at 190.5 49.5299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2415,7 +2415,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.vishay.com/docs/81933/vsmb1940.pdf"
-			(at 157.48 41.91 0)
+			(at 187.96 44.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2424,14 +2424,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "213163f4-70e1-44e6-bad6-e537f1252318")
+			(uuid "87fb2fa6-4853-4e16-aa21-181b5a2bbc23")
 		)
 		(pin "2"
-			(uuid "1b7f8356-e825-48b5-aaaa-7e364de65f5c")
+			(uuid "78519887-e47c-498e-97cc-fdc27833c4f3")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "D1")
 					(unit 1)
 				)
@@ -2447,7 +2447,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "72801d50-4982-4a5d-bca8-671e22729571")
+		(uuid "213b4aa3-45b0-4a3d-92bd-163c2751cb8a")
 		(property "Reference" "R3"
 			(at 27.94 126.492 180)
 			(effects
@@ -2485,14 +2485,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "58180e93-13e0-47d6-8fab-d246ef3b5c35")
+			(uuid "29f8eed6-cdf0-4acf-b403-29a3d53776b9")
 		)
 		(pin "2"
-			(uuid "6f00d59d-af6a-4a6c-bbdc-b51ccf19be2b")
+			(uuid "c2092aa1-4850-4b53-9b85-cf0adcbd7ede")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R3")
 					(unit 1)
 				)
@@ -2508,7 +2508,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "acb48493-36c3-4ada-80d9-ee762e13f066")
+		(uuid "62f027d9-4f21-41c7-8489-dcd930c93eb6")
 		(property "Reference" "R4"
 			(at 27.94 141.732 180)
 			(effects
@@ -2546,14 +2546,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "7b13be56-c0d2-409d-ad71-c1a5dc50272c")
+			(uuid "4bc242a3-3290-44c4-83f9-e4b360a38550")
 		)
 		(pin "2"
-			(uuid "2b428acb-9a8a-418f-83bf-bf9b3721a84d")
+			(uuid "d4fa07d8-5649-4ec0-becc-419661fc2e53")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R4")
 					(unit 1)
 				)
@@ -2569,7 +2569,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "d8af3658-0cde-434a-afbe-fb5e0c8ee094")
+		(uuid "8f81780e-a699-4a3d-95fe-89017011c67f")
 		(property "Reference" "C1"
 			(at 43.815 142.24 0.0000)
 			(effects
@@ -2607,14 +2607,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "5250f95a-8db9-4cf0-bd8d-88f24656d585")
+			(uuid "d783a751-aedf-45ab-a6ab-0ef2d0bf19fe")
 		)
 		(pin "2"
-			(uuid "9a5f63d9-5683-47e5-a8ff-294e8e2db41d")
+			(uuid "a8ce2941-6cf4-4712-b250-2172141cc24f")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "C1")
 					(unit 1)
 				)
@@ -2630,7 +2630,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "a545254b-547b-4490-a2c5-24100093b8cf")
+		(uuid "0d018cb1-6f35-4e00-9667-1edea567caf6")
 		(property "Reference" "D2"
 			(at 58.42 133.35 0.0000)
 			(effects
@@ -2677,17 +2677,17 @@
 			)
 		)
 		(pin "1"
-			(uuid "4f2df69e-8d77-483c-a157-c0632073cce2")
+			(uuid "efd30c38-b387-4a9f-bb4d-d3da721b11e4")
 		)
 		(pin "2"
-			(uuid "6d3444af-bfa0-48e4-9de9-346d642e838b")
+			(uuid "108cc770-d5a2-4e59-a268-a71de88a40b9")
 		)
 		(pin "3"
-			(uuid "ac2ce6ce-a864-4aa0-abef-7e724e599d6a")
+			(uuid "546aeb95-07c8-424e-9390-96b9e3555c63")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "D2")
 					(unit 1)
 				)
@@ -2703,7 +2703,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "846e0ca7-a987-4b8f-9edf-0ef6479f111d")
+		(uuid "1113eabb-6af6-451d-99d5-fa0baa957dbb")
 		(property "Reference" "U1"
 			(at 83.82 133.35 0.0000)
 			(effects
@@ -2750,32 +2750,32 @@
 			)
 		)
 		(pin "3"
-			(uuid "6091a9e9-6bf1-4a10-a1c9-1599f64b2cb6")
+			(uuid "da8e90db-c817-46ac-a40e-cfd2f8676690")
 		)
 		(pin "2"
-			(uuid "16c62458-6135-4e1e-b97e-051854ae03ee")
+			(uuid "37643411-9fee-4085-9137-8e9a07659763")
 		)
 		(pin "1"
-			(uuid "10a3e3f9-3a10-49b2-8eab-01d6386d66e0")
+			(uuid "0df89135-8452-48ae-b156-ef7222db7137")
 		)
 		(pin "5"
-			(uuid "cb984063-be3b-4467-91a4-3db9496bcc82")
+			(uuid "52711d63-b190-4cc5-8431-978c8826d186")
 		)
 		(pin "6"
-			(uuid "76c8eea6-6f61-4da0-845d-4df0d8a66d5b")
+			(uuid "d87dc43b-27ca-4e8b-9e91-609a17efddb8")
 		)
 		(pin "7"
-			(uuid "54f1ae93-5316-4f89-a516-7c0d5fa43f38")
+			(uuid "f0347842-6148-46cc-955e-709312d02db3")
 		)
 		(pin "8"
-			(uuid "0d4277cc-8346-4388-acfe-c79634e62dc0")
+			(uuid "93c32c13-125c-4e2e-89dd-70dd847f6df3")
 		)
 		(pin "4"
-			(uuid "fb408cbd-8405-4bb4-bde2-346237e19b1b")
+			(uuid "67a6b198-f58c-45a7-bfbd-282221a818e6")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "U1")
 					(unit 1)
 				)
@@ -2791,7 +2791,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "9169bd39-d7ad-48ac-b8d3-432105f04067")
+		(uuid "b031e4fd-081c-4bf5-9a9c-a5199d15a18e")
 		(property "Reference" "R5"
 			(at 85.852 114.3 90)
 			(effects
@@ -2829,14 +2829,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "1b382b2e-7cae-48c4-9667-97b18c7f1b2c")
+			(uuid "229368fd-fd51-4565-858e-ca9712889ccd")
 		)
 		(pin "2"
-			(uuid "8e31e893-13f6-4106-ae65-155b930d5935")
+			(uuid "70d2f90f-5980-49c2-a08f-92f167e9026d")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R5")
 					(unit 1)
 				)
@@ -2852,7 +2852,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "115836fd-ca67-406e-8711-9856645d8398")
+		(uuid "144ac7c3-7e48-40fd-86a9-18381fba498f")
 		(property "Reference" "C2"
 			(at 99.695 116.84 0.0000)
 			(effects
@@ -2890,14 +2890,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "9b94ec1b-07d6-4466-992c-0771c1ee0996")
+			(uuid "361d7fa8-5012-497d-9aa8-b5e9602f7b82")
 		)
 		(pin "2"
-			(uuid "233f2d49-b2bd-4418-b9c4-346c65a8faf6")
+			(uuid "ffdd3414-f36e-4947-81c2-4b8cbe4775a4")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "C2")
 					(unit 1)
 				)
@@ -2913,7 +2913,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "6306e140-8120-4d8f-bcd1-933f331ce0bc")
+		(uuid "bf3728b8-7db1-49a4-ab32-228c7b4c087d")
 		(property "Reference" "C3"
 			(at 112.395 130.81 0.0000)
 			(effects
@@ -2951,14 +2951,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "9e3602c5-5354-4b20-b722-15d96b717d15")
+			(uuid "e3b96dc8-4938-4a52-a4bd-a50847a44b04")
 		)
 		(pin "2"
-			(uuid "20f7afce-a813-455b-a96d-671083fe159d")
+			(uuid "27f1d0ae-e957-4bff-8b77-a1a949c2209d")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "C3")
 					(unit 1)
 				)
@@ -2974,7 +2974,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "5101e6d5-143d-4403-a691-209260e2e698")
+		(uuid "14af3544-b602-4e46-b2ff-285da9848d6e")
 		(property "Reference" "R6"
 			(at 121.412 142.24 90)
 			(effects
@@ -3012,14 +3012,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "7f30ddcd-a92a-4feb-9818-9e4f6ca51566")
+			(uuid "c4ccf981-c021-46b5-b8fc-f8c423613869")
 		)
 		(pin "2"
-			(uuid "12186947-122c-4eaf-8a7d-9ff74cc30ff9")
+			(uuid "a3653290-e307-4245-aea6-acaf1014f1ae")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R6")
 					(unit 1)
 				)
@@ -3035,7 +3035,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "b105d1c4-3933-4359-8861-207511a9e895")
+		(uuid "296edec1-2097-4372-a365-c3e453b0e3f3")
 		(property "Reference" "U1"
 			(at 138.43 133.35 0.0000)
 			(effects
@@ -3073,32 +3073,32 @@
 			)
 		)
 		(pin "3"
-			(uuid "c00953f9-e546-4941-b8f8-30751e67b00a")
+			(uuid "2d4b09eb-9419-4bb8-a5ff-8391577cdde7")
 		)
 		(pin "2"
-			(uuid "f4935c93-779f-4942-8103-335988a041c6")
+			(uuid "06a1090f-e19a-4227-916e-038da2c3dedc")
 		)
 		(pin "1"
-			(uuid "48a8d630-1bfe-4a3c-a277-c2a86d804470")
+			(uuid "18ad3b82-272c-4573-8630-1549f9328352")
 		)
 		(pin "5"
-			(uuid "9e7068c3-be52-40e0-9e6c-f034ef0feec3")
+			(uuid "d672cf15-fd07-4122-ab7f-d075f36d87f2")
 		)
 		(pin "6"
-			(uuid "fb2eb6a5-614c-4d2c-81d2-83771759f679")
+			(uuid "0e2f06ec-84d1-40ba-9089-2a68bc0313e6")
 		)
 		(pin "7"
-			(uuid "ee5f0d2d-b2fa-4dbf-b885-108069b2e9d2")
+			(uuid "5a3d279a-fb3b-4f4b-b7b3-081c6c022d9c")
 		)
 		(pin "8"
-			(uuid "a0aa9b14-f364-4f6f-b596-de6df6ea5743")
+			(uuid "5e76db64-1313-44fb-91f4-68e27479332c")
 		)
 		(pin "4"
-			(uuid "edbbe1ed-ece9-4527-ae15-dc1d0198b5a9")
+			(uuid "36d8b159-a41c-4acd-b71a-221e510e59e8")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "U1")
 					(unit 2)
 				)
@@ -3114,7 +3114,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "884f68c0-6227-405f-8b6e-9f0b6b0ea5bc")
+		(uuid "8cd602fd-4f52-4d58-bab2-0e3610ab7b61")
 		(property "Reference" "U1"
 			(at 138.43 156.21 0.0000)
 			(effects
@@ -3152,32 +3152,32 @@
 			)
 		)
 		(pin "3"
-			(uuid "d4b919f9-d9ad-45e4-bfc1-5d8416999423")
+			(uuid "e043bbfd-37e8-487a-ab22-37f1cdf33af0")
 		)
 		(pin "2"
-			(uuid "d009d5db-8e94-4af8-975e-3790091e2402")
+			(uuid "0dec7ac7-8976-4cc9-bc76-08caf012505c")
 		)
 		(pin "1"
-			(uuid "29ad63e0-bb0c-47dd-8901-483c39ccf7f6")
+			(uuid "158bc13d-1de1-4f46-8fe7-40860450e917")
 		)
 		(pin "5"
-			(uuid "51a28d37-69ba-49db-9b40-f4a98ba24c34")
+			(uuid "368845d2-67c5-4607-a9e3-c389828476f3")
 		)
 		(pin "6"
-			(uuid "be21ed6f-48cd-441e-af8a-0e70b4249090")
+			(uuid "c961a3c5-8683-46a7-b6d1-016695c118e1")
 		)
 		(pin "7"
-			(uuid "43fca131-106c-4ce5-8337-6452c5141c54")
+			(uuid "28482b59-c8c8-4c1a-a084-9ff4972efef7")
 		)
 		(pin "8"
-			(uuid "6d9d2284-727b-48f8-a6ba-d6c7f3044bee")
+			(uuid "e166ae17-1506-40f9-bc78-a454519b338e")
 		)
 		(pin "4"
-			(uuid "cb7421c5-aaaf-4891-8689-a4c5a865fd31")
+			(uuid "5f001bc2-4c23-44c1-94a6-2a7a0ddafeef")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "U1")
 					(unit 3)
 				)
@@ -3193,7 +3193,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "83631427-d689-48b0-83d5-55dcd9c82855")
+		(uuid "660aeb8d-7ec6-4ece-8036-4d33d1b6ecc3")
 		(property "Reference" "R7"
 			(at 140.462 142.24 90)
 			(effects
@@ -3231,14 +3231,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "300c6c25-0ae7-483f-810a-2cab2ac1fdb1")
+			(uuid "bb80bd6b-967e-43fe-b54e-6e99b70dd292")
 		)
 		(pin "2"
-			(uuid "171838a9-1d35-4130-803d-ffddbbee8599")
+			(uuid "61c8b2bc-ac64-476e-a4e3-08af5c3120da")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R7")
 					(unit 1)
 				)
@@ -3254,7 +3254,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "a8184f6f-0253-4f94-9735-223d1b8971cc")
+		(uuid "32b2c648-0b19-4bdf-8415-c0e31aa2d074")
 		(property "Reference" "R8"
 			(at 153.162 114.3 90)
 			(effects
@@ -3264,7 +3264,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100k"
+		(property "Value" "560k"
 			(at 151.13 114.3 90)
 			(effects
 				(font
@@ -3282,7 +3282,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25741"
+		(property "LCSC" "C132339"
 			(at 153.67 119.3799 0)
 			(effects
 				(font
@@ -3292,14 +3292,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "ba169201-e05d-4b6a-b27c-cb9dc25fe3eb")
+			(uuid "0ac3c375-1b47-4814-80cd-153142d5d3a5")
 		)
 		(pin "2"
-			(uuid "ef0521d7-7955-4e8f-80b7-c90255e2b604")
+			(uuid "9c6e310e-75f5-492f-9275-3d1fe94aaa6e")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R8")
 					(unit 1)
 				)
@@ -3315,7 +3315,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "073ad070-6046-4514-aa71-6b718d6dca87")
+		(uuid "d3b96cc3-feef-46eb-821d-58be7fde16be")
 		(property "Reference" "C4"
 			(at 165.735 116.84 0.0000)
 			(effects
@@ -3325,7 +3325,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "27p C0G"
+		(property "Value" "4.7p C0G"
 			(at 165.735 111.76 0.0000)
 			(effects
 				(font
@@ -3343,7 +3343,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C1573"
+		(property "LCSC" "C1569"
 			(at 167.64 119.3799 0)
 			(effects
 				(font
@@ -3353,14 +3353,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "388c6718-100e-4410-860d-8a1cd9cac67a")
+			(uuid "008cee66-6cd7-41bf-b6fe-8754f19b9753")
 		)
 		(pin "2"
-			(uuid "fbfa92e7-e9aa-480a-be01-c13fd7441c02")
+			(uuid "37f5eb31-ab82-4546-a430-b95a4d68fac9")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "C4")
 					(unit 1)
 				)
@@ -3376,7 +3376,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "17b5542f-b540-4e3b-8411-6bd0a9327b57")
+		(uuid "92e7ac78-aa89-415e-80a8-e0f79e10a4be")
 		(property "Reference" "R9"
 			(at 176.022 128.27 90)
 			(effects
@@ -3414,14 +3414,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "4ddc3b2c-11c6-4440-a8ae-300a2ebf3b5f")
+			(uuid "b82eed4b-4c77-41a3-9bfd-adcdca8fd4ab")
 		)
 		(pin "2"
-			(uuid "8a01a560-9f09-49b1-97b2-b6308f181ac7")
+			(uuid "f6ef2df7-038a-48d3-b64a-07612a7576b1")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R9")
 					(unit 1)
 				)
@@ -3437,7 +3437,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "e984ea3b-b1d3-487e-a6f5-d52f017f1167")
+		(uuid "b97b2243-f4ee-4327-b993-591bb1439709")
 		(property "Reference" "U2"
 			(at 195.58 133.35 0.0000)
 			(effects
@@ -3484,23 +3484,23 @@
 			)
 		)
 		(pin "1"
-			(uuid "58eb0a5f-79bb-44ab-b723-82a345dc40c4")
+			(uuid "31348c13-aa1c-4890-9cd4-7559892b0968")
 		)
 		(pin "3"
-			(uuid "09fc2b56-cf0a-4a4a-957b-ef11a4cd6415")
+			(uuid "15d4a0b8-7aef-4100-9f77-57218cdf67c8")
 		)
 		(pin "5"
-			(uuid "a5fbd91c-d0ab-46cd-8f3e-32e8305e7a73")
+			(uuid "72f3df0d-7dc8-44f1-8ede-e6e5b2d677e6")
 		)
 		(pin "2"
-			(uuid "6837f8de-0ab0-45d8-ba45-43f790c09bff")
+			(uuid "cd784d66-2b28-4af3-b5bd-afe3a696ca93")
 		)
 		(pin "4"
-			(uuid "2f939081-16b4-4f9b-843f-e53c0f80eeac")
+			(uuid "44fd5214-092f-4592-9681-e70d8675a7ea")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "U2")
 					(unit 1)
 				)
@@ -3516,7 +3516,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "5ae17e5a-17a2-4473-8ed8-6633e88ec932")
+		(uuid "3d4330ac-9c0d-466f-9d22-424a8261a05e")
 		(property "Reference" "R10"
 			(at 196.342 114.3 90)
 			(effects
@@ -3554,14 +3554,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "5f2be5f5-9504-46b9-9ab8-cb63baba8c73")
+			(uuid "7077af5c-4fd5-4bd6-9051-861413222829")
 		)
 		(pin "2"
-			(uuid "e88518f7-77d9-433d-8b24-b807d9a86efc")
+			(uuid "b53ed3e3-b4bc-4dbf-afca-6d7f49f5433b")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R10")
 					(unit 1)
 				)
@@ -3577,7 +3577,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "c98be9ee-bf0d-4b22-994a-3422078ae9fe")
+		(uuid "c52fb23d-b4f0-462b-a768-bab1941644d0")
 		(property "Reference" "R11"
 			(at 216.662 128.27 90)
 			(effects
@@ -3615,14 +3615,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "f51829fd-9c7f-4181-97e5-1e4c9a149e56")
+			(uuid "5765e597-efcd-40f5-8d7a-1aea95a40928")
 		)
 		(pin "2"
-			(uuid "0ef4aa6b-18a8-458c-a2f3-20d17b5ec3ea")
+			(uuid "22246c01-41aa-4448-a372-7c8237419ee0")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "R11")
 					(unit 1)
 				)
@@ -3638,7 +3638,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "e5eb3b11-79fd-4879-bfd0-471423627512")
+		(uuid "e0ab1d5a-6c03-4c97-beb8-9fff2e2ba2dd")
 		(property "Reference" "C5"
 			(at 182.245 153.67 0.0000)
 			(effects
@@ -3676,14 +3676,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "25f1ad86-6da0-4cfa-8bb5-bbeb2e61a1b4")
+			(uuid "2854f8f4-d74a-4688-b707-8ef5b525e086")
 		)
 		(pin "2"
-			(uuid "175fef86-dd69-48a1-9a34-0bfb85153281")
+			(uuid "cd89a06b-b0cd-4fdf-9fc4-1d4cdf130a80")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "C5")
 					(unit 1)
 				)
@@ -3699,7 +3699,7 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced no)
-		(uuid "d8df8983-2d9c-43bc-a7d8-189db8c7e819")
+		(uuid "e1e8ca43-2b3f-43f0-9952-ccfe739927b1")
 		(property "Reference" "C6"
 			(at 205.105 153.67 0.0000)
 			(effects
@@ -3737,846 +3737,846 @@
 			)
 		)
 		(pin "1"
-			(uuid "d85634c2-15bd-41e5-af97-576248eae2cb")
+			(uuid "2fbe4973-84df-40d4-85c4-ebba16fafdc6")
 		)
 		(pin "2"
-			(uuid "bee5039f-40f8-4418-b8bd-ff725b2a2c3b")
+			(uuid "c9f93d35-bfe0-4356-ab0d-43e02521e150")
 		)
 		(instances
 			(project "IR Spoke Sensor"
-				(path "/1c8305bd-239a-417f-8ba9-2c06dd78dff5"
+				(path "/cbcb504f-99f7-4dc3-a020-7515204d9be3"
 					(reference "C6")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(label "TX_CARRIER_GPIO1"
-		(at 22.86 40.64 180)
+	(label "TX_CARRIER"
+		(at 25.4 38.1 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "bae9869c-945e-4d16-b3a2-b39485680d8d")
+		(uuid "93610016-ca0f-4cb6-b439-dfce24438602")
 	)
-	(label "RX_RMT_GPIO2"
-		(at 22.86 43.18 180)
+	(label "RMT_RX"
+		(at 25.4 40.64 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "b36caff9-c12b-4dfb-bd70-c575343e437e")
+		(uuid "7780960e-9cd8-47dd-b24b-07106a212485")
 	)
-	(label "XIAO_D2"
-		(at 22.86 45.72 180)
+	(label "D2_GPIO"
+		(at 25.4 43.18 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "0c129d3d-2bba-4182-a2a4-0a6cfcf98a3f")
+		(uuid "537e1b49-8890-4c2c-b4e1-b55fdaea6894")
 	)
-	(label "XIAO_D3"
-		(at 22.86 48.26 180)
+	(label "D3"
+		(at 25.4 45.72 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "750e974f-eca2-427d-b10a-f0e58c2698d1")
+		(uuid "72306a27-b96d-4bee-a1cd-b72af5b6d405")
 	)
-	(label "XIAO_D4"
-		(at 22.86 50.8 180)
+	(label "D4"
+		(at 25.4 48.26 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "3f1c456c-5ec3-4d46-9124-2d9d858c721e")
+		(uuid "fcd92f41-05fd-4bcd-b7b4-ef14955cb554")
 	)
-	(label "XIAO_D5"
-		(at 22.86 53.34 180)
+	(label "D5"
+		(at 25.4 50.8 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "65b5ad13-2f26-427a-a730-a5911952aec0")
+		(uuid "221058d8-8bb5-42a3-bb24-3c466f861f08")
 	)
-	(label "XIAO_D6"
-		(at 22.86 55.88 180)
+	(label "D6"
+		(at 25.4 53.34 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "e4e60740-22c5-41c1-a790-c76640c84ff6")
+		(uuid "30ee1dfd-0aa3-4e61-a9b4-e702c8bb1c4c")
 	)
-	(label "XIAO_D10"
-		(at 22.86 69.85 180)
+	(label "D10"
+		(at 25.4 64.77 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "dcbc0026-442a-4b4d-9f60-83fefb1f3695")
+		(uuid "2061cb5b-d047-422e-a3f4-c48abb305804")
 	)
-	(label "XIAO_D9"
-		(at 22.86 72.39 180)
+	(label "D9"
+		(at 25.4 67.31 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "5d8e8905-3f25-484f-b6ae-03527ad42079")
+		(uuid "e1892a09-dacd-496e-8362-1d482dc9a34a")
 	)
-	(label "XIAO_D8"
-		(at 22.86 74.93 180)
+	(label "D8"
+		(at 25.4 69.85 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "f59109a0-18fe-4fe5-981e-4f8a26902acd")
+		(uuid "12e3d860-9f2f-427c-b6f8-861443c915ac")
 	)
-	(label "XIAO_D7"
-		(at 22.86 77.47 180)
+	(label "D7"
+		(at 25.4 72.39 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "245337e5-d8b5-46c1-ac9f-d9354f1bd450")
+		(uuid "1f23db75-4f70-4769-8e38-2e5bc814f56e")
 	)
 	(label "+3V3"
-		(at 22.86 80.01 180)
+		(at 25.4 74.93 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "e4181986-e89a-4150-b769-35255b7d23be")
+		(uuid "4064285c-246f-4ec4-8592-2fe55352c7b9")
 	)
 	(label "GND"
-		(at 22.86 82.55 180)
+		(at 25.4 77.47 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "f8ec28f7-e0ee-4641-934b-ffe3fd53414d")
+		(uuid "70f7499b-be9b-45e4-868e-333292cf451c")
 	)
 	(label "+5V_USB"
-		(at 22.86 85.09 180)
+		(at 25.4 80.01 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "44e149de-8d83-469b-8dd8-f7a6d100bc38")
+		(uuid "952d96e3-7029-4eda-a4b9-e8831e94380f")
 	)
 	(label "+3V3"
-		(at 41.91 72.39 270)
+		(at 44.45 69.85 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "c589f2ea-9be2-469d-8d3b-62d376afa186")
+		(uuid "0bd281b7-35d1-4f0f-962d-a86084b0ed81")
 	)
 	(label "GND"
-		(at 48.26 72.39 270)
+		(at 54.61 69.85 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "f740b0f3-29d2-4056-973e-ca69b2186d94")
+		(uuid "9794dc25-4216-4aea-87e7-7c8a3a060ec1")
 	)
-	(label "TX_CARRIER_GPIO1"
-		(at 67.31 41.91 180)
+	(label "TX_CARRIER"
+		(at 77.47 44.45 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "23450a41-f188-47c3-b4d1-9a634ffb502b")
+		(uuid "cfb36bcf-f7d8-453c-956c-bf135d3cd245")
 	)
 	(label "Q_BASE"
-		(at 59.69 41.91 0.0000)
+		(at 69.85 44.45 0.0000)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "6e8aa39d-1285-48df-ad48-f689d564b8e6")
+		(uuid "27a6fe61-29b4-4b36-ae95-abf0b97abfd5")
 	)
 	(label "Q_BASE"
-		(at 77.47 41.91 180)
+		(at 86.36 44.45 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "858761b3-3cdd-49c9-a73f-f47510621d26")
+		(uuid "0e327cc0-41f8-4fa7-a0eb-7cc8cad2d599")
 	)
-	(label "LED_K_SWITCHED"
-		(at 85.09 36.83 90)
+	(label "LED_K"
+		(at 93.98 39.37 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "3d2769e6-c8a7-4f0a-ad9e-42d5c830248b")
+		(uuid "a87a20e5-b814-4072-b06c-3cea492a8ec2")
 	)
 	(label "GND"
-		(at 85.09 46.99 270)
+		(at 93.98 49.53 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "a08fb188-2d0f-4782-9f65-d9b4101cf0a1")
+		(uuid "bbfa51f2-dac8-4077-ad31-57964cd779ca")
 	)
 	(label "+3V3_LED"
-		(at 96.52 41.91 180)
+		(at 105.41 44.45 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "61584b02-07d4-4d17-985c-c0fd6fc65382")
+		(uuid "7d05e847-48d1-48f5-aedd-ad1cc2b890ec")
 	)
-	(label "LED_K_SWITCHED"
-		(at 96.52 44.45 180)
+	(label "LED_K"
+		(at 105.41 46.99 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "ceb94bd9-0229-4a64-9960-80b9f33028b1")
-	)
-	(label "+3V3_LED"
-		(at 116.84 41.91 180)
-		(effects
-			(font
-				(size 0.85 0.85)
-			)
-			(justify left bottom)
-		)
-		(uuid "ed35c13a-1ed8-47cc-bd7f-1dd0176e4db3")
-	)
-	(label "LED_K_SWITCHED"
-		(at 116.84 44.45 180)
-		(effects
-			(font
-				(size 0.85 0.85)
-			)
-			(justify left bottom)
-		)
-		(uuid "6b58d890-5f64-4280-8131-3a3803539c8d")
+		(uuid "0d5dbc26-57cd-47d0-9fc1-ab31632bc8fe")
 	)
 	(label "+3V3_LED"
-		(at 143.51 38.1 180)
+		(at 138.43 44.45 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "ed27ff00-25fc-4ef5-a040-7b752a40308f")
+		(uuid "708123df-a23c-4e5c-85df-549bf31a66c4")
+	)
+	(label "LED_K"
+		(at 138.43 46.99 180)
+		(effects
+			(font
+				(size 0.58 0.58)
+			)
+			(justify left bottom)
+		)
+		(uuid "a921cabb-c6b2-4566-87f0-3fe12c512009")
+	)
+	(label "+3V3_LED"
+		(at 168.91 39.37 180)
+		(effects
+			(font
+				(size 0.58 0.58)
+			)
+			(justify left bottom)
+		)
+		(uuid "b44f07db-0d79-4973-be5f-350a5ca5dd71")
 	)
 	(label "LED_A"
-		(at 135.89 38.1 0.0000)
+		(at 161.29 39.37 0.0000)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "02ad8666-f4af-4ce5-a106-a5fa2f1c6a31")
+		(uuid "2617e5be-c0aa-4447-8bea-e6a0c7b3163d")
 	)
-	(label "LED_K_SWITCHED"
-		(at 153.67 41.91 180)
+	(label "LED_K"
+		(at 184.15 44.45 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "afc903c4-6463-4571-8693-b46b4487849f")
+		(uuid "66048b80-5b7f-4993-b077-3b1dcecfd9db")
 	)
 	(label "LED_A"
-		(at 161.29 41.91 0.0000)
+		(at 191.77 44.45 0.0000)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "fdfd07b4-cb66-47ae-9e08-63552fc7e49b")
+		(uuid "6e2500a1-f0fb-4c4e-8f65-e3e1b15253ac")
 	)
 	(label "+3V3"
 		(at 31.75 124.46 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "39817586-f51e-48e2-8e50-1816c6a8dbb0")
+		(uuid "d0eadd20-447a-45f6-9684-58da0d5bd96f")
 	)
 	(label "VREF"
 		(at 24.13 124.46 0.0000)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "ef38c50d-f051-4218-88e9-d205d04da9db")
+		(uuid "64364b04-05a3-4605-bad9-3f90e2b2b1fd")
 	)
 	(label "VREF"
 		(at 31.75 139.7 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "6fb56ece-c02d-4a54-a0cf-7491d2d58f34")
+		(uuid "8027470c-aa28-4dd0-a9f2-73372e8f1c61")
 	)
 	(label "GND"
 		(at 24.13 139.7 0.0000)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "d1e865e8-a1bd-4c5c-b829-9e9d295069f4")
+		(uuid "0ab83355-a3e6-471e-83bf-90ae46cb98ef")
 	)
 	(label "VREF"
 		(at 43.18 135.89 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "9ddef712-c220-4429-b361-f3f2fd7715df")
+		(uuid "02c44add-989d-4f8a-8125-036308692ab0")
 	)
 	(label "GND"
 		(at 43.18 143.51 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "ea66eda0-e50e-4c68-93e4-32223cb1acf7")
+		(uuid "6b73c21f-0bcc-4170-8169-293d87e17f73")
 	)
 	(label "+3V3"
 		(at 53.34 125.73 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "2ef40204-a0e2-4309-b1db-7efd56226f78")
+		(uuid "062a3de1-888f-41a0-9e1b-d1622b70404e")
 	)
-	(label "NC_MECHANICAL"
+	(label "NC_MECH"
 		(at 53.34 128.27 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "8cea60d5-f384-453f-ba60-70370a15580a")
+		(uuid "c3a3a835-ad03-48c1-b093-f8657948dfd0")
 	)
 	(label "PD_ANODE"
 		(at 53.34 130.81 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "fc187b67-6729-4da8-a40c-9aacbad87284")
+		(uuid "865898cb-b68b-43eb-9525-7dd0dac8641f")
 	)
 	(label "TIA_OUT"
 		(at 83.82 110.49 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "0356619b-e6b0-42c9-82e4-a8b396146426")
+		(uuid "3f7e7792-201c-4f38-8451-f3604df15e5b")
 	)
 	(label "PD_ANODE"
 		(at 83.82 118.11 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "83085c85-51f9-4c65-92f9-a11861724db0")
+		(uuid "7124a8a6-7a83-434a-96fa-88d60007ab60")
 	)
 	(label "TIA_OUT"
 		(at 99.06 110.49 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "866bcab0-d8f1-40ef-87b6-c50f24b12bd1")
+		(uuid "8ebb2304-3bb5-4fd8-b443-1505711de389")
 	)
 	(label "PD_ANODE"
 		(at 99.06 118.11 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "a72636c6-7c77-455d-a8e1-2cb5566bbcd3")
+		(uuid "4128eb29-9d71-4730-83e6-a26af7adc63b")
 	)
 	(label "TIA_OUT"
 		(at 111.76 124.46 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "40a113ea-b69e-43f7-b0f9-8f50bdd26c1e")
+		(uuid "8bcc6f55-bfe0-4b17-97bf-cd3a96397f56")
 	)
 	(label "BP_IN"
 		(at 111.76 132.08 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "51f99836-4c87-4bd6-a0a0-e95c8cceb124")
+		(uuid "f5ef8bcb-435d-47c0-9d76-cd8ef6fb6a16")
 	)
 	(label "BP_IN"
 		(at 119.38 138.43 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "a7765d87-6ecc-4011-bfe1-c2ad2d390332")
+		(uuid "33ea304d-6d2d-4e0f-bc95-088175e725b1")
 	)
 	(label "VREF"
 		(at 119.38 146.05 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "e7bd3496-f925-4e31-a2ad-e72d300a4c5d")
+		(uuid "b5c1c366-7d4a-40f7-96c6-d0fcd1fe2454")
 	)
 	(label "BP_NEG"
 		(at 138.43 138.43 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "a38e6a88-8a4c-41fa-b830-5b1a64d9966b")
+		(uuid "a538c083-5419-4fe9-a68e-48ba0dbb3cb4")
 	)
 	(label "VREF"
 		(at 138.43 146.05 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "53152712-4100-41e8-835d-a2b31cb67bb2")
+		(uuid "8da8b6b2-f1c0-4774-8e82-a6f7df9b785d")
 	)
 	(label "BANDPASS"
 		(at 151.13 110.49 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "a9755200-7d3a-4260-85a6-af4b905e089b")
+		(uuid "258b8177-46f8-40a6-8697-97b38479b9c2")
 	)
 	(label "BP_NEG"
 		(at 151.13 118.11 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "7a40453d-0e07-4cb9-a0da-1459efa0605c")
+		(uuid "a66d3c1b-3c45-40fd-b898-1d87ba4a99b7")
 	)
 	(label "BANDPASS"
 		(at 165.1 110.49 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "b09d4823-af08-4a08-9f3c-5d351c315a0f")
+		(uuid "d8bd7408-0354-4059-b664-5de462977b62")
 	)
 	(label "BP_NEG"
 		(at 165.1 118.11 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "fe51eac0-2c21-4334-8a91-b9466adb2b48")
+		(uuid "68e3b3c8-d367-4769-9610-ece3092bc7d7")
 	)
 	(label "BANDPASS"
 		(at 173.99 124.46 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "d947d613-b26b-4eb2-b4c0-ca467f911070")
+		(uuid "76c86bc1-4307-4e37-a982-3e5ecffb89c4")
 	)
 	(label "COMP_PLUS"
 		(at 173.99 132.08 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "9c8f46d1-1db9-42f8-a1f3-b77060fd4943")
+		(uuid "5f126cdc-84e6-4acf-a300-8421b4e1c19d")
 	)
 	(label "COMP_OUT"
 		(at 186.69 125.73 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "07ddd9ae-99a7-438d-9e97-f367c6a6ad28")
+		(uuid "7d09cb2b-9ecc-4cad-9d30-b2e3c2591e3e")
 	)
 	(label "GND"
 		(at 191.77 135.89 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "dae9a5af-732c-42a9-b152-2a269690fa81")
+		(uuid "9704fbc8-8d69-43ac-889e-5af8b41660f1")
 	)
 	(label "COMP_PLUS"
 		(at 186.69 130.81 180)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "fb046912-7f49-44de-a9d6-d61457f92a71")
+		(uuid "7731a846-83f6-44a9-b555-ea62ff872418")
 	)
 	(label "VREF"
 		(at 201.93 128.27 0.0000)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "8e8ce276-9d04-4844-aff7-19f01355277a")
+		(uuid "bbf3a8ed-c0c8-4967-98c5-7584f60d090e")
 	)
 	(label "+3V3"
 		(at 191.77 120.65 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "eb0a50fa-4a43-464d-9531-a6a41eb6225d")
+		(uuid "0893bfd4-ffda-4206-99fa-15c826cd7eb9")
 	)
 	(label "COMP_OUT"
 		(at 194.31 110.49 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "365ef5ef-4011-4501-b1af-261607be7c4a")
+		(uuid "cf1bdbe2-cb6f-488d-a502-3e4c30a34bed")
 	)
 	(label "COMP_PLUS"
 		(at 194.31 118.11 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "93fa7015-a551-4508-85aa-0f176895ce1f")
+		(uuid "29adfc73-793c-4522-82a7-e23c8470bdac")
 	)
 	(label "COMP_OUT"
 		(at 214.63 124.46 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "01a58d15-bde9-4363-90fa-c9471b48e600")
+		(uuid "de99333b-0687-4476-a862-6c48f6741f7d")
 	)
-	(label "RX_RMT_GPIO2"
+	(label "RMT_RX"
 		(at 214.63 132.08 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "c63376c9-0934-4376-a82d-e5b421b003f6")
+		(uuid "cf76ba9e-fb7a-48d5-b6c7-5041d56f925d")
 	)
 	(label "+3V3"
 		(at 181.61 147.32 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "29c0f402-60c2-4172-b2fe-368c2f061927")
+		(uuid "44bb09ec-6eb3-4b56-b37d-5ef09488b31a")
 	)
 	(label "GND"
 		(at 181.61 154.94 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "0cb631d0-9aa4-448b-9622-1e0341e08711")
+		(uuid "9d7ff585-0a5c-4494-aa3a-c2b6e0cbaef5")
 	)
 	(label "+3V3"
 		(at 204.47 147.32 90)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "7030d806-5b37-4da5-9397-163f2ce05491")
+		(uuid "826a343a-87a4-4286-826a-83f4a8febc8b")
 	)
 	(label "GND"
 		(at 204.47 154.94 270)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify right bottom)
 		)
-		(uuid "54d70c23-c2eb-49c0-82e5-f10a943dfa0e")
+		(uuid "4ebfb33d-ad63-4007-bf3a-c6fd005a255c")
 	)
 	(label "TIA_OUT"
 		(at 91.44 128.27 0)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "494f6cc4-d37f-4ac8-b0bc-f826b52870eb")
+		(uuid "b1217be4-2926-49e8-a6e2-23ea3789cf5b")
 	)
 	(label "PD_ANODE"
 		(at 76.2 125.73 0)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "a5b29323-2d57-442b-84dc-6b2c1172ce69")
+		(uuid "69f797d1-ffe7-4a8c-9d91-677382c0649d")
 	)
 	(label "VREF"
 		(at 76.2 130.81 0)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "e6068de6-3db2-479b-b6f1-4c4c37497ea4")
+		(uuid "594c61be-a205-4da8-9da2-b6d768cca464")
 	)
 	(label "BP_IN"
 		(at 130.81 130.81 0)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "3e8276bc-e5f0-4c2a-b1a7-d1078a0cb998")
+		(uuid "03afa127-dcf6-407a-a5d5-210e6f7e0058")
 	)
 	(label "BP_NEG"
 		(at 130.81 125.73 0)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "5e5d213c-2765-4837-b21d-0b64f9956eac")
+		(uuid "1e4c5359-450d-4457-bfc7-239367fd65dc")
 	)
 	(label "BANDPASS"
 		(at 146.05 128.27 0)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "32b0d4e6-5912-4f7b-9884-295fefafe784")
+		(uuid "dbb5f713-a569-4b8a-b7d8-37c526e0624e")
 	)
 	(label "GND"
 		(at 135.89 143.51 0)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "af94a9c8-9fde-4faf-a6fc-03681cdd418a")
+		(uuid "e633115e-74ad-4308-8e98-7e509fd1d653")
 	)
 	(label "+3V3"
 		(at 135.89 158.75 0)
 		(effects
 			(font
-				(size 0.85 0.85)
+				(size 0.58 0.58)
 			)
 			(justify left bottom)
 		)
-		(uuid "a53611a7-b188-4c47-93d4-535ea852d7f9")
+		(uuid "63654823-c189-45a4-a09f-a40ba2c7c11c")
 	)
-	(text "1  ESP32-S3 HOST + RMT"
+	(text "1  ESP32-S3 HOST / RMT"
 		(exclude_from_sim no)
-		(at 28 25 0.0000)
+		(at 26 24 0.0000)
 		(effects
 			(font
 				(size 1.6 1.6)
 				(bold yes)
 			)
 		)
-		(uuid "84fce20b-59af-4fce-99a0-b9ee86ac04c5")
+		(uuid "9d865031-7f3e-4e3a-b45d-4f0c506426ac")
 	)
-	(text "GPIO1: 38 kHz continuous TX  |  GPIO2: comparator carrier into RMT RX"
+	(text "GPIO1: runtime carrier TX  |  GPIO2: comparator carrier into RMT RX"
 		(exclude_from_sim no)
-		(at 18 92 0.0000)
+		(at 25 91 0.0000)
 		(effects
 			(font
 				(size 0.9 0.9)
 				(italic yes)
 			)
 		)
-		(uuid "ed882735-0c7f-460c-b0f3-3a1716875742")
+		(uuid "a66897f1-9217-449d-93df-1dc91fe6eb68")
 	)
-	(text "2  LOW-SIDE DRIVER + LOCKING CABLE"
+	(text "2  DRIVER / LOCKING HARNESS"
 		(exclude_from_sim no)
-		(at 72 25 0.0000)
+		(at 78 24 0.0000)
 		(effects
 			(font
 				(size 1.6 1.6)
 				(bold yes)
 			)
 		)
-		(uuid "2df07830-6188-460d-a7a6-48a6e5860303")
+		(uuid "ef8349fe-ee0e-4591-9468-778d7c93cfe2")
 	)
-	(text "600 mm AWG28 pair, GHR-02V-S + SSHL-002T-P0.2; secure lock"
+	(text "600 mm AWG28 pair / GHR-02V-S / SSHL-002T-P0.2"
 		(exclude_from_sim no)
-		(at 64 56 0.0000)
+		(at 69 58 0.0000)
 		(effects
 			(font
 				(size 0.9 0.9)
 				(italic yes)
 			)
 		)
-		(uuid "0e2478a8-2c29-43da-b17f-a357fc5b0107")
+		(uuid "4335493e-3a74-4da8-af53-8635a89e9636")
 	)
-	(text "3  REMOTE EMITTER BOARD"
+	(text "3  REMOTE EMITTER PCB"
 		(exclude_from_sim no)
-		(at 128 25 0.0000)
+		(at 145 24 0.0000)
 		(effects
 			(font
 				(size 1.6 1.6)
 				(bold yes)
 			)
 		)
-		(uuid "0f13dbbf-0ae0-4b66-92a9-75df1bd930d3")
+		(uuid "b0ab94ca-1fbf-4f22-b7c8-73118768f364")
 	)
-	(text "Emitter faces across spoke plane toward D2"
+	(text "Emitter faces D2 across spoke plane"
 		(exclude_from_sim no)
-		(at 126 56 0.0000)
+		(at 145 58 0.0000)
 		(effects
 			(font
 				(size 0.9 0.9)
 				(italic yes)
 			)
 		)
-		(uuid "43cf410d-6a6f-4c7d-81ad-e6b49f797724")
+		(uuid "1a13793e-9333-482d-bff6-4bcf5351cc73")
 	)
-	(text "4  REFERENCE + PHOTODIODE TIA"
+	(text "4  VREF / PHOTODIODE / TIA"
 		(exclude_from_sim no)
-		(at 33 108 0.0000)
+		(at 32 106 0.0000)
 		(effects
 			(font
 				(size 1.6 1.6)
 				(bold yes)
 			)
 		)
-		(uuid "f6cad74c-bea5-4eef-9fe4-8d95d016f2e3")
+		(uuid "5f521f88-e4fa-4030-9329-200cb39c6ad1")
 	)
 	(text "D2 pins: 1 cathode, 2 mechanical NC, 3 anode"
 		(exclude_from_sim no)
@@ -4587,31 +4587,31 @@
 				(italic yes)
 			)
 		)
-		(uuid "5a6b6d1a-d748-4078-8c45-2a709b5f7955")
+		(uuid "f3b0c659-080d-484a-802a-1c40f0010d41")
 	)
-	(text "5  10 kHz–59 kHz ACTIVE BAND-PASS"
+	(text "5  10 kHz-60 kHz ACTIVE BAND-PASS"
 		(exclude_from_sim no)
-		(at 125 108 0.0000)
+		(at 125 106 0.0000)
 		(effects
 			(font
 				(size 1.6 1.6)
 				(bold yes)
 			)
 		)
-		(uuid "b6bc8772-7c61-4af6-afd6-1ce548cefdfb")
+		(uuid "9e43740b-9431-4b06-93f5-877ee1ce421e")
 	)
-	(text "6  SCHMITT COMPARATOR + RMT INPUT"
+	(text "6  SCHMITT DECISION / RMT INPUT"
 		(exclude_from_sim no)
-		(at 190 108 0.0000)
+		(at 190 106 0.0000)
 		(effects
 			(font
 				(size 1.6 1.6)
 				(bold yes)
 			)
 		)
-		(uuid "498e0610-28ff-4c97-9f1b-16ad5976d13c")
+		(uuid "7e3a27c6-7938-43e1-b3c8-b405dfe4e491")
 	)
-	(text "~36.9 mV total hysteresis typ.; raw 38 kHz is demodulated by RMT RX"
+	(text "36.9 mV hysteresis typ.; RMT RX removes selected carrier"
 		(exclude_from_sim no)
 		(at 171 163 0.0000)
 		(effects
@@ -4620,17 +4620,17 @@
 				(italic yes)
 			)
 		)
-		(uuid "df72feea-0261-4a79-8947-0de402f0254f")
+		(uuid "d1eb0162-0320-4883-9f6a-c53c9a29f36a")
 	)
-	(text "SYSTEM NOTES\n• RMT TX drives a continuous 38 kHz carrier.\n• The discrete AFE rejects DC sunlight; the Schmitt stage restores logic.\n• RMT RX carrier removal yields spoke-blockage intervals for the adaptive LUT.\n• J3/J4 are a cable boundary; J4/R1/D1 live on the remote emitter PCB."
+	(text "SYSTEM NOTES\n- RMT TX carrier is runtime-selectable from 25 kHz to 50 kHz.\n- The discrete AFE rejects DC sunlight; the Schmitt stage restores logic.\n- RMT RX carrier removal yields blockage intervals for the adaptive LUT.\n- J3/J4 are the harness boundary; J4/R1/D1 are on the remote PCB."
 		(exclude_from_sim no)
-		(at 18 177 0.0000)
+		(at 25 177 0.0000)
 		(effects
 			(font
 				(size 0.95 0.95)
 			)
 		)
-		(uuid "d8e124a5-a2fd-4930-9860-ecc1d98076e7")
+		(uuid "a46a7771-6980-4f15-91c8-1990b5991b9b")
 	)
 	(sheet_instances
 		(path "/"

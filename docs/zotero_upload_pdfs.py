@@ -12,17 +12,17 @@ ROOT = Path(__file__).resolve().parent
 records = [
     {
         "title": "VSMB1940X01 Datasheet (PDF)",
-        "date": "2025",
+        "date": "2025-03-24",
         "url": "https://www.vishay.com/docs/81933/vsmb1940.pdf",
         "path": ROOT / "datasheets" / "VSMB1940X01.pdf",
     },
     {"title": "VEMD10940FX01 Photodiode Datasheet (PDF)", "date": "2025-10-28",
      "url": "https://www.vishay.com/docs/84217/vemd10940fx01.pdf",
      "path": ROOT / "datasheets" / "VEMD10940FX01.pdf"},
-    {"title": "TLV9062 RRIO Operational Amplifier Datasheet (PDF)", "date": "2025",
+    {"title": "TLV9062 RRIO Operational Amplifier Datasheet (PDF)", "date": "2026-07",
      "url": "https://www.ti.com/lit/ds/symlink/tlv9062.pdf",
      "path": ROOT / "datasheets" / "TLV9062.pdf", "author": "Texas Instruments"},
-    {"title": "TLV7011 Nanopower Comparator Datasheet (PDF)", "date": "2025",
+    {"title": "TLV7011 Nanopower Comparator Datasheet (PDF)", "date": "2026",
      "url": "https://www.ti.com/lit/ds/symlink/tlv7011.pdf",
      "path": ROOT / "datasheets" / "TLV7011.pdf", "author": "Texas Instruments"},
     {"title": "JST GH Connector Series Datasheet (PDF)", "date": "2026",
@@ -31,6 +31,10 @@ records = [
     {"title": "ESP32-S3 Technical Reference Manual (PDF)", "date": "2026",
      "url": "https://documentation.espressif.com/esp32-s3_technical_reference_manual_en.pdf",
      "path": ROOT / "datasheets" / "ESP32-S3_TRM.pdf", "author": "Espressif Systems"},
+    {"title": "S8050 J3Y NPN Transistor Datasheet (PDF)", "date": "Rev. 2.0",
+     "url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2310131500_Jiangsu-Changjing-Electronics-Technology-Co---Ltd--S8050-J3Y-RANGE-200-350_C2146.pdf",
+     "path": ROOT / "datasheets" / "S8050_J3Y.pdf",
+     "author": "Jiangsu Changjing Electronics Technology"},
 ]
 
 with urllib.request.urlopen(

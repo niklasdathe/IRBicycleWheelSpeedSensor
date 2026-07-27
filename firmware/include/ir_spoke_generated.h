@@ -4,10 +4,12 @@
 
 namespace ir_spoke::generated {
 inline constexpr std::uint32_t kConfigSchemaVersion = 2;
-inline constexpr std::uint32_t kCarrierHz = 38000;
+inline constexpr std::uint32_t kDefaultCarrierHz = 38000;
+inline constexpr std::uint32_t kMinimumCarrierHz = 25000;
+inline constexpr std::uint32_t kMaximumCarrierHz = 50000;
 inline constexpr float kCarrierDuty = 0.5f;
 inline constexpr std::uint32_t kRmtResolutionHz = 1000000;
-inline constexpr std::uint32_t kRxDemodFrequencyHz = 25000;
+inline constexpr float kRxDemodFrequencyRatio = 0.66f;
 inline constexpr std::uint32_t kGlitchFilterUs = 4;
 inline constexpr std::uint32_t kMinimumBlockedUs = 70;
 inline constexpr std::uint32_t kMaximumBlockedUs = 600;
@@ -24,6 +26,6 @@ inline constexpr float kNominalSpokeWidthMm = 2f;
 inline constexpr float kMaxSpokeEventHz = 362.746309f;
 inline constexpr float kTiaPoleHz = 40190.6422f;
 inline constexpr float kBandpassHighpassHz = 9947.18394f;
-inline constexpr float kBandpassLowpassHz = 58946.2752f;
-inline constexpr float kCalculatedLedCurrentMa = 45.3846154f;
+inline constexpr float kBandpassLowpassHz = 60469.2033f;
+inline constexpr float kCalculatedLedCurrentMa = 45.0189232f;
 }  // namespace ir_spoke::generated

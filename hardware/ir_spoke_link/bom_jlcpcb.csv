@@ -2,18 +2,18 @@ Comment,Designator,Footprint,Manufacturer Part Number,LCSC Part Number,JLCPCB Li
 PIN photodiode,D2,VEMD10940F_SideView,VEMD10940FX01,C7104273,Extended,4243,Pad 2 is non-electrical reinforcement
 Dual 10MHz RRIO op amp,U1,SOT-23-8,TLV9062IDDFR,C2867884,Extended,15173,Selected over Basic LM358 for TIA bias and GBW
 Push-pull comparator,U2,SOT-353_SC-70-5,TLV7011DCKR,C193688,Extended,2048,260ns typ and 4.2mV internal hysteresis
-NPN low-side driver,Q1,SOT-23,S8050 J3Y,C2146,Basic,High stock,Remote LED current switch
+NPN low-side driver,Q1,SOT-23,S8050 J3Y,C2146,Basic,606989,Remote LED current switch
 JST GH secure-lock header,J3,JST_GH_BM02B-GHS-TBT_1x02-1MP_P1.25mm_Vertical,BM02B-GHS-TBT(LF)(SN),C161690,Extended,1082,1A 50V secure lock
-1k 1%,R2,R_0402_1005Metric,0402WGF1001TCE,C11702,Basic,In stock,Base resistor
-10k 1%,"R3,R4,R7,R9",R_0402_1005Metric,0402WGF1002TCE,C25744,Basic,In stock,Bias and gain
-33k 1%,R5,R_0402_1005Metric,0402WGF3302TCE,C25779,Basic,In stock,TIA feedback
-16k 1%,R6,R_0402_1005Metric,0402WGF1602TCE,C25770,Basic,In stock,AC bias
-100k 1%,R8,R_0402_1005Metric,0402WGF1003TCE,C25741,Basic,In stock,Gain feedback
-1M 1%,R10,R_0402_1005Metric,0402WGF1004TCE,C26083,Basic,In stock,Comparator positive feedback
-100R 1%,R11,R_0402_1005Metric,0402WGF1000TCE,C25076,Basic,In stock,GPIO series
-1uF 10V X5R,C1,C_0603_1608Metric,CL10A105KP8NNNC,C15849,Basic,In stock,VREF reservoir
-120pF C0G,C2,C_0402_1005Metric,CC0402JRNPO9BN121,C1548,Basic,In stock,TIA stability/pole
-1nF C0G,C3,C_0402_1005Metric,CC0402JRNPO9BN102,C1523,Basic,In stock,AC coupling
-27pF C0G,C4,C_0402_1005Metric,CC0402JRNPO9BN270,C1573,Basic,In stock,Gain-stage pole
-100nF X7R,"C5,C6",C_0402_1005Metric,CL05B104KO5NNNC,C1525,Basic,In stock,Local decoupling
+1k 1%,R2,R_0402_1005Metric,0402WGF1001TCE,C11702,Basic,1231153,Base resistor
+10k 1%,"R3,R4,R7,R9",R_0402_1005Metric,0402WGF1002TCE,C25744,Basic,241,Sufficient for prototype; recheck at order
+33k 1%,R5,R_0402_1005Metric,0402WGF3302TCE,C25779,Basic,1386247,TIA feedback
+16k 1%,R6,R_0402_1005Metric,0402WGF1602TCE,C25770,Extended,2990,AC bias; live API class
+560k 1%,R8,R_0402_1005Metric,0402WGF5603TCE,C132339,Extended,78231,Gain feedback selected by tolerance sweep
+1M 1%,R10,R_0402_1005Metric,0402WGF1004TCE,C26083,Basic,1126253,Comparator positive feedback
+100R 1%,R11,R_0402_1005Metric,0402WGF1000TCE,C25076,Basic,973746,GPIO series
+1uF 10V X5R,C1,C_0603_1608Metric,CL10A105KP8NNNC,C15849,Basic,15037870,VREF reservoir
+120pF C0G,C2,C_0402_1005Metric,CC0402JRNPO9BN121,C1548,Basic,2429724,TIA stability/pole
+1nF C0G,C3,C_0402_1005Metric,CC0402JRNPO9BN102,C1523,Basic,5783137,AC coupling
+4.7pF C0G,C4,C_0402_1005Metric,0402CG4R7C500NT,C1569,Extended,871671,Gain-stage pole
+100nF X7R,"C5,C6",C_0402_1005Metric,CL05B104KO5NNNC,C1525,Basic,47676385,Local decoupling
 XIAO ESP32-S3 sockets,"J1,J2",PinSocket_1x07_P2.54mm_Vertical,DNI,DNI,DNI,N/A,Hand assemble or direct solder

@@ -3,8 +3,16 @@
     "source": "docs/datasheets/VSMB1940X01.pdf",
     "source_url": "https://www.vishay.com/docs/81933/vsmb1940.pdf",
     "peak_wavelength_nm_typ": 940,
-    "radiant_intensity_mw_sr_at_100ma_typ": 16,
-    "continuous_forward_current_ma_max": 100
+    "radiant_intensity_mw_sr_at_100ma_min": 3,
+    "radiant_intensity_mw_sr_at_100ma_typ": 6,
+    "forward_voltage_v_at_100ma_min": 1.15,
+    "forward_voltage_v_at_100ma_typ": 1.35,
+    "forward_voltage_v_at_100ma_max": 1.6,
+    "continuous_forward_current_ma_max": 100,
+    "junction_capacitance_pf_typ": 70,
+    "rise_time_ns_typ": 15,
+    "fall_time_ns_typ": 15,
+    "revision": "1.6, 2025-03-24"
   },
   "VEMD10940FX01": {
     "source": "docs/datasheets/VEMD10940FX01.pdf",
@@ -24,6 +32,11 @@
     "gbw_hz_typ": 10000000,
     "slew_v_us_typ": 6.5,
     "input_bias_pa_typ": 0.5,
+    "input_voltage_noise_nv_rt_hz_at_10khz_typ": 10,
+    "input_current_noise_fa_rt_hz_at_1khz_typ": 23,
+    "input_offset_mv_typ": 0.3,
+    "input_offset_mv_max": 2.0,
+    "output_headroom_mv_max_rl10k": 20,
     "supply_v_min": 1.8,
     "supply_v_max": 5.5
   },
@@ -32,8 +45,23 @@
     "source_url": "https://www.ti.com/lit/ds/symlink/tlv7011.pdf",
     "propagation_delay_ns_typ": 260,
     "internal_hysteresis_mv_typ": 4.2,
+    "internal_hysteresis_mv_min": 1.2,
+    "internal_hysteresis_mv_max": 14,
+    "input_offset_mv_typ": 0.5,
+    "input_offset_mv_max": 8,
+    "output_low_mv_max_at_3ma_5v": 220,
     "supply_v_min": 1.6,
     "supply_v_max": 5.5
+  },
+  "S8050_J3Y": {
+    "source": "docs/datasheets/S8050_J3Y.pdf",
+    "source_url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2310131500_Jiangsu-Changjing-Electronics-Technology-Co---Ltd--S8050-J3Y-RANGE-200-350_C2146.pdf",
+    "revision": "2.0",
+    "collector_current_ma_max": 500,
+    "dc_gain_at_50ma_min": 120,
+    "dc_gain_at_50ma_max": 400,
+    "collector_emitter_saturation_v_max_at_500ma_50ma_base": 0.6,
+    "transition_frequency_mhz_typ": 150
   },
   "JST_GH": {
     "source": "docs/datasheets/JST_GH.pdf",

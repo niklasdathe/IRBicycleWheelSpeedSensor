@@ -1,4 +1,4 @@
 Comment,Designator,Footprint,Manufacturer Part Number,LCSC Part Number,JLCPCB Library,Stock checked 2026-07-27,Notes
-940nm side-view IR LED,D1,LED_0805_2012Metric,VSMB1940X01,C3151600,Extended,Verify before order,45.4mA calculated
-39R 1% 0.1W,R1,R_0603_1608Metric,0603WAF390JT5E,C23154,Basic,In stock,LED current limit
+940nm side-view IR LED,D1,LED_0805_2012Metric,VSMB1940X01,C3151600,Extended,629,45.02mA calculated including harness
+39R 1% 0.1W,R1,R_0603_1608Metric,0603WAF390JT5E,C23154,Extended,113141,LED current limit; live API class
 JST GH secure-lock header,J4,JST_GH_BM02B-GHS-TBT_1x02-1MP_P1.25mm_Vertical,BM02B-GHS-TBT(LF)(SN),C161690,Extended,1082,1A 50V secure lock

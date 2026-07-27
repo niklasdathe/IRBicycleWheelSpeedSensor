@@ -5,134 +5,107 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>IR Spoke Sensor — Technical Reference</title>
 <style>
-body{font:14px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;max-width:1040px;margin:32px auto;padding:0 20px;color:#18181b;background:#fff}
-h1,h2{font:600 1em/1.2 system-ui,sans-serif;margin:2.2em 0 .7em;border-bottom:1px solid #d4d4d8;padding-bottom:.35em}
-h1{font-size:1.7em;margin-top:0}h2{font-size:1.15em}
-table{border-collapse:collapse;width:100%}th,td{border:1px solid #d4d4d8;padding:6px 8px;text-align:left;vertical-align:top}th{background:#f4f4f5}
-code,pre{background:#f4f4f5}pre{padding:10px;overflow:auto}a{color:#075985}.ok{color:#166534}.open{color:#9a3412}
+body{font:13px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;max-width:1040px;margin:30px auto;padding:0 18px;color:#18181b}
+h1,h2{font-family:system-ui,sans-serif}h1{font-size:24px}h2{font-size:15px;margin:28px 0 8px;border-bottom:1px solid #ddd;padding-bottom:5px}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:6px 8px;text-align:left;vertical-align:top}th{background:#f5f5f5}
+pre,code{background:#f5f5f5}pre{padding:10px;overflow:auto}a{color:#075985}.ok{color:#166534}.open{color:#9a3412}
 </style>
 </head>
 <body>
 <h1>IR Spoke Sensor / technical reference</h1>
-<p>Source of truth: <code>config/system.json</code>. Generated outputs:
-<code>config/derived.json</code>, <code>simulation/generated_params.inc</code>,
-<code>firmware/include/ir_spoke_generated.h</code>, <code>public/simulation.json</code>.</p>
+<p>Single editable baseline: <code>config/system.json</code>. Generated C/C++,
+SPICE and visualization values are derived from it.</p>
 
-<h2>1. Geometry</h2>
+<h2>1 / Physical timing</h2>
 <table>
-<tr><th>Parameter</th><th>Design</th><th>Stress range</th></tr>
-<tr><td>effective wheel diameter</td><td>0.702 m</td><td>configuration input</td></tr>
-<tr><td>speed</td><td>60 km/h</td><td>80 km/h</td></tr>
-<tr><td>spokes</td><td>32</td><td>16…48 inferred</td></tr>
-<tr><td>projected spoke width</td><td>2.0 mm</td><td>1.5…3.0 mm exploration</td></tr>
-<tr><td>beam radius from hub</td><td>0.25 m</td><td>configuration input</td></tr>
+<tr><th>parameter</th><th>design</th><th>range / gate</th></tr>
+<tr><td>wheel diameter</td><td>0.702 m</td><td>configuration</td></tr>
+<tr><td>speed</td><td>60 km/h</td><td>80 km/h stress</td></tr>
+<tr><td>spokes</td><td>32</td><td>16–48 inferred</td></tr>
+<tr><td>spoke width / beam radius</td><td>2.0 mm / 0.25 m</td><td>70–600 µs accepted</td></tr>
 </table>
-<pre>f_wheel = v / (π·D)
-f_event = N_spoke·f_wheel
-t_block = w_spoke / (2π·f_wheel·r_beam)
+<pre>f_wheel = v/(πD) = 7.557 Hz at 60 km/h
+f_event = N·f_wheel = 241.831 Hz
+t_block = w/(2π·f_wheel·r) = 168.48 µs</pre>
 
-60 km/h: f_wheel = 7.557 Hz; f_event = 241.831 Hz
-t_block = 168.48 µs; t_clear = 3.967 ms</pre>
+<h2>2 / Modulation</h2>
+<pre>runtime carrier: 25–50 kHz, 50% duty, 38 kHz default
+RMT TX → S8050 → 600 mm pair → 39 Ω → VSMB1940X01 940 nm
+                                            ↓ spoke: transmission 1.00 → 0.05
+                                      VEMD10940FX01</pre>
+<p>Typical installed LED current: 45.02 mA including 0.3168 Ω maximum
+harness/contact loop resistance. At 60 km/h and the default, one blockage
+removes 6.40 carrier cycles.</p>
 
-<h2>2. Modulation and optical path</h2>
-<pre>ESP32-S3 RMT TX ─38 kHz, 50 %─► S8050 ─► cable ─► 39 Ω ─► 940 nm LED
-                                                              │
-                                              spoke: transmission 1.00 → 0.05
-                                                              │
-VEMD10940FX01 ◄────────────────────────────────────────────────┘</pre>
-<p>The carrier is continuous. A spoke removes approximately 6.40 carrier
-cycles at 60 km/h. Nominal LED current is 45.38 mA. The simulation uses
-datasheet reverse-light current scaling and an explicit alignment factor.</p>
-
-<h2>3. Analog receive chain</h2>
+<h2>3 / Custom analog receiver</h2>
 <table>
-<tr><th>Stage</th><th>Installed values</th><th>Function</th></tr>
-<tr><td>photodiode</td><td>VEMD10940FX01; 3.3 pF typ.</td><td>reverse-biased optical current</td></tr>
-<tr><td>TIA</td><td>TLV9062; 33 kΩ ∥ 120 pF</td><td>40.19 kHz feedback pole; DC reference 1.65 V</td></tr>
-<tr><td>high-pass</td><td>1 nF / 16 kΩ</td><td>9.947 kHz; rejects sunlight/DC</td></tr>
-<tr><td>gain/low-pass</td><td>10 kΩ / 100 kΩ ∥ 27 pF</td><td>gain 11; 58.95 kHz pole</td></tr>
-<tr><td>decision</td><td>TLV7011; 10 kΩ input; 1 MΩ feedback</td><td>36.87 mV total typical hysteresis</td></tr>
+<tr><th>stage</th><th>installed values</th><th>model</th></tr>
+<tr><td>photodiode</td><td>VEMD10940FX01; 3.3 pF typ.</td><td>3 µA at 10 W/m² typ.; 100 ns typ.</td></tr>
+<tr><td>TIA</td><td>TLV9062; 33 kΩ ∥ 120 pF</td><td>40.19 kHz pole; 1.65 V reference</td></tr>
+<tr><td>AC rejection</td><td>1 nF / 16 kΩ</td><td>9.947 kHz high-pass</td></tr>
+<tr><td>gain / low-pass</td><td>10 kΩ; 560 kΩ ∥ 4.7 pF</td><td>57 V/V DC gain; 60.47 kHz pole</td></tr>
+<tr><td>decision</td><td>TLV7011; 10 kΩ / 1 MΩ</td><td>36.87 mV total typ. hysteresis</td></tr>
 </table>
-<pre>f_TIA = 1/(2π·33k·120p)
-f_HP  = 1/(2π·16k·1n)
-f_LP  = 1/(2π·100k·27p)
-V_HYST,ext ≈ 3.3 V·10k/(1M+10k); add 4.2 mV internal typ.</pre>
+<p>No prebuilt carrier receiver and no AGC. The configured carrier range is an
+installed-filter constraint. Nominal simulated band-pass swing is 0.364 Vpp.</p>
 
-<h2>4. Digital demodulation</h2>
-<pre>comparator 38 kHz logic
-  → RMT RX carrier removal configured at 25 kHz
-  → missing-carrier interval
-  → accept only 70…600 µs
-  → timestamp edge
-  → adaptive interval matcher</pre>
-<p>RMT is selected over MCPWM Capture because RMT removes the carrier in
-hardware. MCPWM Capture would process every 38 kHz edge unless an external
-envelope detector were added.</p>
+<h2>4 / Demodulation and capture</h2>
+<pre>selected carrier → comparator carrier
+                 → RMT RX carrier removal at 0.66·f_TX
+                 → missing-carrier duration
+                 → 70–600 µs detector
+                 → timestamp → pattern learner</pre>
+<p>RMT RX is used because it removes the carrier in hardware. MCPWM Capture is
+appropriate only after an external envelope detector; otherwise it exposes
+each carrier edge.</p>
 
-<h2>5. Spoke-count and interval-map algorithm</h2>
-<ol>
-<li>Store accepted edge-to-edge intervals in a fixed circular buffer.</li>
-<li>For each candidate count <code>N=16…48</code>, compare two adjacent
-N-interval sequences using normalized absolute error.</li>
-<li>Select the lowest-error fundamental; lock only if error &lt; 0.035 and
-best/second-best separation &gt; 0.08.</li>
-<li>Initialize one interval-LUT cell per spoke.</li>
-<li>For each revolution, reject residuals outside
-<code>max(80 µs, 3.5·0.08·previous)</code>.</li>
-<li>Update accepted cells by EMA:
-<code>LUT ← LUT + 0.08·(measurement−LUT)</code>.</li>
-<li>Wheel period is the sum of the LUT; <code>f_wheel=10⁶/sum(LUT)</code>.</li>
-</ol>
-<p>Observability limit: perfectly uniform intervals do not identify the
-absolute spoke count. The implementation keeps confidence low in that case.</p>
-
-<h2>6. Hardware partition</h2>
+<h2>5 / Reusable C interfaces</h2>
 <table>
-<tr><th>Assembly</th><th>Contents</th><th>Status</th></tr>
-<tr><td>main carrier</td><td>XIAO ESP32-S3, driver, photodiode, TLV9062, TLV7011, JST-GH</td><td class="open">placed; 41 connections not routed</td></tr>
-<tr><td>remote emitter</td><td>JST-GH, 39 Ω 0603, VSMB1940X01</td><td class="ok">routed; DRC 0/0; JLC files generated</td></tr>
-<tr><td>harness</td><td>600 mm AWG28 pair; GHR-02V-S; SSHL-002T-P0.2 contacts</td><td class="ok">specified; strain relief required</td></tr>
+<tr><th>module</th><th>input → output</th></tr>
+<tr><td><code>ir_spoke_config</code></td><td>runtime carrier/duty → validated RMT settings</td></tr>
+<tr><td><code>ir_spoke_geometry</code></td><td>wheel geometry/speed → timing bounds</td></tr>
+<tr><td><code>ir_spoke_detector</code></td><td>blockage duration → accept/reject + counters</td></tr>
+<tr><td><code>ir_spoke_pattern</code></td><td>accepted timestamps → count/confidence/LUT/speed</td></tr>
+<tr><td><code>ir_spoke_pipeline</code></td><td>detector + pattern composition</td></tr>
+<tr><td><code>ir_spoke_rmt_adapter</code></td><td>ESP-IDF RMT ISR/task → portable pipeline</td></tr>
+</table>
+<p>Core: C99, caller-owned state, no heap, no RTOS dependency. Count matching
+compares adjacent N-length interval windows for N=16–48. Locked LUT cells use
+an 0.08 EMA with bounded residual rejection. Uniform spacing is not sufficient
+to identify an absolute spoke count and therefore remains confidence-limited.</p>
+
+<h2>6 / Datasheet cross-check</h2>
+<table>
+<tr><th>part</th><th>values used</th><th>revision</th></tr>
+<tr><td>VSMB1940X01</td><td>3/6/12 mW/sr min/typ/max at 100 mA; 1.35 V typ.</td><td>1.6 / 2025-03-24</td></tr>
+<tr><td>VEMD10940FX01</td><td>3 µA typ. at 10 W/m²; 3.3 pF typ.</td><td>1.4 / 2025-10-28</td></tr>
+<tr><td>TLV9062</td><td>10 MHz GBW; 6.5 V/µs; 10 nV/√Hz</td><td>2026-07</td></tr>
+<tr><td>TLV7011</td><td>260 ns typ.; 1.2/4.2/14 mV hysteresis</td><td>local current PDF</td></tr>
 </table>
 
-<h2>7. Parts</h2>
-<table>
-<tr><th>Function</th><th>MPN</th><th>LCSC</th><th>JLC class</th></tr>
-<tr><td>IR LED</td><td>VSMB1940X01</td><td>C3151600</td><td>Extended</td></tr>
-<tr><td>photodiode</td><td>VEMD10940FX01</td><td>C7104273</td><td>Extended</td></tr>
-<tr><td>dual op amp</td><td>TLV9062IDDFR</td><td>C2867884</td><td>Extended</td></tr>
-<tr><td>comparator</td><td>TLV7011DCKR</td><td>C193688</td><td>Extended</td></tr>
-<tr><td>LED driver</td><td>S8050 J3Y</td><td>C2146</td><td>Basic</td></tr>
-<tr><td>board connector</td><td>BM02B-GHS-TBT(LF)(SN)</td><td>C161690</td><td>Extended</td></tr>
-</table>
-<p>Passives are 0402 except the 39 Ω LED resistor (0603). Performance-critical
-active parts have no verified Basic substitute with equivalent bias current,
-bandwidth, speed and package.</p>
+<h2>7 / Simulation scope</h2>
+<p>Numerical transient: optical inverse-square scaling, cable drop, component
+RC poles, ambient DC, filtered input noise, comparator hysteresis and RMT
+missing-carrier behavior. 10,000-case sweep: 99.80% pass; p01 decision margin
+1.29×; p01 TIA headroom 0.44 V. The sweep is not a substitute for optical
+alignment, sunlight, contamination or wheel tests.</p>
 
-<h2>8. Reproduction</h2>
+<h2>8 / Fabrication state</h2>
+<table>
+<tr><th>assembly</th><th>state</th></tr>
+<tr><td>remote emitter</td><td class="ok">routed; KiCad DRC 0 violations / 0 open pads</td></tr>
+<tr><td>main carrier</td><td class="open">placed; 41 open connections; JLC export blocked</td></tr>
+<tr><td>JLC selection</td><td>Basic preferred where electrically compatible; active AFE parts are Extended</td></tr>
+<tr><td>ESP-IDF target compile</td><td class="open">adapter implemented; target toolchain verification pending</td></tr>
+<tr><td>physical validation</td><td class="open">sunlight, water, alignment and vibration pending</td></tr>
+</table>
+
+<h2>9 / Reproduce</h2>
 <pre>py tools/generate_constants.py
-py simulation/ir_spoke_sim.py
-py -m unittest tests.test_system -v
-"C:\Program Files\KiCad\10.0\bin\python.exe" hardware\footprint_audit.py
-powershell -ExecutionPolicy Bypass -File hardware\export_jlc.ps1</pre>
-<p>JLC export is fail-closed: open nets or DRC violations stop Gerber creation.</p>
-
-<h2>9. Verification state</h2>
-<table>
-<tr><th>Evidence</th><th>Status</th></tr>
-<tr><td>Python system tests</td><td class="ok">7 automated checks</td></tr>
-<tr><td>footprint/pad/net metadata audit</td><td class="ok">26 footprints</td></tr>
-<tr><td>remote-emitter DRC</td><td class="ok">0 violations / 0 open pads</td></tr>
-<tr><td>main-board DRC</td><td class="open">0 geometry violations / 41 open pads</td></tr>
-<tr><td>ngspice execution</td><td class="open">model present; standalone executable not installed</td></tr>
-<tr><td>ESP-IDF build and RMT receive loop</td><td class="open">configuration code present; event-loop integration incomplete</td></tr>
-<tr><td>sunlight/alignment/vibration/water validation</td><td class="open">physical prototype required</td></tr>
-</table>
-
-<h2>10. Project files</h2>
-<p><a href="/">interactive waveform view</a> ·
-<a href="/simulation.json">simulation JSON</a> ·
-<code>requirements/verification_matrix.md</code> ·
-<code>hardware/ir_spoke_link/ir_spoke_link_schematic.pdf</code> ·
-<code>simulation/ir_spoke_link.cir</code></p>
+py simulation/ir_spoke_sim.py --monte-carlo 10000
+py -m unittest discover -s tests -v
+powershell -ExecutionPolicy Bypass -File hardware/export_jlc.ps1</pre>
+<p><a href="/">interactive signal model</a> ·
+<a href="/simulation.json">generated simulation JSON</a></p>
 </body>
 </html>

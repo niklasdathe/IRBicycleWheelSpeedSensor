@@ -1,5 +1,5 @@
 idf_component_register(
-  SRCS "../esp32s3_rmt_example.cpp"
-  INCLUDE_DIRS "../include"
-  REQUIRES driver esp_timer
+  SRCS "app_main.c" "ir_spoke_rmt_adapter.c"
+  INCLUDE_DIRS "." "../include"
+  REQUIRES driver esp_timer ir_spoke_core
 )

@@ -3,13 +3,15 @@
 .param VREF=1.65
 .param FCARRIER=38000
 .param DUTY=0.5
+.param IPHOTO_SIGNAL=2.10688561e-07
+.param IPHOTO_AMBIENT=1.2e-05
 .param RF_TIA=33000
 .param CF_TIA=120p
 .param C_AC=1n
 .param R_AC=16000
 .param RG_GAIN=10000
-.param RF_GAIN=100000
-.param CF_GAIN=27p
+.param RF_GAIN=560000
+.param CF_GAIN=4.7p
 .param R_COMP_IN=10000
 .param R_HYST=1000000
 .param TPD_COMP=260n
