@@ -12,12 +12,12 @@ This repository is the wheel-speed-sensor subsystem of
 [online Interactive BOM](https://niklasdathe.github.io/IRBicycleWheelSpeedSensor/)
 is generated directly from the authoritative KiCad PCB.
 
-![R4 receiver and breakaway emitter panel](docs/images/ir_spoke_sensor_panel_r4_top.png)
+![Hardware V0.1 receiver and breakaway emitter panel](docs/images/ir_spoke_sensor_panel_r4_top.png)
 
 ## Status
 
-**R4 engineering prototype — electrically simulated and fabrication checks
-pass; physical validation is still open.**
+**Hardware V0.1 (KiCad CAD revision R4) was ordered; electrical simulation and
+fabrication checks pass, while physical validation is still open.**
 
 | Area | Current evidence |
 |---|---|
@@ -44,9 +44,9 @@ listed in [TODO.md](TODO.md).
 | Trace a requirement to evidence | [Verification matrix](requirements/verification_matrix.md) |
 | Find a technical reference | [Documentation index](docs/README.md) |
 
-## Design at a glance
+## Hardware V0.1 at a glance
 
-| Property | R4 value |
+| Property | V0.1 value |
 |---|---|
 | Optical path | 940 nm VSMB1940X01 emitter to VEMD10940FX01 photodiode |
 | Carrier | 25-50 kHz runtime range; 38 kHz default; 50% duty |
@@ -66,7 +66,7 @@ listed in [TODO.md](TODO.md).
 .\Open-Interactive-BOM.cmd
 py -3.14 simulation\local_server.py
 powershell -ExecutionPolicy Bypass -File tests\run_all.ps1
-powershell -ExecutionPolicy Bypass -File hardware\export_jlc.ps1 -Revision R4
+powershell -ExecutionPolicy Bypass -File hardware\export_jlc.ps1 -Revision V0.1
 ```
 
 The KiCad launcher also starts the InteractiveHtmlBom watcher at
@@ -84,6 +84,8 @@ simulation evidence is written under ignored `build/`.
 | Captured schematic and routing | [`hardware/ir_spoke_link/layout_manifest.json`](hardware/ir_spoke_link/layout_manifest.json) |
 | Requirements | [`requirements/requirements.yaml`](requirements/requirements.yaml) |
 | Project paths and revision | [`project_manifest.json`](project_manifest.json) |
+| Hardware/software versions | [`docs/versioning.md`](docs/versioning.md) |
+| Changes between releases | [`CHANGELOG.md`](CHANGELOG.md) |
 
 Generators restore the captured user layout and must not synthesize, remove or
 reroute tracks. See [CONTRIBUTING.md](CONTRIBUTING.md) before changing CAD or

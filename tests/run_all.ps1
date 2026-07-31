@@ -23,6 +23,10 @@ try {
     Assert-NativeSuccess "interactive BOM sync"
     py -3.14 tools\readme_pcb_render.py --check
     Assert-NativeSuccess "README PCB render sync"
+    py -3.14 tools\versioning.py
+    Assert-NativeSuccess "hardware/software version links"
+    py -3.14 tools\verify_hardware_release.py
+    Assert-NativeSuccess "ordered hardware release package"
     py -3.14 tools\audit_project.py
     Assert-NativeSuccess "project link audit"
     py -3.14 -m unittest discover -s tests -v

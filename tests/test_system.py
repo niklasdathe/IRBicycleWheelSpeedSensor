@@ -46,7 +46,7 @@ class TestSystem(unittest.TestCase):
             ROOT / "docs/README.md"
         ).read_text(encoding="utf-8")
         for token in (
-            "R4 engineering prototype",
+            "Hardware V0.1",
             "physical validation is still open",
             "System overview",
             "Getting started",
@@ -371,10 +371,12 @@ class TestSystem(unittest.TestCase):
             layout["jlc_rotation_offsets_deg"],
             {"U1": 90, "U2": 90, "J3": 180, "J4": 180, "D1": 180, "D2": 0},
         )
-        with (
-            ROOT / "hardware/jlc_export/IR_Spoke_Sensor_R4_2L"
-            / "IR_Spoke_Sensor_R4_2L_CPL.csv"
-        ).open(newline="", encoding="utf-8") as stream:
+        project = json.loads((ROOT / "project_manifest.json").read_text())
+        export_dir = ROOT / project["canonical"]["jlc_export"]
+        product = f"IR_Spoke_Sensor_{project['hardware_version']}_2L"
+        with (export_dir / f"{product}_CPL.csv").open(
+            newline="", encoding="utf-8"
+        ) as stream:
             rotations = {
                 row["Designator"]: float(row["Rotation"])
                 for row in csv.DictReader(stream)
@@ -392,6 +394,8 @@ class TestSystem(unittest.TestCase):
             "Found 0 DRC violations",
             "Found 0 unconnected pads",
             "generate_jlc_assembly.py",
+            "ORDER_PACKAGE.zip",
+            "SHA256SUMS.txt",
         ):
             self.assertIn(token, export)
 

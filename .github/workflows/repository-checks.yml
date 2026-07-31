@@ -23,5 +23,9 @@ jobs:
         run: python tools/interactive_bom.py --check
       - name: Check README PCB render synchronization
         run: python tools/readme_pcb_render.py --check
+      - name: Check hardware and software version streams
+        run: python tools/versioning.py
+      - name: Verify ordered hardware release package
+        run: python tools/verify_hardware_release.py
       - name: Check canonical paths and documentation
         run: python tools/audit_project.py

@@ -9,7 +9,8 @@ Start with the row that matches the job in front of you.
 | Learn what the sensor does | [System overview](system_overview.md) | Signal chain, modulation and boundaries |
 | Set up and run the project | [Getting started](getting_started.md) | KiCad, simulator and complete checks |
 | Change code, parameters or CAD | [Development workflow](development.md) | Correct source, generator and acceptance gate |
-| Fabricate or assemble R4 | [Manufacturing](manufacturing.md) | JLC package and review checklist |
+| Fabricate or assemble hardware V0.1 | [Manufacturing](manufacturing.md) | JLC package and review checklist |
+| Identify a hardware or software release | [Versioning](versioning.md) | Independent version/tag rules |
 | Locate and place components | [Interactive BOM workflow](interactive_bom.md) | Live KiCad-synced HTML BOM |
 | Test a physical prototype | [Bring-up and test](bringup.md) | Testpoint sequence and pass evidence |
 
@@ -39,7 +40,7 @@ Start with the row that matches the job in front of you.
 | [`zotero_links.json`](zotero_links.json) | Zotero keys and local attachments |
 | [Interactive HTML BOM](interactive_bom.html) | Searchable board/part placement view |
 | [Technical simulator reference](../local_simulator/technical.html) | Compact live-model trace definitions |
-| [R4 panel image](images/ir_spoke_sensor_panel_r4_top.png) | Current captured PCB |
+| [Hardware V0.1 panel image](images/ir_spoke_sensor_panel_r4_top.png) | Ordered CAD R4 PCB |
 | [Schematic PDF](../hardware/ir_spoke_link/ir_spoke_link_schematic.pdf) | Current generated schematic |
 | [Board STEP](../hardware/ir_spoke_link/ir_spoke_link.step) | Mechanical exchange model |
 

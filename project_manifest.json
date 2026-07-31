@@ -3,6 +3,9 @@
   "machine_slug": "ir_spoke_sensor",
   "legacy_kicad_basename": "ir_spoke_link",
   "revision": "R4",
+  "hardware_version": "V0.1",
+  "ordered_hardware_version": "V0.1",
+  "software_version": "SW-V0.1.0-dev",
   "canonical": {
     "configuration": "config/system.json",
     "connectivity": "hardware/connectivity.json",
@@ -27,7 +30,11 @@
     "interactive_bom_guide": "docs/interactive_bom.md",
     "portable_firmware": "firmware/components/ir_spoke_core",
     "esp_idf_adapters": "firmware/main",
-    "jlc_export": "hardware/jlc_export/IR_Spoke_Sensor_R4_2L",
+    "jlc_export": "hardware/jlc_export/IR_Spoke_Sensor_V0.1_2L",
+    "hardware_version": "hardware/VERSION",
+    "software_version": "firmware/VERSION",
+    "changelog": "CHANGELOG.md",
+    "versioning": "docs/versioning.md",
     "panel_image": "docs/images/ir_spoke_sensor_panel_r4_top.png",
     "zotero_links": "docs/zotero_links.json",
     "documentation": "docs/README.md",
@@ -47,10 +54,13 @@
     "pcb": "hardware/ir_spoke_link/generate_pcb.py",
     "jlc_assembly": "hardware/generate_jlc_assembly.py",
     "konnect_database": "tools/build_konnect_jlc_db.py",
-    "interactive_bom": "tools/interactive_bom.py"
+    "interactive_bom": "tools/interactive_bom.py",
+    "readme_pcb_render": "tools/readme_pcb_render.py"
   },
   "checks": {
     "project_links": "tools/audit_project.py",
+    "versioning": "tools/versioning.py",
+    "hardware_release": "tools/verify_hardware_release.py",
     "netlist": "tools/validate_kicad_netlist.py",
     "footprints": "hardware/footprint_audit.py",
     "ngspice": "simulation/validate_ngspice.py",

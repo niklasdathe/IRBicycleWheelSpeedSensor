@@ -1,10 +1,11 @@
 # Manufacturing
 
-## Current release candidate
+## Ordered hardware release
 
 | Field | Value |
 |---|---|
-| Product/revision | IR Spoke Sensor R4 |
+| Hardware version | IR Spoke Sensor V0.1 |
+| KiCad CAD revision | R4 |
 | Layers | 2 |
 | Material | FR-4 |
 | Thickness | 1.6 mm |
@@ -22,7 +23,7 @@ harness.
 ## Generate the JLC package
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File hardware\export_jlc.ps1 -Revision R4
+powershell -ExecutionPolicy Bypass -File hardware\export_jlc.ps1 -Revision V0.1
 ```
 
 The export is fail-closed: captured-layout restoration and footprint audit run
@@ -31,24 +32,26 @@ and 0 unconnected pads.
 
 Authoritative output:
 
-`hardware/jlc_export/IR_Spoke_Sensor_R4_2L/`
+`hardware/jlc_export/IR_Spoke_Sensor_V0.1_2L/`
 
 | Upload/review artifact | File |
 |---|---|
-| PCB fabrication | `IR_Spoke_Sensor_R4_2L_GERBER.zip` |
-| BOM + CPL + order metadata | `IR_Spoke_Sensor_R4_2L_PCBA.zip` |
-| Bill of materials | `IR_Spoke_Sensor_R4_2L_BOM.csv` |
-| Component placement | `IR_Spoke_Sensor_R4_2L_CPL.csv` |
-| Order parameters | `IR_Spoke_Sensor_R4_2L_ORDER.json` |
-| DRC evidence | `IR_Spoke_Sensor_R4_2L_DRC.rpt` |
-| Non-production courtyard reference | `IR_Spoke_Sensor_R4_2L_COURTYARD_REFERENCE.zip` |
+| Complete order/troubleshooting bundle | `IR_Spoke_Sensor_V0.1_2L_ORDER_PACKAGE.zip` |
+| PCB fabrication | `IR_Spoke_Sensor_V0.1_2L_GERBER.zip` |
+| BOM + CPL + order metadata | `IR_Spoke_Sensor_V0.1_2L_PCBA.zip` |
+| Bill of materials | `IR_Spoke_Sensor_V0.1_2L_BOM.csv` |
+| Component placement | `IR_Spoke_Sensor_V0.1_2L_CPL.csv` |
+| Order parameters | `IR_Spoke_Sensor_V0.1_2L_ORDER.json` |
+| DRC evidence | `IR_Spoke_Sensor_V0.1_2L_DRC.rpt` |
+| Non-production courtyard reference | `IR_Spoke_Sensor_V0.1_2L_COURTYARD_REFERENCE.zip` |
+| Release integrity | `IR_Spoke_Sensor_V0.1_2L_SHA256SUMS.txt` |
 | Interactive placement guide | [`docs/interactive_bom.html`](interactive_bom.html) |
 
 Do not upload the courtyard reference archive as production Gerbers.
 
 ## Assembly conventions
 
-KiCad physical orientation and JLC placement rotation are separate. R4 applies
+KiCad physical orientation and JLC placement rotation are separate. V0.1/R4 applies
 CPL-only offsets without rotating footprints or changing tracks:
 
 | Ref | Physical KiCad | CPL offset | Final JLC rotation |
@@ -66,7 +69,7 @@ prove the third-party preview renderer; inspect the preview.
 
 ## JLC review checklist
 
-- [ ] Upload the R4 Gerber archive and confirm a two-layer 1.6 mm board.
+- [ ] Upload the V0.1 Gerber archive and confirm a two-layer 1.6 mm board.
 - [ ] Confirm the overall outline and four rounded corners on each finished
       board.
 - [ ] Confirm the mouse-bite tab is a single breakaway and no V-groove exists.
@@ -90,6 +93,6 @@ For Konnect configuration and database limits, use
 
 ## Release gate
 
-R4 is ready for a manufacturer preview, not for an unreviewed production
-order. Manual JLC preview approval, DFM approval of the conductive tab and the
-physical tests in [Bring-up and test](bringup.md) remain open.
+V0.1 is the ordered hardware baseline. Preserve the `V0.1` Git tag and GitHub
+release for troubleshooting. Manual JLC preview/DFM evidence and the physical
+tests in [Bring-up and test](bringup.md) remain part of production validation.

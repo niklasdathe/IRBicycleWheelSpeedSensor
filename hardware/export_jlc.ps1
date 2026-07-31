@@ -1,5 +1,7 @@
 param(
-    [string]$Revision = "R4"
+    [Parameter(Mandatory = $true)]
+    [ValidatePattern('^V\d+\.\d+$')]
+    [string]$Revision
 )
 
 $ErrorActionPreference = "Stop"
@@ -9,6 +11,14 @@ $KiPython = Join-Path $KiCad "python.exe"
 $Cli = Join-Path $KiCad "kicad-cli.exe"
 $Board = Join-Path $PSScriptRoot "ir_spoke_link\ir_spoke_link.kicad_pcb"
 $Product = "IR_Spoke_Sensor_${Revision}_2L"
+$ProjectManifest = Get-Content -Raw -LiteralPath (
+    Join-Path $Root "project_manifest.json"
+) | ConvertFrom-Json
+$CadRevision = $ProjectManifest.revision
+$ExpectedHardwareVersion = $ProjectManifest.hardware_version -replace '-dev$', ''
+if ($Revision -ne $ExpectedHardwareVersion) {
+    throw "Requested $Revision does not match project hardware version $($ProjectManifest.hardware_version)."
+}
 $ExportRoot = Join-Path $PSScriptRoot "jlc_export"
 $Out = Join-Path $ExportRoot $Product
 $FabricationLayers = "F.Cu,B.Cu,F.Paste,B.Paste,F.Silkscreen,B.Silkscreen,F.Mask,B.Mask,Edge.Cuts"
@@ -63,7 +73,8 @@ $Cpl = Join-Path $Out "${Product}_CPL.csv"
 
 $OrderSpec = @{
     project = "IR Spoke Sensor"
-    revision = $Revision
+    hardware_version = $Revision
+    cad_revision = $CadRevision
     filename_prefix = $Product
     layers = 2
     material = "FR-4"
@@ -86,6 +97,7 @@ $OrderSpec = @{
 }
 $OrderSpec | ConvertTo-Json -Depth 4 |
     Set-Content -Encoding utf8 (Join-Path $Out "${Product}_ORDER.json")
+$Order = Join-Path $Out "${Product}_ORDER.json"
 
 $ManufacturingFiles = Get-ChildItem -LiteralPath $Out -File |
     Where-Object {
@@ -102,7 +114,7 @@ Compress-Archive -Force -LiteralPath $ManufacturingFiles.FullName `
     -DestinationPath $GerberZip
 $AssemblyZip = Join-Path $Out "${Product}_PCBA.zip"
 Compress-Archive -Force -LiteralPath @(
-    $Bom, $Cpl, (Join-Path $Out "${Product}_ORDER.json")
+    $Bom, $Cpl, $Order
 ) -DestinationPath $AssemblyZip
 $CourtyardFiles = Get-ChildItem -LiteralPath $AssemblyReference -File |
     Where-Object { $_.Extension -eq ".gbr" }
@@ -112,5 +124,36 @@ if ($CourtyardFiles.Count -ne 2) {
 $CourtyardZip = Join-Path $Out "${Product}_COURTYARD_REFERENCE.zip"
 Compress-Archive -Force -LiteralPath $CourtyardFiles.FullName `
     -DestinationPath $CourtyardZip
+$CableBom = Join-Path $PSScriptRoot "cable_bom.csv"
+$InteractiveBom = Join-Path $Root "docs\interactive_bom.html"
+$ChecksumTargets = @(
+    $GerberZip,
+    $AssemblyZip,
+    $Bom,
+    $Cpl,
+    $Order,
+    $Drc,
+    $CourtyardZip,
+    $CableBom,
+    $InteractiveBom
+)
+$Checksums = Join-Path $Out "${Product}_SHA256SUMS.txt"
+$ChecksumTargets | ForEach-Object {
+    $Hash = Get-FileHash -Algorithm SHA256 -LiteralPath $_
+    "{0}  {1}" -f $Hash.Hash.ToLowerInvariant(), (Split-Path -Leaf $_)
+} | Set-Content -Encoding ascii -LiteralPath $Checksums
+$ReleaseZip = Join-Path $Out "${Product}_ORDER_PACKAGE.zip"
+Compress-Archive -Force -LiteralPath @(
+    $GerberZip,
+    $AssemblyZip,
+    $Bom,
+    $Cpl,
+    $Order,
+    $Drc,
+    $CourtyardZip,
+    $CableBom,
+    $InteractiveBom,
+    $Checksums
+) -DestinationPath $ReleaseZip
 Remove-Item -LiteralPath $Temporary -Recurse -Force
-Write-Host "PASS: $Product DRC-gated JLC Gerber/BOM/CPL export completed."
+Write-Host "PASS: $Product DRC-gated JLC order package completed."

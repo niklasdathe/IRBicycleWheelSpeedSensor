@@ -1,0 +1,39 @@
+﻿{
+    "thickness_mm":  1.6,
+    "cad_revision":  "R4",
+    "carrier_section_mm":  [
+                               17.8,
+                               21.4
+                           ],
+    "breakaway_tab_mm":  [
+                             7.5,
+                             1.5
+                         ],
+    "note":  "Request engineering review of routed tab and mouse-bites. Temporary copper links are intentionally severed at snap-off.",
+    "material":  "FR-4",
+    "copper_weight_oz":  1,
+    "mouse_bite":  {
+                       "drill_mm":  0.5,
+                       "count":  5,
+                       "pitch_mm":  1.5
+                   },
+    "layers":  2,
+    "hardware_version":  "V0.1",
+    "assembly_side":  "top",
+    "emitter_section_mm":  [
+                               21,
+                               15
+                           ],
+    "project":  "IR Spoke Sensor",
+    "filename_prefix":  "IR_Spoke_Sensor_V0.1_2L",
+    "temporary_links":  [
+                            "3V3",
+                            "LED_K"
+                        ],
+    "panel_size_mm":  [
+                          21,
+                          37.9
+                      ],
+    "courtyard_reference":  "Separate non-fabrication Gerbers only; do not upload as production layers.",
+    "separation":  "one routed conductive mouse-bite breakaway tab"
+}
