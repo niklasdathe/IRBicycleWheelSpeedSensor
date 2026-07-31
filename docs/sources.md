@@ -12,6 +12,11 @@ approximately 168 µs blocked per spoke and 3.97 ms clear between spokes.
 
 ## Primary references
 
+- Bluetooth SIG, *Cycling Speed and Cadence Profile 1.0* (with mandatory Errata
+  Correction 23224): https://www.bluetooth.com/specifications/specs/cycling-speed-and-cadence-profile-1-0/
+- Bluetooth SIG, *Cycling Speed and Cadence Service 1.0.1*:
+  https://www.bluetooth.com/specifications/specs/cycling-speed-and-cadence-service/
+
 - JLCPCB PCB capabilities:
   https://jlcpcb.com/capabilities/pcb-capabilities/
 - JLCPCB PCB assembly FAQ and Basic/Extended classification:

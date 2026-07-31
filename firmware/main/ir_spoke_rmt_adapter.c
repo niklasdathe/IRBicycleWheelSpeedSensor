@@ -5,6 +5,7 @@
 #include "driver/rmt_tx.h"
 #include "esp_check.h"
 #include "esp_timer.h"
+#include "ir_spoke_ble_csc.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 #include "freertos/task.h"
@@ -75,6 +76,9 @@ static void receive_loop(void *argument) {
         (void)ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
         blockage_event_t event;
         while (xQueueReceive(event_queue, &event, 0) == pdTRUE) {
+            const bool was_locked = target_pipeline->pattern.estimate.count_locked;
+            const uint8_t previous_spoke =
+                target_pipeline->pattern.estimate.current_spoke;
             const ir_spoke_pulse_result_t result =
                 ir_spoke_pipeline_ingest(target_pipeline,
                     event.timestamp_us, event.duration_us);
@@ -83,6 +87,13 @@ static void receive_loop(void *argument) {
                     can_publisher,
                     ir_spoke_pattern_estimate(&target_pipeline->pattern),
                     event.duration_us);
+            }
+            const ir_spoke_estimate_t *estimate =
+                ir_spoke_pattern_estimate(&target_pipeline->pattern);
+            if (result == IR_SPOKE_PULSE_ACCEPTED && was_locked &&
+                previous_spoke != 0 && estimate && estimate->count_locked &&
+                estimate->current_spoke == 0) {
+                ir_spoke_ble_csc_on_wheel_revolution(event.timestamp_us);
             }
         }
     }

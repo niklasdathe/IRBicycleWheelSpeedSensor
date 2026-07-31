@@ -1,5 +1,7 @@
 # Generated evidence and local caches
 /build/
+/firmware/build/
+/firmware/sdkconfig
 /tmp/
 /coverage/
 __pycache__/

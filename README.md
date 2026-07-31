@@ -26,7 +26,7 @@ is generated directly from the authoritative KiCad PCB.
 | Hardware | KiCad 10 ERC: 0 errors, 3 known library-sync warnings; DRC: 0 violations, 0 unconnected pads |
 | Connectivity | 70 schematic endpoints, PCB pad nets and SPICE topology cross-checked |
 | Simulation | Python transient, 10,000-case sweep and ngspice cross-check pass |
-| Firmware | Portable C modules and ESP-IDF adapters implemented; target build/HIL pending |
+| Firmware | Portable core, RMT/CAN adapters and BLE CSC component implemented; ESP32-S3 target build passes, HIL pending |
 | Manufacturing | Versioned JLC Gerber/BOM/CPL package generated; assembly-preview approval pending |
 | Physical performance | Sunlight, alignment, contamination, vibration and power tests pending |
 
@@ -60,6 +60,7 @@ listed in [TODO.md](TODO.md).
 | Panel | Two-layer PCB with one routed mouse-bite breakaway tab |
 | Remote link | 600 mm two-conductor JST-GH harness after snap-off |
 | Optional interface | Official XIAO MCP2515 CAN expansion; disabled by default |
+| BLE interface | Wheel-only Bluetooth Cycling Speed and Cadence Sensor (`0x1816`) |
 
 ## One-command entry points
 
