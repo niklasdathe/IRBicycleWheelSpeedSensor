@@ -6,9 +6,16 @@
 #include "ir_spoke_generated_c.h"
 
 typedef struct {
+    int32_t tx_gpio;
+    int32_t rx_gpio;
     uint32_t carrier_hz;
     float carrier_duty;
+    uint32_t rmt_resolution_hz;
+    uint32_t rmt_mem_block_symbols;
+    uint32_t rmt_tx_queue_depth;
     float rx_demod_ratio;
+    float rx_demod_duty;
+    uint32_t rx_glitch_filter_us;
     uint32_t blockage_min_us;
     uint32_t blockage_max_us;
     uint32_t link_loss_us;

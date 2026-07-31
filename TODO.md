@@ -1,23 +1,23 @@
-# Active engineering TODOs
+# Open validation gates
 
-- [x] Replace the AGC IR receiver module with a fully controlled photodiode/TIA/band-pass/comparator front end.
-- [x] Compare MCPWM Capture with RMT RX carrier removal and document the selection.
-- [x] Generate ESP-IDF compile-time constants and SPICE parameters from `config/system.json`.
-- [x] Add online spoke-count inference and an adaptive per-spoke interval LUT without manual calibration.
-- [x] Split the emitter onto a remote PCB and define the 600 mm JST-GH/AWG28 harness.
-- [x] Reorganize the schematic into readable functional blocks.
-- [x] Add the remote-emitter connector, cable and assembly items to the BOM and schematic.
-- [x] Retry the project move and verify the new authoritative copy; old workspace remains locked by the desktop session.
-- [x] Route and DRC-clean the remote emitter PCB.
-- [x] Audit all footprint pad sets, assigned nets and LCSC metadata.
-- [x] Add terse technical HTML documentation for modulation, analog chain, RMT demodulation and adaptive spoke learning.
-- [x] Replace the fixed 38 kHz assumption with a validated 25–50 kHz runtime carrier; retain 38 kHz only as the default.
-- [x] Split firmware into portable C99 processing modules and a separate ESP-IDF RMT adapter.
-- [x] Cross-check current manufacturer datasheet limits and re-run nominal plus tolerance simulations.
-- [x] Add live JLCPCB/LCSC metadata preferences to the KiCad Konnect project configuration.
-- [ ] Compile and hardware-in-loop test the ESP-IDF adapter with the target ESP-IDF release.
-- [ ] Route the main carrier PCB; current placed board has no geometric DRC violations but 41 open connections.
-- [ ] Run physical sunlight/alignment tests and write measured photocurrent/noise values back to `config/system.json`.
-- [ ] Re-run the simulation and compile firmware with the measured parameter set.
-- [ ] Upload both boards to JLCPCB's BOM/CPL preview and confirm rotations against the rendered assembly view.
-- [ ] Remove the obsolete workspace copy only after confirming no desktop task still holds it; the authoritative project is `Projekte\BicycleOBU\IR Spoke Sensor`.
+- [ ] Select and add explicit hardware, software and documentation licenses
+  before describing the repository as reusable open-source hardware.
+- [ ] Resolve the three KiCad ERC `lib_symbol_mismatch` warnings by updating
+  the embedded TLV9062 units from the KiCad 10 library without changing pins,
+  nets or schematic layout.
+- [ ] Compile and hardware-in-loop test the RMT and MCP2515 adapters with the
+  selected ESP-IDF release.
+- [ ] Stack the official XIAO CAN expansion with the intended headers; verify
+  clearance and 500 kbit/s traffic on a terminated bus.
+- [ ] Resolve the two optional PCB presentation items after the next manual
+  routing edit: Edge.Cuts dimension-text placement and backside CMP/TP2
+  silkscreen overlap.
+- [ ] Measure photocurrent, noise and detection margin across sunlight,
+  alignment, vibration, dirt, water, minimum/default/maximum carrier and
+  distance; update `config/system.json`.
+- [ ] Correlate TP2–TP8 bench waveforms with Python and ngspice.
+- [ ] Measure cold-start, Wi-Fi TX and coincident Wi-Fi/LED/CAN rail current
+  and droop; update source impedance and inrush parameters.
+- [ ] Re-run simulation and compile firmware with the measured parameter set.
+- [ ] Review the R4 Gerber/BOM/CPL in JLCPCB, obtain DFM approval for the
+  conductive mouse-bite tab and confirm all assembly rotations visually.

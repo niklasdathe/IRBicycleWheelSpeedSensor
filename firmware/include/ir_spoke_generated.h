@@ -3,13 +3,18 @@
 #include <cstdint>
 
 namespace ir_spoke::generated {
-inline constexpr std::uint32_t kConfigSchemaVersion = 2;
+inline constexpr std::uint32_t kConfigSchemaVersion = 5;
 inline constexpr std::uint32_t kDefaultCarrierHz = 38000;
 inline constexpr std::uint32_t kMinimumCarrierHz = 25000;
 inline constexpr std::uint32_t kMaximumCarrierHz = 50000;
 inline constexpr float kCarrierDuty = 0.5f;
 inline constexpr std::uint32_t kRmtResolutionHz = 1000000;
+inline constexpr std::int32_t kTxGpio = 1;
+inline constexpr std::int32_t kRxGpio = 2;
+inline constexpr std::uint32_t kRmtMemBlockSymbols = 64;
+inline constexpr std::uint32_t kRmtTxQueueDepth = 2;
 inline constexpr float kRxDemodFrequencyRatio = 0.66f;
+inline constexpr float kRxDemodDuty = 0.5f;
 inline constexpr std::uint32_t kGlitchFilterUs = 4;
 inline constexpr std::uint32_t kMinimumBlockedUs = 70;
 inline constexpr std::uint32_t kMaximumBlockedUs = 600;
@@ -28,4 +33,18 @@ inline constexpr float kTiaPoleHz = 40190.6422f;
 inline constexpr float kBandpassHighpassHz = 9947.18394f;
 inline constexpr float kBandpassLowpassHz = 60469.2033f;
 inline constexpr float kCalculatedLedCurrentMa = 45.0189232f;
+inline constexpr float kEsp32CpuActiveDuty = 0.1f;
+inline constexpr float kEsp32WifiTxDuty = 0.05f;
+inline constexpr float kXiao3v3CapacityMa = 700f;
+inline constexpr bool kCanAvailable = true;
+inline constexpr bool kCanEnabledDefault = false;
+inline constexpr std::int32_t kCanIntGpio = 43;
+inline constexpr std::int32_t kCanCsGpio = 44;
+inline constexpr std::int32_t kCanSckGpio = 7;
+inline constexpr std::int32_t kCanMisoGpio = 8;
+inline constexpr std::int32_t kCanMosiGpio = 9;
+inline constexpr std::uint32_t kCanOscillatorHz = 16000000u;
+inline constexpr std::uint32_t kCanBitrateHzDefault = 500000u;
+inline constexpr std::uint32_t kCanSpiClockHz = 10000000u;
+inline constexpr std::uint16_t kCanTelemetryBaseId = 384u;
 }  // namespace ir_spoke::generated

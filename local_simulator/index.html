@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>IR spoke physical transient</title>
+  <style>
+    :root{color-scheme:light;--ink:#18181b;--muted:#71717a;--line:#e4e4e7;--paper:#fafafa;--accent:#e6532f}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:13px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace}
+    main{max-width:1500px;margin:auto;padding:22px}.top,.toolbar,.metrics{display:flex;gap:10px;align-items:center}.top{justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px}
+    h1,h2,p{margin:0}h1{font:600 22px/1.1 system-ui,sans-serif}h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+    button,.toolbar a{border:1px solid #c9c9cf;background:white;padding:7px 10px;font:inherit;color:inherit;text-decoration:none;cursor:pointer}button.primary{background:var(--ink);color:white;border-color:var(--ink)}
+    #status{color:var(--muted)}#status.bad{color:#b42318}.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));margin:14px 0}
+    .metric,.panel{background:white;border:1px solid var(--line)}.metric{padding:10px}.metric span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase}.metric strong{font-size:15px}
+    .layout{display:grid;grid-template-columns:minmax(650px,2.2fr) minmax(360px,1fr);gap:14px}.panel{padding:12px}
+    canvas{display:block;width:100%;height:840px}.controls{max-height:900px;overflow:auto}details{border-top:1px solid var(--line);padding:8px 0}details:first-of-type{border-top:0}
+    summary{cursor:pointer;font-weight:700;text-transform:uppercase;letter-spacing:.08em}.control{display:grid;grid-template-columns:1fr 112px 42px;gap:7px;align-items:center;margin:8px 0}
+    input[type=number]{width:100%;padding:4px;border:1px solid #d4d4d8;font:inherit}.control input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--accent);margin:0}
+    .unit{color:var(--muted)}.footer{display:flex;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:11px}
+    #generated{margin-top:14px}#generated pre{max-height:320px;overflow:auto;background:#f4f4f5;padding:12px;white-space:pre}
+    @media(max-width:1000px){.layout{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(3,1fr)}canvas{height:600px}}
+  </style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div><h1>IR Spoke Sensor / physical transient</h1><p>Python optical + AFE + comparator + ESP-IDF RMT model</p></div>
+    <div class="toolbar"><span id="status">starting</span><a href="/technical.html">Technical reference</a><button id="reset">Reset defaults</button><button class="primary" id="code">Generate C config</button></div>
+  </header>
+  <section class="metrics" id="metrics"></section>
+  <section class="layout">
+    <article class="panel"><h2>Signals</h2><canvas id="plot"></canvas><div class="footer"><span>Centered blockage is forced into every window.</span><span id="source"></span></div></article>
+    <aside class="panel controls"><h2>Simulation and code parameters</h2><div id="controls"></div></aside>
+  </section>
+  <section class="panel" id="generated" hidden><div class="top"><h2>Generated C configuration</h2><a id="download" download="ir_spoke_experiment_config.h"><button>Download header</button></a></div><pre id="codePreview"></pre></section>
+</main>
+<script>
+const colors=["#e6532f","#78716c","#f59e0b","#2563eb","#7c3aed","#0f766e","#059669","#18181b","#9333ea","#dc2626"];
+const traceSpec=[
+ ["carrier","TX carrier"],["transmission","optical path"],["irradiance_w_m2","irradiance"],
+ ["photodiode_ua","photocurrent"],["tia_v","TIA output"],["ac_coupled_v","AC coupled"],
+ ["bandpass_v","gain / band-pass"],["comparator","comparator"],["rmt_carrier_present","RMT carrier present"],
+ ["blocked_digital","qualified blockage"],["led_current_ma","IR LED current"],
+ ["esp32_current_ma","ESP32 / XIAO current"],["afe_current_ma","AFE current"],
+ ["can_current_ma","optional XIAO CAN current"],
+ ["system_current_ma","3V3 system current"],["supply_voltage_v","3V3 rail"],
+ ["system_power_mw","3V3 power"]
+];
+let schema=[], values={}, result=null, timer=0, codeUrl="";
+const el=id=>document.getElementById(id);
+const fmt=(v,d=3)=>Number(v).toLocaleString(undefined,{maximumFractionDigits:d});
+async function init(){
+  const d=await fetch("/api/defaults").then(r=>r.json()); schema=d.controls;values=d.values;buildControls();await run();
+}
+function buildControls(){
+  const host=el("controls");host.replaceChildren();
+  for(const group of [...new Set(schema.map(x=>x.group))]){
+    const details=document.createElement("details");details.open=true;
+    const summary=document.createElement("summary");summary.textContent=group;details.append(summary);
+    schema.filter(x=>x.group===group).forEach(c=>{
+      const row=document.createElement("label");row.className="control";
+      const name=document.createElement("span");name.textContent=c.label;
+      const number=document.createElement("input");number.type="number";number.min=c.min;number.max=c.max;number.step=c.step;number.value=values[c.key];number.dataset.key=c.key;
+      const unit=document.createElement("span");unit.className="unit";unit.textContent=c.unit;
+      const range=document.createElement("input");range.type="range";range.min=c.min;range.max=c.max;range.step=c.step;range.value=values[c.key];range.dataset.key=c.key;
+      const update=v=>{if(v==="")return;const n=Math.min(c.max,Math.max(c.min,Number(v)));values[c.key]=n;number.value=n;range.value=n;schedule()};
+      number.oninput=e=>update(e.target.value);range.oninput=e=>update(e.target.value);
+      row.append(name,number,unit,range);details.append(row);
+    });host.append(details);
+  }
+}
+function schedule(){clearTimeout(timer);timer=setTimeout(run,130)}
+async function run(){
+  el("status").textContent="calculating";el("status").className="";
+  try{
+    const response=await fetch("/api/simulate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(values)});
+    const data=await response.json();if(!response.ok)throw new Error(data.error);
+    result=data;renderMetrics();draw();el("source").textContent=`${data.parameters.sample_rate_hz/1e6} MS/s`;
+    el("status").textContent="model current";
+  }catch(err){el("status").textContent=err.message;el("status").className="bad"}
+}
+function renderMetrics(){
+  const d=result.derived;const entries=[
+    ["wheel",`${fmt(d.wheel_rpm,0)} rpm`],["events",`${fmt(d.spoke_event_hz,1)} Hz`],
+    ["blockage",`${fmt(d.blocked_us,1)} us`],["carrier loss",`${fmt(d.carrier_cycles_per_blockage,1)} cycles`],
+    ["photo signal",`${fmt(d.signal_photocurrent_ua_nominal,4)} uA`],["AFE p-p",`${fmt(d.bandpass_peak_to_peak_v,3)} V`],
+    ["RX demod",`${fmt(d.rx_demod_hz,0)} Hz`],
+    ["current avg",`${fmt(d.system_current_ma_steady_average,1)} mA`],
+    ["current peak",`${fmt(d.system_current_ma_peak_estimate,1)} mA`],
+    ["regulator",`${fmt(100*d.xiao_regulator_peak_utilization,1)} % peak`]];
+  el("metrics").innerHTML=entries.map(([a,b])=>`<div class="metric"><span>${a}</span><strong>${b}</strong></div>`).join("");
+}
+function draw(){
+  const c=el("plot"),r=c.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);c.width=r.width*dpr;c.height=r.height*dpr;
+  const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,r.width,r.height);
+  const left=128,right=10,top=10,bottom=22,rowH=(r.height-top-bottom)/traceSpec.length,t=result.traces.time_ms,duration=t.at(-1)||1;
+  x.font="10px ui-monospace,monospace";
+  for(let g=0;g<=6;g++){const px=left+(r.width-left-right)*g/6;x.strokeStyle="#e4e4e7";x.beginPath();x.moveTo(px,top);x.lineTo(px,r.height-bottom);x.stroke();x.fillStyle="#71717a";x.textAlign="center";x.fillText(`${fmt(duration*g/6,1)} ms`,px,r.height-5)}
+  traceSpec.forEach(([key,label],row)=>{
+    const a=result.traces[key],min=Math.min(...a),max=Math.max(...a),span=Math.max(1e-12,max-min),y0=top+row*rowH;
+    x.fillStyle="#27272a";x.textAlign="left";x.fillText(label,4,y0+rowH*.58);x.strokeStyle=colors[row%colors.length];x.lineWidth=1.25;x.beginPath();
+    const stride=Math.max(1,Math.floor(a.length/1800));
+    for(let i=0;i<a.length;i+=stride){const px=left+(r.width-left-right)*t[i]/duration,py=y0+rowH*.8-(a[i]-min)/span*rowH*.6;i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();
+  });
+}
+el("reset").onclick=async()=>{const d=await fetch("/api/defaults").then(r=>r.json());values=d.values;buildControls();run()};
+el("code").onclick=async()=>{
+  const response=await fetch("/api/generate-code",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(values)});
+  const d=await response.json();if(!response.ok){el("status").textContent=d.error;return}
+  if(codeUrl)URL.revokeObjectURL(codeUrl);codeUrl=URL.createObjectURL(new Blob([d.code],{type:"text/x-c"}));
+  el("download").href=codeUrl;el("download").download=d.filename;el("codePreview").textContent=d.code;
+  el("generated").hidden=false;el("status").textContent="C config generated";
+};
+addEventListener("resize",()=>result&&draw());init();
+</script>
+</body>
+</html>

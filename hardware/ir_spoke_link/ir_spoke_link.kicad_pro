@@ -153,10 +153,10 @@
         "min_text_height": 0.8,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.15,
+        "min_track_width": 0.2,
         "min_via_annular_width": 0.1,
-        "min_via_diameter": 0.6,
-        "solder_mask_to_copper_clearance": 0.0,
+        "min_via_diameter": 0.5,
+        "solder_mask_to_copper_clearance": 0.005,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -302,7 +302,7 @@
       "netlist": "",
       "plot": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "ir_spoke_link.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
@@ -311,7 +311,13 @@
     "bus_aliases": {},
     "legacy_lib_dir": "",
     "legacy_lib_list": [],
-    "top_level_sheets": []
+    "top_level_sheets": [
+      {
+        "filename": "ir_spoke_link.kicad_sch",
+        "name": "ir_spoke_link",
+        "uuid": "cd4e8c83-0eaa-4789-8c24-0e0e878cde96"
+      }
+    ]
   },
   "sheets": [],
   "text_variables": {},

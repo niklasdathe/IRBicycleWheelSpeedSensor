@@ -1,81 +1,34 @@
 * IR Spoke Sensor - component-valued custom receiver and remote LED board
-* Shared values are generated from config/system.json.
+* Values and electrical topology are generated from their canonical sources.
 .include generated_params.inc
+.include generated_connectivity.inc
+.include models/TLV9062_typ_ngspice.lib
 
 .param SPOKE_PERIOD=4.135121m
 .param SPOKE_BLOCK=168.48u
-.param RCABLE=0.1284
-.param RCONTACT=0.03
+.param TRAN_STOP=16m
 
-V3V3 3V3 0 {VSUP}
-VTX TX_GPIO 0 PULSE(0 {VSUP} 0 2n 2n {0.5/FCARRIER} {1/FCARRIER})
-
-* Main-board low-side driver and two contacts/conductors of the 600 mm AWG28
-* cable. JTX is the board connector; JLED is the remote emitter-board connector.
-RBASE TX_GPIO QB 1k
-QTX LED_K_MAIN QB 0 S8050
-RCONTACT_K LED_K_MAIN JTX_K {RCONTACT}
-RCABLE_K JTX_K JLED_K {RCABLE}
-RCONTACT_A 3V3 JTX_A {RCONTACT}
-RCABLE_A JTX_A JLED_A {RCABLE}
-RLED JLED_A LED_A 39
-DLED LED_A JLED_K IRLED
-
-* Wheel mask: 5 % residual optical transmission during spoke blockage.
-BSPOKE SPOKE 0 V=if(mod(time,{SPOKE_PERIOD})<{SPOKE_BLOCK},0.05,1)
-BCARRIER CARRIER 0 V=if(V(LED_A,JLED_K)>0.7,1,0)
-
-* VEMD10940FX01: reverse-biased 3.3 pF typ. PIN photodiode with dark current.
-RVR_TOP 3V3 VREF 10k
-RVR_BOT VREF 0 10k
-CVREF VREF 0 1u
-* Reverse photocurrent flows from cathode into the TIA summing node.
-BPHOTO PD_K PD_A I={IPHOTO_AMBIENT}+{IPHOTO_SIGNAL}*V(CARRIER)*V(SPOKE)
-IDARK PD_K PD_A DC 1n
-CPD PD_A PD_K 3.3p
-VPD_BIAS 3V3 PD_K 0
-
-* TLV9062 channel A: 33k || 120p TIA around 1.65 V.
-XU1A TIA VREF PD_A 3V3 0 TLV9062_TYP
-RF_TIA TIA PD_A {RF_TIA}
-CF_TIA TIA PD_A {CF_TIA}
-
-* TLV9062 channel B: AC coupling/high-pass plus gain of 57 and 60 kHz pole.
-CAC TIA BP_IN {C_AC}
-RAC BP_IN VREF {R_AC}
-XU1B BANDPASS BP_IN BP_NEG 3V3 0 TLV9062_TYP
-RG BP_NEG VREF {RG_GAIN}
-RF BANDPASS BP_NEG {RF_GAIN}
-CF BANDPASS BP_NEG {CF_GAIN}
-
-* TLV7011: fixed VREF threshold. 10k signal input and 1M positive feedback
-* create ~32.7 mV external hysteresis; the part adds 4.2 mV typical internally.
-RCOMP_IN BANDPASS COMP_PLUS {R_COMP_IN}
-RHYST GPIO_RAW COMP_PLUS {R_HYST}
-BCOMP COMP_IDEAL 0 V={VSUP}/2*(1+tanh(350*(V(COMP_PLUS)-V(VREF))))
-RDELAY COMP_IDEAL GPIO_RAW 1k
-CDELAY GPIO_RAW 0 {TPD_COMP/1000}
-RGPIO GPIO_RAW GPIO_RMT 100
-
-* A compact finite-GBW approximation. A0=100k and dominant pole=100 Hz gives
-* the TLV9062 typical 10 MHz gain-bandwidth value from its current datasheet.
-.subckt TLV9062_TYP OUT INP INN VCC VSS
-EERR ERR VSS INP INN 100k
-RDOM ERR INT 1k
-CDOM INT VSS 1.591549u
-BOUT OUT VSS V=limit(V(INT),0.04,V(VCC)-0.04)
-.ends TLV9062_TYP
+* Wheel mask: a periodic low pulse with one blockage centred in every transient.
+VSPOKE SPOKE GND PULSE(1 0.05 {TRAN_STOP/2-SPOKE_BLOCK/2} 1u 1u {SPOKE_BLOCK} {SPOKE_PERIOD})
+* The LED forward voltage remains near Vf even at leakage current. Derive the
+* optical carrier from >1 mA through the real 39-ohm series resistor instead.
+BCARRIER CARRIER GND V=ternary_fcn(V(+3V3_LED,LED_A)>0.039,1,0)
 
 .model S8050 NPN(BF=180 VAF=80 IS=1e-13 CJE=20p CJC=8p TF=20n)
 .model IRLED D(IS=1e-20 N=1.8 RS=2 CJO=20p TT=10n BV=5 IBV=10u)
 
-.tran 0.1u 16m
+.tran 0.1u {TRAN_STOP}
 .control
 run
-wrdata output/spice_waveforms.csv time v(TX_GPIO) v(SPOKE) v(TIA) v(BANDPASS) v(GPIO_RAW)
-meas tran TIA_MIN min v(TIA) from=2m to=16m
-meas tran TIA_MAX max v(TIA) from=2m to=16m
+set wr_singlescale
+set wr_vecnames
+let SUPPLY_CURRENT=-i(V3V3)
+wrdata ../build/simulation/spice_waveforms.csv v(TX_CARRIER_GPIO1) v(SPOKE) v(TIA_OUT) v(BANDPASS) v(COMP_OUT) v(RX_RMT_GPIO2) SUPPLY_CURRENT
+meas tran TIA_MIN min v(TIA_OUT) from=2m to=16m
+meas tran TIA_MAX max v(TIA_OUT) from=2m to=16m
 meas tran BP_PP pp v(BANDPASS) from=2m to=16m
+meas tran SUPPLY_I_AVG avg SUPPLY_CURRENT from=2m to=16m
+meas tran SUPPLY_I_MAX max SUPPLY_CURRENT from=2m to=16m
 quit
 .endc
 .end

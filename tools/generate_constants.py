@@ -22,6 +22,8 @@ def main() -> None:
     afe = CFG["analog_frontend"]
     tx = CFG["transmitter"]
     esp = CFG["esp32"]
+    can = CFG["can"]
+    power = CFG["power"]
 
     circumference = math.pi * wheel["effective_diameter_m"]
     max_wheel_hz = (wheel["max_speed_kmh"] / 3.6) / circumference
@@ -71,7 +73,12 @@ inline constexpr std::uint32_t kMinimumCarrierHz = {optical["carrier_hz_min"]};
 inline constexpr std::uint32_t kMaximumCarrierHz = {optical["carrier_hz_max"]};
 inline constexpr float kCarrierDuty = {f(optical["carrier_duty"])}f;
 inline constexpr std::uint32_t kRmtResolutionHz = {esp["rmt_resolution_hz"]};
+inline constexpr std::int32_t kTxGpio = {esp["tx_gpio"]};
+inline constexpr std::int32_t kRxGpio = {esp["rx_gpio"]};
+inline constexpr std::uint32_t kRmtMemBlockSymbols = {esp["rmt_mem_block_symbols"]};
+inline constexpr std::uint32_t kRmtTxQueueDepth = {esp["rmt_tx_queue_depth"]};
 inline constexpr float kRxDemodFrequencyRatio = {f(esp["rx_demod_frequency_ratio"])}f;
+inline constexpr float kRxDemodDuty = {f(esp["rx_demod_duty"])}f;
 inline constexpr std::uint32_t kGlitchFilterUs = {esp["rx_glitch_filter_us"]};
 inline constexpr std::uint32_t kMinimumBlockedUs = {esp["minimum_blocked_us"]};
 inline constexpr std::uint32_t kMaximumBlockedUs = {esp["maximum_blocked_us"]};
@@ -90,6 +97,20 @@ inline constexpr float kTiaPoleHz = {f(tia_pole_hz)}f;
 inline constexpr float kBandpassHighpassHz = {f(hp_hz)}f;
 inline constexpr float kBandpassLowpassHz = {f(gain_lp_hz)}f;
 inline constexpr float kCalculatedLedCurrentMa = {f(led_ma)}f;
+inline constexpr float kEsp32CpuActiveDuty = {f(power["esp32_cpu_active_duty"])}f;
+inline constexpr float kEsp32WifiTxDuty = {f(power["esp32_wifi_tx_duty"])}f;
+inline constexpr float kXiao3v3CapacityMa = {f(power["xiao_3v3_regulator_capacity_ma"])}f;
+inline constexpr bool kCanAvailable = {str(can["available"]).lower()};
+inline constexpr bool kCanEnabledDefault = {str(can["enabled_default"]).lower()};
+inline constexpr std::int32_t kCanIntGpio = {can["int_gpio_d6"]};
+inline constexpr std::int32_t kCanCsGpio = {can["cs_gpio_d7"]};
+inline constexpr std::int32_t kCanSckGpio = {can["sck_gpio_d8"]};
+inline constexpr std::int32_t kCanMisoGpio = {can["miso_gpio_d9"]};
+inline constexpr std::int32_t kCanMosiGpio = {can["mosi_gpio_d10"]};
+inline constexpr std::uint32_t kCanOscillatorHz = {can["controller_oscillator_hz"]}u;
+inline constexpr std::uint32_t kCanBitrateHzDefault = {can["bitrate_hz_default"]}u;
+inline constexpr std::uint32_t kCanSpiClockHz = {can["spi_clock_hz"]}u;
+inline constexpr std::uint16_t kCanTelemetryBaseId = {can["telemetry_base_id"]}u;
 }}  // namespace ir_spoke::generated
 """
     out_header = ROOT / "firmware" / "include" / "ir_spoke_generated.h"
@@ -104,8 +125,13 @@ inline constexpr float kCalculatedLedCurrentMa = {f(led_ma)}f;
 #define IR_SPOKE_MIN_CARRIER_HZ {optical["carrier_hz_min"]}u
 #define IR_SPOKE_MAX_CARRIER_HZ {optical["carrier_hz_max"]}u
 #define IR_SPOKE_CARRIER_DUTY {f(optical["carrier_duty"])}f
+#define IR_SPOKE_TX_GPIO {esp["tx_gpio"]}
+#define IR_SPOKE_RX_GPIO {esp["rx_gpio"]}
 #define IR_SPOKE_RMT_RESOLUTION_HZ {esp["rmt_resolution_hz"]}u
+#define IR_SPOKE_RMT_MEM_BLOCK_SYMBOLS {esp["rmt_mem_block_symbols"]}u
+#define IR_SPOKE_RMT_TX_QUEUE_DEPTH {esp["rmt_tx_queue_depth"]}u
 #define IR_SPOKE_RX_DEMOD_RATIO {f(esp["rx_demod_frequency_ratio"])}f
+#define IR_SPOKE_RX_DEMOD_DUTY {f(esp["rx_demod_duty"])}f
 #define IR_SPOKE_GLITCH_FILTER_US {esp["rx_glitch_filter_us"]}u
 #define IR_SPOKE_BLOCK_MIN_US {esp["minimum_blocked_us"]}u
 #define IR_SPOKE_BLOCK_MAX_US {esp["maximum_blocked_us"]}u
@@ -118,6 +144,20 @@ inline constexpr float kCalculatedLedCurrentMa = {f(led_ma)}f;
 #define IR_SPOKE_WHEEL_DIAMETER_M {f(wheel["effective_diameter_m"])}f
 #define IR_SPOKE_BEAM_RADIUS_M {f(wheel["beam_radius_m"])}f
 #define IR_SPOKE_WIDTH_MM {f(wheel["spoke_width_mm"])}f
+#define IR_SPOKE_POWER_CPU_ACTIVE_DUTY {f(power["esp32_cpu_active_duty"])}f
+#define IR_SPOKE_POWER_WIFI_TX_DUTY {f(power["esp32_wifi_tx_duty"])}f
+#define IR_SPOKE_XIAO_3V3_CAPACITY_MA {f(power["xiao_3v3_regulator_capacity_ma"])}f
+#define IR_SPOKE_CAN_AVAILABLE {1 if can["available"] else 0}
+#define IR_SPOKE_CAN_ENABLED_DEFAULT {1 if can["enabled_default"] else 0}
+#define IR_SPOKE_CAN_INT_GPIO {can["int_gpio_d6"]}
+#define IR_SPOKE_CAN_CS_GPIO {can["cs_gpio_d7"]}
+#define IR_SPOKE_CAN_SCK_GPIO {can["sck_gpio_d8"]}
+#define IR_SPOKE_CAN_MISO_GPIO {can["miso_gpio_d9"]}
+#define IR_SPOKE_CAN_MOSI_GPIO {can["mosi_gpio_d10"]}
+#define IR_SPOKE_CAN_OSCILLATOR_HZ {can["controller_oscillator_hz"]}u
+#define IR_SPOKE_CAN_BITRATE_HZ {can["bitrate_hz_default"]}u
+#define IR_SPOKE_CAN_SPI_CLOCK_HZ {can["spi_clock_hz"]}u
+#define IR_SPOKE_CAN_TELEMETRY_BASE_ID {can["telemetry_base_id"]}u
 #endif
 """
     out_c_header = ROOT / "firmware" / "components" / "ir_spoke_core" / "include" / "ir_spoke_generated_c.h"
@@ -141,6 +181,15 @@ inline constexpr float kCalculatedLedCurrentMa = {f(led_ma)}f;
 .param R_COMP_IN={afe["comparator_input_ohm"]}
 .param R_HYST={afe["comparator_feedback_ohm"]}
 .param TPD_COMP={afe["comparator_delay_ns_typ"]}n
+.param IESP_COMPUTE={f((power["esp32_waiti_all_peripherals_ma_typ"] + power["esp32_cpu_active_duty"] * (power["esp32_active_single_core_all_peripherals_ma_typ"] - power["esp32_waiti_all_peripherals_ma_typ"]) + power["xiao_board_overhead_ma_estimate"]) * 1e-3)}
+.param IESP_WIFI={f((power["esp32_wifi_tx_peak_ma"] + power["xiao_board_overhead_ma_estimate"]) * 1e-3)}
+.param WIFI_TX_DUTY={f(power["esp32_wifi_tx_duty"])}
+.param SUPPLY_RISE={f(power["supply_rise_us"])}u
+.param IAFE_QUIESCENT={f((power["opamp_quiescent_ua_per_amplifier_typ"] * power["opamp_amplifier_count"] + power["comparator_quiescent_ua_typ"]) * 1e-6)}
+.param ICAN_IDLE={f((power["can_controller_active_ma_max"] + power["can_transceiver_recessive_ma_max"] + power["can_board_leds_ma_estimate"]) * 1e-3)}
+.param ICAN_DOMINANT_EXTRA={f(power["can_dominant_line_drive_ma_estimate"] * 1e-3)}
+.param CAN_ENABLE={1 if can["enabled_default"] else 0}
+.param CAN_BUS_DUTY={f(can["bus_activity_duty_default"])}
 .param SPOKE_MIN_US={esp["minimum_blocked_us"]}
 .param SPOKE_MAX_US={esp["maximum_blocked_us"]}
 """

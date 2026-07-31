@@ -1,0 +1,10 @@
+* Fast ngspice-compatible TLV9062 typical-value macromodel.
+* Calibrated to TI TLV9062 datasheet / official PSpice model:
+* A0 = 100 dB, GBW = 10 MHz, light-load output headroom = 40 mV.
+* The vendor Rev. E model is retained beside this file for short sign-off runs.
+.subckt TLV9062_TYP OUT INP INN VCC VSS
+EERR ERR VSS INP INN 100k
+RDOM ERR INT 1k
+CDOM INT VSS 1.591549u
+BOUT OUT VSS V=ternary_fcn(V(VCC)<0.08,V(VCC)/2,ternary_fcn(V(INT)<0.04,0.04,ternary_fcn(V(INT)>V(VCC)-0.04,V(VCC)-0.04,V(INT))))
+.ends TLV9062_TYP

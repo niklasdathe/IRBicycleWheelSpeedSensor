@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "description": "Canonical electrical connectivity for schematic, PCB, SPICE and numerical-model validation.",
+  "boards": {
+    "main": {
+      "components": {
+        "J1": {"1": "TX_CARRIER_GPIO1", "2": "RX_RMT_GPIO2", "3": "XIAO_D2", "4": "XIAO_D3", "5": "XIAO_D4", "6": "XIAO_D5", "7": "XIAO_D6"},
+        "J2": {"1": "XIAO_D10", "2": "XIAO_D9", "3": "XIAO_D8", "4": "XIAO_D7", "5": "+3V3", "6": "GND", "7": "+5V_USB"},
+        "D2": {"1": "+3V3", "2": "NC_MECHANICAL", "3": "PD_ANODE"},
+        "U1": {"1": "TIA_OUT", "2": "PD_ANODE", "3": "VREF", "4": "GND", "5": "BP_IN", "6": "BP_NEG", "7": "BANDPASS", "8": "+3V3"},
+        "U2": {"1": "COMP_OUT", "2": "GND", "3": "COMP_PLUS", "4": "VREF", "5": "+3V3"},
+        "J3": {"1": "LED_K_SWITCHED", "2": "+3V3"},
+        "Q1": {"1": "Q_BASE", "2": "LED_K_SWITCHED", "3": "GND"},
+        "R2": {"1": "TX_CARRIER_GPIO1", "2": "Q_BASE"},
+        "R3": {"1": "+3V3", "2": "VREF"},
+        "R4": {"1": "VREF", "2": "GND"},
+        "C1": {"1": "VREF", "2": "GND"},
+        "R5": {"1": "TIA_OUT", "2": "PD_ANODE"},
+        "C2": {"1": "TIA_OUT", "2": "PD_ANODE"},
+        "C3": {"1": "TIA_OUT", "2": "BP_IN"},
+        "R6": {"1": "BP_IN", "2": "VREF"},
+        "R7": {"1": "BP_NEG", "2": "VREF"},
+        "R8": {"1": "BANDPASS", "2": "BP_NEG"},
+        "C4": {"1": "BANDPASS", "2": "BP_NEG"},
+        "R9": {"1": "BANDPASS", "2": "COMP_PLUS"},
+        "R10": {"1": "COMP_OUT", "2": "COMP_PLUS"},
+        "R11": {"1": "COMP_OUT", "2": "RX_RMT_GPIO2"},
+        "C5": {"1": "+3V3", "2": "GND"},
+        "C6": {"1": "+3V3", "2": "GND"},
+        "TP1": {"1": "GND"},
+        "TP2": {"1": "+3V3"},
+        "TP3": {"1": "VREF"},
+        "TP4": {"1": "TX_CARRIER_GPIO1"},
+        "TP5": {"1": "TIA_OUT"},
+        "TP6": {"1": "BANDPASS"},
+        "TP7": {"1": "COMP_OUT"},
+        "TP8": {"1": "RX_RMT_GPIO2"}
+      }
+    },
+    "remote": {
+      "components": {
+        "J4": {"1": "LED_K_REMOTE", "2": "+3V3_LED"},
+        "R1": {"1": "+3V3_LED", "2": "LED_A"},
+        "D1": {"1": "LED_K_REMOTE", "2": "LED_A"}
+      }
+    }
+  },
+  "harness_links": [
+    {
+      "name": "HARNESS_K",
+      "from": {"board": "main", "ref": "J3", "pin": "1"},
+      "to": {"board": "remote", "ref": "J4", "pin": "1"},
+      "series_ohm": 0.1584
+    },
+    {
+      "name": "HARNESS_3V3",
+      "from": {"board": "main", "ref": "J3", "pin": "2"},
+      "to": {"board": "remote", "ref": "J4", "pin": "2"},
+      "series_ohm": 0.1584
+    }
+  ],
+  "simulation": {
+    "required_signal_nets": [
+      "+3V3",
+      "GND",
+      "TX_CARRIER_GPIO1",
+      "Q_BASE",
+      "LED_K_SWITCHED",
+      "+3V3_LED",
+      "LED_A",
+      "LED_K_REMOTE",
+      "PD_ANODE",
+      "VREF",
+      "TIA_OUT",
+      "BP_IN",
+      "BP_NEG",
+      "BANDPASS",
+      "COMP_PLUS",
+      "COMP_OUT",
+      "RX_RMT_GPIO2"
+    ],
+    "probe_nets": [
+      "+3V3",
+      "VREF",
+      "TX_CARRIER_GPIO1",
+      "TIA_OUT",
+      "BANDPASS",
+      "COMP_OUT",
+      "RX_RMT_GPIO2"
+    ]
+  }
+}

@@ -1,0 +1,2 @@
+* Use ngspice's PSpice translation for the official TI TLV9062 macromodel.
+set ngbehavior=ps

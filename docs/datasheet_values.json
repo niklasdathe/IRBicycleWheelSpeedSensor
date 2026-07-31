@@ -11,8 +11,13 @@
     "continuous_forward_current_ma_max": 100,
     "junction_capacitance_pf_typ": 70,
     "rise_time_ns_typ": 15,
-    "fall_time_ns_typ": 15,
-    "revision": "1.6, 2025-03-24"
+      "fall_time_ns_typ": 15,
+      "project_pad_1": "cathode / LED_K_REMOTE",
+      "project_pad_2": "anode / LED_A",
+      "lcsc_component_pin_1": "anode",
+      "lcsc_component_pin_2": "cathode",
+      "required_jlc_cpl_offset_deg": 180,
+      "revision": "1.6, 2025-03-24"
   },
   "VEMD10940FX01": {
     "source": "docs/datasheets/VEMD10940FX01.pdf",
@@ -24,7 +29,17 @@
     "dark_current_na_typ": 1.0,
     "dark_current_na_max": 10.0,
     "rise_time_ns_typ": 100,
-    "fall_time_ns_typ": 100
+    "fall_time_ns_typ": 100,
+      "daylight_blocking_filter": true,
+      "daylight_filter_emitter_match_nm_min": 830,
+      "daylight_filter_emitter_match_nm_max": 950,
+      "project_pad_1": "cathode / +3V3",
+      "project_pad_2": "mechanical reinforcement / NC",
+      "project_pad_3": "anode / PD_ANODE",
+      "lcsc_component_pin_1": "cathode",
+      "lcsc_component_pin_2": "mechanical reinforcement",
+      "lcsc_component_pin_3": "anode",
+      "required_jlc_cpl_offset_deg": 0
   },
   "TLV9062": {
     "source": "docs/datasheets/TLV9062.pdf",
@@ -37,6 +52,9 @@
     "input_offset_mv_typ": 0.3,
     "input_offset_mv_max": 2.0,
     "output_headroom_mv_max_rl10k": 20,
+    "quiescent_current_ua_per_amplifier_typ": 538,
+    "quiescent_current_ua_per_amplifier_max_25c": 750,
+    "quiescent_current_ua_per_amplifier_max_temperature": 800,
     "supply_v_min": 1.8,
     "supply_v_max": 5.5
   },
@@ -50,6 +68,7 @@
     "input_offset_mv_typ": 0.5,
     "input_offset_mv_max": 8,
     "output_low_mv_max_at_3ma_5v": 220,
+    "quiescent_current_ua_typ": 5,
     "supply_v_min": 1.6,
     "supply_v_max": 5.5
   },
@@ -64,13 +83,84 @@
     "transition_frequency_mhz_typ": 150
   },
   "JST_GH": {
-    "source": "docs/datasheets/JST_GH.pdf",
+    "source": "docs/datasheets/components/C189893_JST_SM02B-GHS-TB_GH.pdf",
     "source_url": "https://www.jst-mfg.com/product/pdf/eng/eGH.pdf",
+    "mpn": "SM02B-GHS-TB(LF)(SN)",
+    "lcsc": "C189893",
     "pitch_mm": 1.25,
     "current_rating_a_awg26": 1.0,
     "voltage_rating_v": 50,
     "wire_awg_min": 30,
     "wire_awg_max": 26,
-    "secure_lock": true
+    "secure_lock": true,
+    "mounting": "surface mount, right angle, side entry",
+    "board_height_mm": 4.25,
+    "body_length_mm": 5.75,
+    "body_depth_mm": 4.13,
+    "stock_checked_utc": "2026-07-28",
+      "lcsc_stock": 30138,
+    "jlcpcb_library": "Extended"
+  },
+  "ESP32_S3_RMT": {
+    "source": "docs/datasheets/ESP32-S3_TRM.pdf",
+    "source_url": "https://www.espressif.com/sites/default/files/documentation/esp32-s3_technical_reference_manual_en.pdf",
+    "revision": "1.8",
+    "chapter": "37 Remote Control Peripheral (RMT)",
+    "tx_modulation_supported": true,
+    "rx_demodulation_supported": true,
+    "rx_filtering_supported": true,
+    "esp_idf_rx_tolerance_example_tx_hz": 38000,
+    "esp_idf_rx_tolerance_example_rx_hz": 25000,
+    "configured_ratio_rounded": 0.66
+  },
+  "ESP32_S3_POWER": {
+    "source": "docs/datasheets/ESP32-S3_Datasheet.pdf",
+    "source_url": "https://documentation.espressif.com/esp32-s3_datasheet_en.pdf",
+    "revision": "2.2",
+    "supply_v_typ": 3.3,
+    "recommended_supply_current_ma_min": 500,
+    "wifi_tx_peak_ma_80211b_21dbm": 340,
+    "wifi_rx_peak_ma_ht20": 88,
+    "modem_sleep_160mhz_waiti_all_peripherals_ma_typ": 42.3,
+    "modem_sleep_160mhz_single_core_32bit_all_peripherals_ma_typ": 54.6,
+    "gpio_source_current_ma_typ": 40,
+    "gpio_sink_current_ma_typ": 28,
+    "xiao_3v3_output_current_ma": 700,
+    "xiao_source_url": "https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/"
+  },
+  "SEEED_XIAO_CAN": {
+    "source": "docs/datasheets/components/Seeed_XIAO_CAN_MCP2515.pdf",
+    "source_url": "https://wiki.seeedstudio.com/xiao-can-bus-expansion/",
+    "official_design_source": "docs/datasheets/components/Seeed_XIAO_CAN_DEV_XIAO_Official_Design.zip",
+    "sku": "105100001",
+    "controller": "MCP2515",
+    "transceiver": "SN65HVD230",
+    "oscillator_hz": 16000000,
+    "int_gpio_d6": 43,
+    "cs_gpio_d7": 44,
+    "sck_gpio_d8": 7,
+    "miso_gpio_d9": 8,
+    "mosi_gpio_d10": 9
+  },
+  "MCP2515": {
+    "source": "docs/datasheets/components/Seeed_XIAO_CAN_MCP2515.pdf",
+    "source_url": "https://files.seeedstudio.com/wiki/xiao_can_bus_board/MCP2515-Stand-Alone-CAN-Controller-with-SPI-200018-708845.pdf",
+    "revision": "DS20001801J",
+    "supply_v_min": 2.7,
+    "supply_v_max": 5.5,
+    "spi_clock_hz_max_at_3v3_16mhz": 10000000,
+    "active_current_ma_max": 10.0,
+    "sleep_current_ua_max": 5.0,
+    "can_speed_bit_s_max": 1000000
+  },
+  "SN65HVD230": {
+    "source": "docs/datasheets/components/TI_SN65HVD230.pdf",
+    "source_url": "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf",
+    "revision": "SLLS498O, 2024-09",
+    "supply_v_min": 3.0,
+    "supply_v_max": 3.6,
+    "signaling_rate_bit_s_max": 1000000,
+    "recessive_supply_current_ma_max": 17.0,
+    "standby_supply_current_ma_max": 0.6
   }
 }

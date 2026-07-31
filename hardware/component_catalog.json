@@ -1,0 +1,296 @@
+{
+  "main": {
+    "J1": {
+      "Manufacturer": "Generic / hand assembly",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/Seeed_XIAO_ESP32S3_v1.4_Schematic.pdf",
+      "Description": "Left 1x7 2.54 mm female socket for the Seeed Studio XIAO ESP32-S3; XIAO row spacing is 15.24 mm."
+    },
+    "J2": {
+      "Manufacturer": "Generic / hand assembly",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/Seeed_XIAO_ESP32S3_v1.4_Schematic.pdf",
+      "Description": "Right 1x7 2.54 mm female socket for the Seeed Studio XIAO ESP32-S3; XIAO row spacing is 15.24 mm."
+    },
+    "J3": {
+      "Manufacturer": "JST",
+      "MPN": "SM02B-GHS-TB(LF)(SN)",
+      "LCSC": "C189893",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C189893_JST_SM02B-GHS-TB_GH.pdf",
+      "Description": "2-pin 1.25 mm JST GH side-entry locking header for the 600 mm remote-emitter harness; right-angle SMT, 1 A, 50 V, 4.25 mm board height."
+    },
+    "D2": {
+      "Manufacturer": "Vishay",
+      "MPN": "VEMD10940FX01",
+      "LCSC": "C7104273",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/VEMD10940FX01.pdf",
+      "Description": "920 nm side-view silicon PIN photodiode with 830-950 nm daylight-blocking filter; pad 2 is a non-electrical reinforcement."
+    },
+    "U1": {
+      "Manufacturer": "Texas Instruments",
+      "MPN": "TLV9062IDDFR",
+      "LCSC": "C2867884",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/TLV9062.pdf",
+      "Description": "Dual 10 MHz rail-to-rail input/output operational amplifier in SOT-23-8 for the TIA and active band-pass stage."
+    },
+    "U2": {
+      "Manufacturer": "Texas Instruments",
+      "MPN": "TLV7011DCKR",
+      "LCSC": "C193688",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/TLV7011.pdf",
+      "Description": "Push-pull nanopower comparator in SC-70-5 with 4.2 mV typical internal hysteresis and 260 ns typical delay."
+    },
+    "Q1": {
+      "Manufacturer": "Jiangsu Changjing Electronics Technology",
+      "MPN": "S8050 J3Y (hFE 200-350)",
+      "LCSC": "C2146",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/S8050_J3Y.pdf",
+      "Description": "SOT-23 NPN transistor used as the low-side 940 nm LED current switch."
+    },
+    "R2": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0402WGF1001TCE",
+      "LCSC": "C11702",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C11702_0402WGF1001TCE.pdf",
+      "Description": "1 kOhm, 1%, 0402 thick-film resistor used as the NPN base-current limiter."
+    },
+    "R3": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0603WAF1002T5E",
+      "LCSC": "C25804",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C25804_0603WAF1002T5E.pdf",
+      "Description": "10 kOhm, 1%, 0603 thick-film resistor used in the mid-supply reference divider."
+    },
+    "R4": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0603WAF1002T5E",
+      "LCSC": "C25804",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C25804_0603WAF1002T5E.pdf",
+      "Description": "10 kOhm, 1%, 0603 thick-film resistor used in the mid-supply reference divider."
+    },
+    "R5": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0402WGF3302TCE",
+      "LCSC": "C25779",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C25779_0402WGF3302TCE.pdf",
+      "Description": "33 kOhm, 1%, 0402 thick-film TIA feedback resistor."
+    },
+    "R6": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0603WAF1602T5E",
+      "LCSC": "C4210",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C4210_0603WAF1602T5E.pdf",
+      "Description": "16 kOhm, 1%, 0603 thick-film resistor that biases the AC-coupled gain stage."
+    },
+    "R7": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0603WAF1002T5E",
+      "LCSC": "C25804",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C25804_0603WAF1002T5E.pdf",
+      "Description": "10 kOhm, 1%, 0603 thick-film gain-setting resistor."
+    },
+    "R8": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0402WGF5603TCE",
+      "LCSC": "C132339",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C132339_0402WGF5603TCE.pdf",
+      "Description": "560 kOhm, 1%, 0402 thick-film active-filter feedback resistor."
+    },
+    "R9": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0603WAF1002T5E",
+      "LCSC": "C25804",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C25804_0603WAF1002T5E.pdf",
+      "Description": "10 kOhm, 1%, 0603 comparator input resistor."
+    },
+    "R10": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0402WGF1004TCE",
+      "LCSC": "C26083",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C26083_0402WGF1004TCE.pdf",
+      "Description": "1 MOhm, 1%, 0402 comparator positive-feedback resistor for external hysteresis."
+    },
+    "R11": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0402WGF1000TCE",
+      "LCSC": "C25076",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C25076_0402WGF1000TCE.pdf",
+      "Description": "100 Ohm, 1%, 0402 series resistor between the comparator output and ESP32-S3 GPIO."
+    },
+    "C1": {
+      "Manufacturer": "Samsung Electro-Mechanics",
+      "MPN": "CL10A105KB8NNNC",
+      "LCSC": "C15849",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C15849_CL10A105KB8NNNC.pdf",
+      "Description": "1 uF, 50 V, X5R, 0603 ceramic capacitor that filters the mid-supply reference."
+    },
+    "C2": {
+      "Manufacturer": "YAGEO",
+      "MPN": "CC0402JRNPO9BN121",
+      "LCSC": "C106996",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C106996_CC0402JRNPO9BN121.pdf",
+      "Description": "120 pF, 50 V, C0G/NP0, 5%, 0402 TIA feedback capacitor."
+    },
+    "C3": {
+      "Manufacturer": "Fenghua Advanced Technology",
+      "MPN": "0402B102K500NT",
+      "LCSC": "C1523",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C1523_0402B102K500NT.pdf",
+      "Description": "1 nF, 50 V, X7R, 10%, 0402 AC-coupling capacitor."
+    },
+    "C4": {
+      "Manufacturer": "Fenghua Advanced Technology",
+      "MPN": "0402CG4R7C500NT",
+      "LCSC": "C1569",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C1569_0402CG4R7C500NT.pdf",
+      "Description": "4.7 pF, 50 V, C0G, 0.25 pF, 0402 active-filter feedback capacitor."
+    },
+    "C5": {
+      "Manufacturer": "Samsung Electro-Mechanics",
+      "MPN": "CL05B104KO5NNNC",
+      "LCSC": "C1525",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C1525_CL05B104KO5NNNC.pdf",
+      "Description": "100 nF, 16 V, X7R, 0402 local supply decoupling capacitor."
+    },
+    "C6": {
+      "Manufacturer": "Samsung Electro-Mechanics",
+      "MPN": "CL05B104KO5NNNC",
+      "LCSC": "C1525",
+      "JLCPCB": "Basic",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C1525_CL05B104KO5NNNC.pdf",
+      "Description": "100 nF, 16 V, X7R, 0402 local supply decoupling capacitor."
+    },
+    "TP1": {
+      "Manufacturer": "PCB feature",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/debug_and_threshold.md",
+      "Description": "Bottom-side 1.0 mm bare copper GND test point; excluded from BOM and placement."
+    },
+    "TP2": {
+      "Manufacturer": "PCB feature",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/debug_and_threshold.md",
+      "Description": "Bottom-side 1.0 mm bare copper 3V3 test point; excluded from BOM and placement."
+    },
+    "TP3": {
+      "Manufacturer": "PCB feature",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/debug_and_threshold.md",
+      "Description": "Bottom-side 1.0 mm bare copper VREF test point; excluded from BOM and placement."
+    },
+    "TP4": {
+      "Manufacturer": "PCB feature",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/debug_and_threshold.md",
+      "Description": "Bottom-side 1.0 mm bare copper TX carrier test point; excluded from BOM and placement."
+    },
+    "TP5": {
+      "Manufacturer": "PCB feature",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/debug_and_threshold.md",
+      "Description": "Bottom-side 1.0 mm bare copper TIA output test point; excluded from BOM and placement."
+    },
+    "TP6": {
+      "Manufacturer": "PCB feature",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/debug_and_threshold.md",
+      "Description": "Bottom-side 1.0 mm bare copper band-pass output test point; excluded from BOM and placement."
+    },
+    "TP7": {
+      "Manufacturer": "PCB feature",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/debug_and_threshold.md",
+      "Description": "Bottom-side 1.0 mm bare copper comparator output test point; excluded from BOM and placement."
+    },
+    "TP8": {
+      "Manufacturer": "PCB feature",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/debug_and_threshold.md",
+      "Description": "Bottom-side 1.0 mm bare copper ESP32-S3 RMT RX input test point; excluded from BOM and placement."
+    }
+  },
+  "remote": {
+    "J4": {
+      "Manufacturer": "JST",
+      "MPN": "SM02B-GHS-TB(LF)(SN)",
+      "LCSC": "C189893",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C189893_JST_SM02B-GHS-TB_GH.pdf",
+      "Description": "2-pin 1.25 mm JST GH side-entry locking header for the 600 mm remote-emitter harness; right-angle SMT, 1 A, 50 V, 4.25 mm board height."
+    },
+    "R1": {
+      "Manufacturer": "UNI-ROYAL",
+      "MPN": "0603WAF390JT5E",
+      "LCSC": "C23154",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/components/C23154_0603WAF390JT5E.pdf",
+      "Description": "39 Ohm, 1%, 100 mW, 0603 series resistor that sets the remote IR LED pulse current."
+    },
+    "D1": {
+      "Manufacturer": "Vishay",
+      "MPN": "VSMB1940X01",
+      "LCSC": "C3151600",
+      "JLCPCB": "Extended",
+      "Datasheet": "${KIPRJMOD}/../../docs/datasheets/VSMB1940X01.pdf",
+      "Description": "940 nm side-view high-intensity infrared emitter in an 0805 package."
+    }
+  },
+  "schematic_only": {
+    "#FLG01": {
+      "Manufacturer": "KiCad power symbol",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/connectivity_contract.md",
+      "Description": "ERC power-output declaration for the carrier 3V3 rail; no physical component."
+    },
+    "#FLG02": {
+      "Manufacturer": "KiCad power symbol",
+      "MPN": "DNI",
+      "LCSC": "DNI",
+      "JLCPCB": "DNI",
+      "Datasheet": "${KIPRJMOD}/../../docs/connectivity_contract.md",
+      "Description": "ERC power-output declaration for the carrier ground rail; no physical component."
+    }
+  }
+}

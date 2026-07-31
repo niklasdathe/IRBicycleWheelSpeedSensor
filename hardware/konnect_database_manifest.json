@@ -1,0 +1,11 @@
+{
+  "database_path": "C:\\Users\\nikla\\AppData\\Roaming\\konnect\\jlcpcb.db",
+  "scope": "project BOM subset; not the complete JLCPCB catalog",
+  "rows": 21,
+  "basic_rows": 9,
+  "extended_rows": 12,
+  "sha256": "83ece1ef4c3c99e6be059bf02a9a1ee1f00ed2cef3e18c1936a2eed572d846ce",
+  "source_snapshot": "hardware\\jlcpcb_parts_snapshot.json",
+  "source_generated_utc": "2026-07-28T20:26:58.581768+00:00",
+  "konnect_schema_reference": "mixelpixx/Konnect crates/konnect-core/src/tools/integration.rs"
+}

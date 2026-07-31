@@ -31,12 +31,18 @@ requirements:
   - id: AFE-005
     statement: A tolerance/environment sweep shall achieve at least 99 percent decisions with margin ratio at or above one under its recorded assumptions.
     verification: T-SIM-004
+  - id: AFE-006
+    statement: The detector shall combine the VEMD10940FX01 daylight-blocking optical filter with DC/slow-ambient rejection; direct sunlight remains a required physical test.
+    verification: T-DOC-003
   - id: MCU-001
     statement: RMT TX shall synthesize the selected carrier and RMT RX shall remove it in hardware before interval processing.
     verification: T-SW-001
   - id: MCU-002
     statement: MCPWM capture shall only be selected if an external envelope stage is added; raw-carrier capture uses RMT.
     verification: T-ANALYSIS-001
+  - id: MCU-003
+    statement: RMT configuration shall use official ESP-IDF abstractions and derive RX demodulation frequency, timestamp conversion, GPIO and filtering from one validated runtime configuration.
+    verification: T-SW-005
   - id: SW-001
     statement: Compile-time bounds and defaults shall be generated from config/system.json while the selected carrier remains a validated runtime value.
     verification: T-GEN-001
@@ -49,6 +55,27 @@ requirements:
   - id: SW-004
     statement: Maintain a continuously updated per-spoke interval LUT using bounded exponential adaptation and outlier rejection.
     verification: T-SW-004
+  - id: SW-005
+    statement: The local HTML shall call the Python physical model, expose every runtime RMT field plus adaptive-map tuning, reset to system defaults and generate a compile-time C configuration from the simulated values.
+    verification: T-API-001
+  - id: SIM-001
+    statement: Every requested transient window shall contain a complete, centred spoke blockage and expose optical, analog, comparator and RMT-stage traces.
+    verification: T-SIM-005
+  - id: SIM-002
+    statement: The transient shall expose LED, ESP32, AFE and total 3.3 V current plus total power, including configured Wi-Fi, CPU, carrier-edge and startup events.
+    verification: T-PWR-001
+  - id: PWR-001
+    statement: The coincident modeled 3.3 V peak shall remain below the XIAO 700 mA stated output capacity and Espressif's 500 mA minimum recommended supply capacity.
+    verification: T-PWR-001
+  - id: CAN-001
+    statement: The optional official Seeed XIAO CAN expansion shall use MCP2515 over ESP-IDF SPI on D6 through D10 without conflicting with the IR RMT pins on D0 and D1.
+    verification: T-CAN-001
+  - id: CAN-002
+    statement: With CAN enabled and a continuously dominant worst-case load, the modeled coincident 3.3 V peak shall remain below both configured supply limits.
+    verification: T-CAN-001
+  - id: CAN-003
+    statement: CAN telemetry encoding shall remain a portable transport-independent C interface; the MCP2515 SPI protocol shall be isolated in an ESP-IDF adapter.
+    verification: T-SW-006
   - id: PCB-001
     statement: Every fitted SMT footprint shall have the expected complete pad set, assigned electrical nets and an LCSC identifier.
     verification: T-PCB-001
@@ -61,9 +88,39 @@ requirements:
   - id: PCB-004
     statement: Main carrier PCB shall not be classified fabrication-ready until all open connections are routed and DRC is clean.
     verification: T-PCB-004
+  - id: PCB-005
+    statement: Main-board underside test pads shall expose ground, supply, VREF, TX carrier, TIA output, band-pass output, comparator output and RMT input without loading the photodiode summing node.
+    verification: T-DBG-001
+  - id: PCB-006
+    statement: The orderable 2-layer PCB shall contain an exact 17.8 x 21.4 mm XIAO carrier and a 21 x 15 mm emitter joined by one 7.5 x 1.5 mm routed breakaway tab; both finished boards shall retain four 1.905 mm-radius corners.
+    verification: T-PCB-006
+  - id: PCB-007
+    statement: The snap-off emitter shall contain the JST-GH connector, series resistor, side-view IR LED and two 2.7 mm plated M2.5 mounting holes, excluded from assembly, placed in the lower left/right mounting positions.
+    verification: T-PCB-006
+  - id: PCB-008
+    statement: Two board-only net ties shall carry 3V3 and switched LED cathode across the mouse-bite line for pre-snap testing; snapping shall sever both, after which J3/J4 and the detachable JST-GH harness provide the same two connections.
+    verification: T-PCB-006
+  - id: PCB-009
+    statement: J3 and J4 shall use the identical side-entry JST SM02B-GHS-TB(LF)(SN) connector (LCSC C189893), retain complete fabrication/courtyard/3D data, use cable pin 1 for LED cathode and pin 2 for 3V3, retain physical KiCad orientations J3=0 degrees and J4=180 degrees, and use CPL-only +180-degree offsets to produce JLC rotations J3=180 degrees and J4=0 degrees.
+    verification: T-PCB-007
+  - id: PCB-010
+    statement: Front and back courtyards shall be visible when the PCB editor opens and exported as a separately named non-production Gerber reference archive.
+    verification: T-PCB-008
+  - id: NET-001
+    statement: KiCad schematic pin/net assignments, PCB pad nets and SPICE connectivity shall derive from one canonical manifest and stale or mismatched topology shall fail verification.
+    verification: T-NET-001
   - id: DOC-001
     statement: Current manufacturer datasheets and extracted simulation values shall be locally linked and cross-validated.
     verification: T-DOC-001
+  - id: DOC-002
+    statement: Documentation shall expose project maturity, task-oriented entry points, authoritative data owners, exact verification commands and release gates; every local Markdown link and documentation-index entry shall be checked automatically.
+    verification: T-DOC-004
+  - id: DOC-003
+    statement: A self-contained interactive HTML BOM shall be generated from the authoritative KiCad PCB with placement, net, track and procurement data; its PCB/output hashes shall fail verification when stale, and a local watcher shall regenerate and reload it after PCB saves.
+    verification: T-DOC-005
+  - id: TOOL-001
+    statement: The project shall provide an integrity-checked Konnect-compatible JLC SQLite cache whose limited BOM scope is explicit.
+    verification: T-KONNECT-001
   - id: ENV-001
     statement: Direct sunlight, wet contamination, alignment, cable vibration and actual wheel patterns shall be validated on hardware before release.
     verification: T-PHYS-001

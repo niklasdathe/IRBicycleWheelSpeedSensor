@@ -1,51 +1,18 @@
-ERC report (2026-07-27T23:38:10, Encoding UTF8)
+ERC report (2026-07-31T11:54:16, Encoding UTF8)
 Report includes: Errors, Warnings
 
 ***** Sheet /
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 43.18 mm): Label 'D2_GPIO'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 45.72 mm): Label 'D3'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 48.26 mm): Label 'D4'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 50.80 mm): Label 'D5'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 53.34 mm): Label 'D6'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 64.77 mm): Label 'D10'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 67.31 mm): Label 'D9'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 69.85 mm): Label 'D8'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 72.39 mm): Label 'D7'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(25.40 mm, 80.01 mm): Label '+5V_USB'
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(53.34 mm, 128.27 mm): Label 'NC_MECH'
 [lib_symbol_mismatch]: Symbol "TLV9062" stimmt nicht mit Kopie in Bibliothek "Amplifier_Operational" überein
     ; warning
-    @(83.82 mm, 128.27 mm): Symbol U1 [TLV9062]
+    @(74.93 mm, 128.27 mm): Symbol U1 [TLV9062]
+[lib_symbol_mismatch]: Symbol "TLV9062" stimmt nicht mit Kopie in Bibliothek "Amplifier_Operational" überein
+    ; warning
+    @(116.84 mm, 143.51 mm): Symbol U1 [TLV9062]
 [lib_symbol_mismatch]: Symbol "TLV9062" stimmt nicht mit Kopie in Bibliothek "Amplifier_Operational" überein
     ; warning
     @(138.43 mm, 128.27 mm): Symbol U1 [TLV9062]
-[lib_symbol_mismatch]: Symbol "TLV9062" stimmt nicht mit Kopie in Bibliothek "Amplifier_Operational" überein
-    ; warning
-    @(138.43 mm, 151.13 mm): Symbol U1 [TLV9062]
 
- ** ERC messages: 14  Errors 0  Warnings 14
+ ** ERC messages: 3  Errors 0  Warnings 3
 
  ** Ignored checks:
     - Global label only appears once in the schematic

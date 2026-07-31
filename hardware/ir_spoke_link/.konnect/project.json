@@ -12,5 +12,10 @@
   "fab_constraints": {
     "fab_house": "JLCPCB"
   },
-  "naming_conventions": {}
+  "naming_conventions": {
+    "project_name": "IR Spoke Sensor",
+    "machine_slug": "ir_spoke_sensor",
+    "revision": "R4",
+    "legacy_kicad_basename": "ir_spoke_link"
+  }
 }

@@ -1,0 +1,32 @@
+{
+  "captured_utc": "2026-07-30T06:13:09.098420+00:00",
+  "source": "manually arranged KiCad 10 schematic and routed PCB",
+  "schematic_sha256": "2ba9b25ccc346552cabd60fb5372c9ddf479f8e425b3f029360396c0851ce0a2",
+  "pcb_sha256": "add742abe3ee2e82f2ac7b2080bab3a63637b439c6e7066c24f229f5cdd8c285",
+  "routing_sha256": "7c63ce77ad5ecc64ec17c019cd3cbb5cd99cff1c7bdfdc96ba80112a1973d1e2",
+  "route_text_sha256": "ab7645357f91eb6e2010322a849c6acc14921dda056d636925f396e98aa41e4f",
+  "preferences_sha256": "7da691b453341d52bb5080a84c12ed9d3105e3c6bbca7c0c7cf4e2bfcf6b6ffc",
+  "footprint_rotations_deg": {
+    "U1": 0,
+    "U2": 270,
+    "J3": 0,
+    "J4": 180,
+    "D1": 0,
+    "D2": 0
+  },
+  "jlc_rotation_offsets_deg": {
+    "U1": 90,
+    "U2": 90,
+    "J3": 180,
+    "J4": 180,
+    "D1": 180,
+    "D2": 0
+  },
+  "required_drc": {
+    "violations": 0,
+    "unconnected_pads": 0,
+    "fabrication_ready": true,
+    "capture_mode": "fabrication_ready"
+  },
+  "required_schematic_net_endpoints": 70
+}

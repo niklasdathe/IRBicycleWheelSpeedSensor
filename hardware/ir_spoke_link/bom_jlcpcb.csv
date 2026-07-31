@@ -1,19 +1,22 @@
-Comment,Designator,Footprint,Manufacturer Part Number,LCSC Part Number,JLCPCB Library,Stock checked 2026-07-27,Notes
+Comment,Designator,Footprint,Manufacturer Part Number,LCSC Part Number,JLCPCB Library,Stock checked 2026-07-28,Notes
 PIN photodiode,D2,VEMD10940F_SideView,VEMD10940FX01,C7104273,Extended,4243,Pad 2 is non-electrical reinforcement
 Dual 10MHz RRIO op amp,U1,SOT-23-8,TLV9062IDDFR,C2867884,Extended,15173,Selected over Basic LM358 for TIA bias and GBW
 Push-pull comparator,U2,SOT-353_SC-70-5,TLV7011DCKR,C193688,Extended,2048,260ns typ and 4.2mV internal hysteresis
-NPN low-side driver,Q1,SOT-23,S8050 J3Y,C2146,Basic,606989,Remote LED current switch
-JST GH secure-lock header,J3,JST_GH_BM02B-GHS-TBT_1x02-1MP_P1.25mm_Vertical,BM02B-GHS-TBT(LF)(SN),C161690,Extended,1082,1A 50V secure lock
-1k 1%,R2,R_0402_1005Metric,0402WGF1001TCE,C11702,Basic,1231153,Base resistor
-10k 1%,"R3,R4,R7,R9",R_0402_1005Metric,0402WGF1002TCE,C25744,Basic,241,Sufficient for prototype; recheck at order
-33k 1%,R5,R_0402_1005Metric,0402WGF3302TCE,C25779,Basic,1386247,TIA feedback
-16k 1%,R6,R_0402_1005Metric,0402WGF1602TCE,C25770,Extended,2990,AC bias; live API class
-560k 1%,R8,R_0402_1005Metric,0402WGF5603TCE,C132339,Extended,78231,Gain feedback selected by tolerance sweep
-1M 1%,R10,R_0402_1005Metric,0402WGF1004TCE,C26083,Basic,1126253,Comparator positive feedback
-100R 1%,R11,R_0402_1005Metric,0402WGF1000TCE,C25076,Basic,973746,GPIO series
-1uF 10V X5R,C1,C_0603_1608Metric,CL10A105KP8NNNC,C15849,Basic,15037870,VREF reservoir
-120pF C0G,C2,C_0402_1005Metric,CC0402JRNPO9BN121,C1548,Basic,2429724,TIA stability/pole
-1nF C0G,C3,C_0402_1005Metric,CC0402JRNPO9BN102,C1523,Basic,5783137,AC coupling
-4.7pF C0G,C4,C_0402_1005Metric,0402CG4R7C500NT,C1569,Extended,871671,Gain-stage pole
-100nF X7R,"C5,C6",C_0402_1005Metric,CL05B104KO5NNNC,C1525,Basic,47676385,Local decoupling
+NPN low-side driver,Q1,SOT-23,S8050 J3Y,C2146,Basic,555818,Remote LED current switch
+JST GH right-angle secure-lock header,J3,JST_GH_SM02B-GHS-TB_1x02-1MP_P1.25mm_Horizontal,SM02B-GHS-TB(LF)(SN),C189893,Extended,30138,Side-entry 1A 50V; captured PCB orientation 180 degrees
+1k 1%,R2,R_0402_1005Metric,0402WGF1001TCE,C11702,Basic,1085756,Base resistor
+10k 1%,"R3,R4,R7,R9",R_0603_1608Metric,0603WAF1002T5E,C25804,Basic,4568500,In-stock Basic replacement for unavailable 0402
+33k 1%,R5,R_0402_1005Metric,0402WGF3302TCE,C25779,Basic,1363300,TIA feedback
+16k 1%,R6,R_0603_1608Metric,0603WAF1602T5E,C4210,Extended,219179,AC bias; corrected from mismatched C25770
+560k 1%,R8,R_0402_1005Metric,0402WGF5603TCE,C132339,Extended,77707,Gain feedback selected by tolerance sweep
+1M 1%,R10,R_0402_1005Metric,0402WGF1004TCE,C26083,Basic,1084202,Comparator positive feedback
+100R 1%,R11,R_0402_1005Metric,0402WGF1000TCE,C25076,Basic,860298,GPIO series
+1uF 50V X5R,C1,C_0603_1608Metric,CL10A105KB8NNNC,C15849,Basic,14931914,VREF reservoir
+120pF C0G,C2,C_0402_1005Metric,CC0402JRNPO9BN121,C106996,Extended,449666,TIA stability/pole; corrected from 15pF C1548
+1nF X7R,C3,C_0402_1005Metric,0402B102K500NT,C1523,Basic,5754284,AC coupling
+4.7pF C0G,C4,C_0402_1005Metric,0402CG4R7C500NT,C1569,Extended,871326,Gain-stage pole
+100nF X7R,"C5,C6",C_0402_1005Metric,CL05B104KO5NNNC,C1525,Basic,46835420,Local decoupling
 XIAO ESP32-S3 sockets,"J1,J2",PinSocket_1x07_P2.54mm_Vertical,DNI,DNI,DNI,N/A,Hand assemble or direct solder
+940nm side-view IR LED,D1,LED_0805_2012Metric,VSMB1940X01,C3151600,Extended,629,Panel emitter; optical geometry is not substitutable by a generic top-view LED
+39R 1% 0.1W,R1,R_0603_1608Metric,0603WAF390JT5E,C23154,Extended,112431,Panel-emitter current limit; exact Basic search returned no verified match
+JST GH right-angle secure-lock header,J4,JST_GH_SM02B-GHS-TB_1x02-1MP_P1.25mm_Horizontal,SM02B-GHS-TB(LF)(SN),C189893,Extended,30138,Panel-emitter side-entry cable connection; captured PCB orientation 0 degrees

@@ -9,8 +9,6 @@
 #include "freertos/queue.h"
 #include "freertos/task.h"
 
-#define IR_TX_GPIO 1
-#define IR_RX_GPIO 2
 #define RX_SYMBOL_COUNT 128
 
 typedef struct {
@@ -25,6 +23,14 @@ static rmt_symbol_word_t rx_symbols[RX_SYMBOL_COUNT];
 static QueueHandle_t event_queue;
 static TaskHandle_t receive_task;
 static ir_spoke_pipeline_t *target_pipeline;
+static ir_spoke_can_publisher_t *can_publisher;
+static uint32_t capture_resolution_hz;
+static ir_spoke_runtime_config_t runtime_config;
+
+static uint32_t ticks_to_us(uint32_t ticks) {
+    return (uint32_t)(((uint64_t)ticks * 1000000u +
+                      capture_resolution_hz / 2u) / capture_resolution_hz);
+}
 
 static bool rx_done(rmt_channel_handle_t channel,
                     const rmt_rx_done_event_data_t *data, void *context) {
@@ -32,16 +38,25 @@ static bool rx_done(rmt_channel_handle_t channel,
     (void)context;
     BaseType_t wake = pdFALSE;
     const uint64_t now = (uint64_t)esp_timer_get_time();
+    uint64_t captured_us = 0;
+    for (size_t i = 0; i < data->num_symbols; ++i) {
+        captured_us += ticks_to_us(data->received_symbols[i].duration0);
+        captured_us += ticks_to_us(data->received_symbols[i].duration1);
+    }
+    uint64_t cursor_us = now > captured_us ? now - captured_us : 0;
     for (size_t i = 0; i < data->num_symbols; ++i) {
         const rmt_symbol_word_t s = data->received_symbols[i];
         const blockage_event_t phases[2] = {
-            {.timestamp_us = now, .duration_us = s.level0 ? 0u : s.duration0},
-            {.timestamp_us = now, .duration_us = s.level1 ? 0u : s.duration1},
+            {.timestamp_us = cursor_us,
+             .duration_us = s.level0 ? 0u : ticks_to_us(s.duration0)},
+            {.timestamp_us = cursor_us + ticks_to_us(s.duration0),
+             .duration_us = s.level1 ? 0u : ticks_to_us(s.duration1)},
         };
         for (unsigned phase = 0; phase < 2; ++phase) {
             if (phases[phase].duration_us)
                 (void)xQueueSendFromISR(event_queue, &phases[phase], &wake);
         }
+        cursor_us += ticks_to_us(s.duration0) + ticks_to_us(s.duration1);
     }
     vTaskNotifyGiveFromISR(receive_task, &wake);
     return wake == pdTRUE;
@@ -51,7 +66,7 @@ static void receive_loop(void *argument) {
     const ir_spoke_runtime_config_t *config =
         (const ir_spoke_runtime_config_t *)argument;
     const rmt_receive_config_t receive_config = {
-        .signal_range_min_ns = IR_SPOKE_GLITCH_FILTER_US * 1000u,
+        .signal_range_min_ns = config->rx_glitch_filter_us * 1000u,
         .signal_range_max_ns = config->link_loss_us * 1000u,
     };
     for (;;) {
@@ -60,31 +75,46 @@ static void receive_loop(void *argument) {
         (void)ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
         blockage_event_t event;
         while (xQueueReceive(event_queue, &event, 0) == pdTRUE) {
-            (void)ir_spoke_pipeline_ingest(target_pipeline,
-                event.timestamp_us, event.duration_us);
+            const ir_spoke_pulse_result_t result =
+                ir_spoke_pipeline_ingest(target_pipeline,
+                    event.timestamp_us, event.duration_us);
+            if (result == IR_SPOKE_PULSE_ACCEPTED && can_publisher) {
+                (void)ir_spoke_can_publish_estimate(
+                    can_publisher,
+                    ir_spoke_pattern_estimate(&target_pipeline->pattern),
+                    event.duration_us);
+            }
         }
     }
+}
+
+void ir_spoke_rmt_set_can_publisher(
+    ir_spoke_can_publisher_t *publisher) {
+    can_publisher = publisher;
 }
 
 int ir_spoke_rmt_start(const ir_spoke_runtime_config_t *config,
                        ir_spoke_pipeline_t *pipeline) {
     if (ir_spoke_config_validate(config) || !pipeline) return -1;
+    runtime_config = *config;
+    config = &runtime_config;
     target_pipeline = pipeline;
+    capture_resolution_hz = config->rmt_resolution_hz;
     event_queue = xQueueCreate(32, sizeof(blockage_event_t));
     if (!event_queue) return -2;
 
     const rmt_tx_channel_config_t tx_cfg = {
-        .gpio_num = IR_TX_GPIO,
+        .gpio_num = config->tx_gpio,
         .clk_src = RMT_CLK_SRC_DEFAULT,
-        .resolution_hz = IR_SPOKE_RMT_RESOLUTION_HZ,
-        .mem_block_symbols = 64,
-        .trans_queue_depth = 2,
+        .resolution_hz = config->rmt_resolution_hz,
+        .mem_block_symbols = config->rmt_mem_block_symbols,
+        .trans_queue_depth = config->rmt_tx_queue_depth,
     };
     const rmt_rx_channel_config_t rx_cfg = {
-        .gpio_num = IR_RX_GPIO,
+        .gpio_num = config->rx_gpio,
         .clk_src = RMT_CLK_SRC_DEFAULT,
-        .resolution_hz = IR_SPOKE_RMT_RESOLUTION_HZ,
-        .mem_block_symbols = 64,
+        .resolution_hz = config->rmt_resolution_hz,
+        .mem_block_symbols = config->rmt_mem_block_symbols,
     };
     ESP_RETURN_ON_ERROR(rmt_new_tx_channel(&tx_cfg, &tx_channel), "ir_rmt", "tx");
     ESP_RETURN_ON_ERROR(rmt_new_rx_channel(&rx_cfg, &rx_channel), "ir_rmt", "rx");
@@ -98,7 +128,7 @@ int ir_spoke_rmt_start(const ir_spoke_runtime_config_t *config,
     };
     const rmt_carrier_config_t rx_carrier = {
         .frequency_hz = ir_spoke_config_rx_demod_hz(config),
-        .duty_cycle = 0.5f,
+        .duty_cycle = config->rx_demod_duty,
         .flags = {.polarity_active_low = false},
     };
     ESP_RETURN_ON_ERROR(rmt_apply_carrier(tx_channel, &tx_carrier), "ir_rmt", "tx carrier");
@@ -108,8 +138,10 @@ int ir_spoke_rmt_start(const ir_spoke_runtime_config_t *config,
     ESP_RETURN_ON_ERROR(rmt_enable(tx_channel), "ir_rmt", "enable tx");
     ESP_RETURN_ON_ERROR(rmt_enable(rx_channel), "ir_rmt", "enable rx");
 
-    xTaskCreate(receive_loop, "ir_spoke_rx", 4096, (void *)config, 10,
-                &receive_task);
+    if (xTaskCreate(receive_loop, "ir_spoke_rx", 4096, (void *)config, 10,
+                    &receive_task) != pdPASS) {
+        return -3;
+    }
     const rmt_symbol_word_t continuous_high = {
         .duration0 = 10000, .level0 = 1,
         .duration1 = 10000, .level1 = 1,

@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 5,
   "design_name": "IR Spoke Sensor / XIAO ESP32-S3 carrier",
   "wheel": {
     "effective_diameter_m": 0.702,
@@ -55,6 +55,7 @@
     "supply_v": 3.3,
     "led_vf_v_typ": 1.35,
     "driver_vce_sat_v_typ": 0.18,
+    "driver_vbe_v_typ_estimate": 0.8,
     "led_series_ohm": 39,
     "base_resistor_ohm": 1000,
     "remote_board": true,
@@ -64,8 +65,10 @@
     "connector_contact_ohm_max": 0.03,
     "connector_current_rating_a": 1.0,
     "connector_voltage_rating_v": 50,
-    "pin_1": "+3V3_LED",
-    "pin_2": "LED_K_SWITCHED"
+    "main_connector_pin_1": "LED_K_SWITCHED",
+    "main_connector_pin_2": "+3V3",
+    "remote_connector_pin_1": "LED_K_REMOTE",
+    "remote_connector_pin_2": "+3V3_LED"
   },
   "esp32": {
     "module": "Seeed Studio XIAO ESP32S3",
@@ -75,6 +78,8 @@
     "carrier_peripheral": "RMT TX",
     "capture_peripheral": "RMT RX with hardware carrier demodulation",
     "rmt_resolution_hz": 1000000,
+    "rmt_mem_block_symbols": 64,
+    "rmt_tx_queue_depth": 2,
     "rx_demod_frequency_ratio": 0.66,
     "rx_demod_duty": 0.5,
     "rx_glitch_filter_us": 4,
@@ -85,6 +90,51 @@
     "learning_rate": 0.08,
     "spoke_count_confidence_events": 192,
     "outlier_sigma": 3.5
+  },
+  "can": {
+    "available": true,
+    "enabled_default": false,
+    "board": "Seeed Studio XIAO CAN Bus Expansion Board SKU 105100001",
+    "controller": "MCP2515",
+    "transceiver": "SN65HVD230",
+    "controller_oscillator_hz": 16000000,
+    "bitrate_hz_default": 500000,
+    "spi_clock_hz": 10000000,
+    "int_gpio_d6": 43,
+    "cs_gpio_d7": 44,
+    "sck_gpio_d8": 7,
+    "miso_gpio_d9": 8,
+    "mosi_gpio_d10": 9,
+    "standby_gpio": -1,
+    "telemetry_base_id": 384,
+    "bus_activity_duty_default": 0.1
+  },
+  "power": {
+    "esp32_cpu_frequency_mhz": 160,
+    "esp32_waiti_all_peripherals_ma_typ": 42.3,
+    "esp32_active_single_core_all_peripherals_ma_typ": 54.6,
+    "esp32_cpu_active_duty": 0.1,
+    "esp32_cpu_work_us_per_edge": 100,
+    "esp32_wifi_tx_peak_ma": 340.0,
+    "esp32_gpio_source_current_ma_typ": 40.0,
+    "esp32_gpio_sink_current_ma_typ": 28.0,
+    "esp32_wifi_tx_duty": 0.05,
+    "xiao_board_overhead_ma_estimate": 2.0,
+    "xiao_3v3_regulator_capacity_ma": 700.0,
+    "esp32_recommended_supply_capacity_ma": 500.0,
+    "regulator_efficiency_estimate": 0.9,
+    "opamp_quiescent_ua_per_amplifier_typ": 538.0,
+    "opamp_amplifier_count": 2,
+    "comparator_quiescent_ua_typ": 5.0,
+    "gpio_and_trace_capacitance_pf_estimate": 5.0,
+    "local_decoupling_uf": 0.2,
+    "supply_rise_us": 500.0,
+    "can_controller_active_ma_max": 10.0,
+    "can_controller_sleep_ua_max": 5.0,
+    "can_transceiver_recessive_ma_max": 17.0,
+    "can_transceiver_standby_ma_max": 0.6,
+    "can_dominant_line_drive_ma_estimate": 33.0,
+    "can_board_leds_ma_estimate": 8.0
   },
   "parts": {
     "photodiode": {
@@ -118,10 +168,10 @@
       "package": "SOT-23"
     },
     "tx_connector": {
-      "mpn": "BM02B-GHS-TBT(LF)(SN)",
-      "lcsc": "C161690",
+      "mpn": "SM02B-GHS-TB(LF)(SN)",
+      "lcsc": "C189893",
       "jlc_library": "Extended",
-      "package": "JST GH 2-pin 1.25mm top-entry"
+      "package": "JST GH 2-pin 1.25mm side-entry"
     },
     "tx_cable_housing": {
       "mpn": "GHR-02V-S",

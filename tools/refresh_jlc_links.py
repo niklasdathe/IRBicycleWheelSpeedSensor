@@ -6,31 +6,45 @@ from __future__ import annotations
 import csv
 import json
 import os
-import shutil
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BOMS = (
     ROOT / "hardware/ir_spoke_link/bom_jlcpcb.csv",
-    ROOT / "hardware/remote_emitter/bom_jlcpcb.csv",
     ROOT / "hardware/cable_bom.csv",
 )
 OUTPUT = ROOT / "hardware/jlcpcb_parts_snapshot.json"
 
 
-def cli_path() -> str:
-    found = shutil.which("jlcpcb")
-    if found:
-        return found
-    fallback = (
-        Path(os.environ["APPDATA"])
-        / "Python/Python314/Scripts/jlcpcb.exe"
+def cli_command() -> list[str]:
+    # Invoke the module through the same interpreter as this script.  The
+    # Windows console-script shim may point at a stale interpreter and fail
+    # even though the package is installed in the active Python user site.
+    candidates = [
+        Path(r"C:\Python314\python.exe"),
+        Path(sys.executable),
+    ]
+    for candidate in candidates:
+        if not candidate.is_file():
+            continue
+        probe = subprocess.run(
+            [str(candidate), "-c", "import jlcpcb.cli"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if probe.returncode == 0:
+            return [
+                str(candidate),
+                "-c",
+                "from jlcpcb.cli import main; main()",
+            ]
+    raise SystemExit(
+        "No Python interpreter with the jlcpcb package was found"
     )
-    if fallback.is_file():
-        return str(fallback)
-    raise SystemExit("jlcpcb CLI not found")
 
 
 def part_numbers() -> list[str]:
@@ -45,11 +59,11 @@ def part_numbers() -> list[str]:
 
 
 def main() -> None:
-    executable = cli_path()
+    command = cli_command()
     parts = []
     for number in part_numbers():
         process = subprocess.run(
-            [executable, "--json", "part", "get", number],
+            [*command, "--json", "part", "get", number],
             check=False,
             capture_output=True,
             text=True,
@@ -61,8 +75,10 @@ def main() -> None:
             },
         )
         if process.returncode:
-            parts.append({"lcsc": number, "error": process.stderr.strip()})
-            continue
+            raise SystemExit(
+                f"JLCPCB lookup failed for {number}: "
+                f"{process.stderr.strip() or process.stdout.strip()}"
+            )
         payload = json.loads(process.stdout)
         payload["lcsc"] = number
         parts.append(payload)

@@ -1,0 +1,37 @@
+name: Hardware validation result
+description: Record a bench or road result against a requirement/test ID.
+title: "[Validation] "
+body:
+  - type: input
+    id: board
+    attributes:
+      label: Board and firmware revision
+      placeholder: R4 / commit SHA
+    validations:
+      required: true
+  - type: input
+    id: test
+    attributes:
+      label: Requirement and test ID
+      placeholder: ENV-001 / T-PHYS-001
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: Fixture and configuration
+      description: Include distance, alignment, wheel, optical conditions and configuration JSON.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Result and raw evidence
+      description: Link waveforms, logs and photographs; state pass or fail.
+    validations:
+      required: true
+  - type: textarea
+    id: model
+    attributes:
+      label: Model update required
+      description: Record measured parameter deltas and affected source-of-truth files.

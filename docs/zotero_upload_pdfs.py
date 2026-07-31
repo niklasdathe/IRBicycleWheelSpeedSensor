@@ -25,16 +25,49 @@ records = [
     {"title": "TLV7011 Nanopower Comparator Datasheet (PDF)", "date": "2026",
      "url": "https://www.ti.com/lit/ds/symlink/tlv7011.pdf",
      "path": ROOT / "datasheets" / "TLV7011.pdf", "author": "Texas Instruments"},
-    {"title": "JST GH Connector Series Datasheet (PDF)", "date": "2026",
-     "url": "https://www.jst-mfg.com/product/pdf/eng/eGH.pdf",
-     "path": ROOT / "datasheets" / "JST_GH.pdf", "author": "JST"},
+    {
+        "title": "JST SM02B-GHS-TB Right-Angle GH Header Datasheet",
+        "date": "2026",
+        "url": "https://www.jst-mfg.com/product/pdf/eng/eGH.pdf",
+        "path": ROOT / "datasheets" / "components"
+        / "C189893_JST_SM02B-GHS-TB_GH.pdf",
+        "author": "JST",
+    },
     {"title": "ESP32-S3 Technical Reference Manual (PDF)", "date": "2026",
      "url": "https://documentation.espressif.com/esp32-s3_technical_reference_manual_en.pdf",
      "path": ROOT / "datasheets" / "ESP32-S3_TRM.pdf", "author": "Espressif Systems"},
+    {"title": "ESP32-S3 Series Datasheet (PDF)", "date": "2026",
+     "url": "https://documentation.espressif.com/esp32-s3_datasheet_en.pdf",
+     "path": ROOT / "datasheets" / "ESP32-S3_Datasheet.pdf",
+     "author": "Espressif Systems"},
     {"title": "S8050 J3Y NPN Transistor Datasheet (PDF)", "date": "Rev. 2.0",
      "url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2310131500_Jiangsu-Changjing-Electronics-Technology-Co---Ltd--S8050-J3Y-RANGE-200-350_C2146.pdf",
      "path": ROOT / "datasheets" / "S8050_J3Y.pdf",
      "author": "Jiangsu Changjing Electronics Technology"},
+    {
+        "title": "Seeed Studio XIAO CAN Bus Expansion MCP2515 Datasheet",
+        "date": "DS20001801J",
+        "url": "https://files.seeedstudio.com/wiki/xiao_can_bus_board/MCP2515-Stand-Alone-CAN-Controller-with-SPI-200018-708845.pdf",
+        "path": ROOT / "datasheets" / "components"
+        / "Seeed_XIAO_CAN_MCP2515.pdf",
+        "author": "Microchip Technology",
+    },
+    {
+        "title": "SN65HVD230 3.3-V CAN Bus Transceiver Datasheet",
+        "date": "Rev. O, 2024-09",
+        "url": "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf",
+        "path": ROOT / "datasheets" / "components"
+        / "TI_SN65HVD230.pdf",
+        "author": "Texas Instruments",
+    },
+    {
+        "title": "Seeed Studio XIAO ESP32S3 Schematic V1.4",
+        "date": "2026-04-03",
+        "url": "https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32S3/res/XIAO_ESP32S3_v1.4_SCH.pdf",
+        "path": ROOT / "datasheets" / "components"
+        / "Seeed_XIAO_ESP32S3_v1.4_Schematic.pdf",
+        "author": "Seeed Studio",
+    },
 ]
 
 with urllib.request.urlopen(
@@ -57,7 +90,7 @@ for record in records:
         "date": record["date"],
         "publisher": record.get("author", "Vishay"),
         "url": record["url"],
-        "tags": [{"tag": "IR Spoke Link"}, {"tag": "datasheet"}],
+        "tags": [{"tag": "IR Spoke Sensor"}, {"tag": "datasheet"}],
     }
     body = json.dumps({
         "items": [item],

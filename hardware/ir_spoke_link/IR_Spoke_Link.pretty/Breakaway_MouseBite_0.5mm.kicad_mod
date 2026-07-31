@@ -1,0 +1,41 @@
+(footprint "Breakaway_MouseBite_0.5mm"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "0.5 mm non-plated mouse-bite drill; board-only panelization feature")
+	(tags "mouse bite breakaway panel")
+	(property "Reference" "MB"
+		(at 0 -1 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "7a77da0b-1cd6-4f79-a256-268b2f5d0bc8")
+		(effects
+			(font
+				(size 0.6 0.6)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "BREAKAWAY_NPTH_0.5"
+		(at 0 1 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "467f1209-20e8-45f4-927d-c9758b5a5d54")
+		(effects
+			(font
+				(size 0.6 0.6)
+				(thickness 0.1)
+			)
+		)
+	)
+	(attr board_only exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
+	(pad "" np_thru_hole circle
+		(at 0 0)
+		(size 0.5 0.5)
+		(drill 0.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "35f65e1d-97e4-4221-8dd0-a7bfe74602ab")
+	)
+	(embedded_fonts no)
+)

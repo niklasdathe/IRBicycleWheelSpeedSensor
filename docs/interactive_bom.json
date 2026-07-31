@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "generator": "openscopeproject/InteractiveHtmlBom",
+  "generator_version": "v2.11.2",
+  "generator_commit": "de7fad7ead9b73cea7eb17afa02c6ce9ce17a6ab",
+  "source": "hardware/ir_spoke_link/ir_spoke_link.kicad_pcb",
+  "source_sha256": "add742abe3ee2e82f2ac7b2080bab3a63637b439c6e7066c24f229f5cdd8c285",
+  "output": "docs/interactive_bom.html",
+  "output_sha256": "af2f4220b0861673c71a6fa2fd20a95a6b7f31cccbef68095ada969e046ed3dd",
+  "options": [
+    "--dark-mode",
+    "--show-fabrication",
+    "--highlight-pin1",
+    "selected",
+    "--checkboxes",
+    "Sourced,Placed,Inspected",
+    "--mark-when-checked",
+    "Placed",
+    "--bom-view",
+    "top-bottom",
+    "--layer-view",
+    "F",
+    "--include-tracks",
+    "--include-nets",
+    "--extra-fields",
+    "Manufacturer,MPN,LCSC,JLCPCB",
+    "--no-browser"
+  ]
+}

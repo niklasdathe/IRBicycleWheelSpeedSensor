@@ -1,28 +1,97 @@
 import importlib.util
 import csv
+import hashlib
 import json
 import math
 import re
+import sqlite3
 import unittest
 from html.parser import HTMLParser
 from pathlib import Path
 
 import numpy as np
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 CFG = json.loads((ROOT / "config/system.json").read_text())
 DS = json.loads((ROOT / "docs/datasheet_values.json").read_text())
-SIM = json.loads((ROOT / "simulation/output/simulation.json").read_text())
 SIM_SPEC = importlib.util.spec_from_file_location(
     "ir_spoke_sim", ROOT / "simulation/ir_spoke_sim.py"
 )
 SIM_MODULE = importlib.util.module_from_spec(SIM_SPEC)
 SIM_SPEC.loader.exec_module(SIM_MODULE)
+SIM = SIM_MODULE.simulate()
+SIM["robustness"] = SIM_MODULE.robustness_sweep(1000)
 
 
 class TestSystem(unittest.TestCase):
+    def test_requirements_are_unique_and_linked_to_verification(self):
+        requirements = yaml.safe_load(
+            (ROOT / "requirements/requirements.yaml").read_text(
+                encoding="utf-8"
+            )
+        )["requirements"]
+        requirement_ids = [item["id"] for item in requirements]
+        self.assertEqual(len(requirement_ids), len(set(requirement_ids)))
+        matrix = (
+            ROOT / "requirements/verification_matrix.md"
+        ).read_text(encoding="utf-8")
+        matrix_ids = set(re.findall(r"\|\s*(T-[A-Z]+-\d+)\s*\|", matrix))
+        for item in requirements:
+            self.assertIn(item["verification"], matrix_ids, item["id"])
+
+    def test_documentation_has_task_entry_points_and_explicit_status(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        docs_index = (
+            ROOT / "docs/README.md"
+        ).read_text(encoding="utf-8")
+        for token in (
+            "R4 engineering prototype",
+            "physical validation is still open",
+            "System overview",
+            "Getting started",
+            "Development workflow",
+            "Manufacturing",
+            "Bring-up and test",
+            "Source of truth",
+            "No project license has been selected",
+        ):
+            self.assertIn(token, readme)
+        for page in (
+            "system_overview.md",
+            "getting_started.md",
+            "development.md",
+            "manufacturing.md",
+            "bringup.md",
+            "reference_projects.md",
+        ):
+            self.assertIn(page, docs_index)
+            self.assertTrue((ROOT / "docs" / page).is_file())
+
+    def test_interactive_bom_is_synced_to_the_authoritative_pcb(self):
+        manifest = json.loads(
+            (ROOT / "docs/interactive_bom.json").read_text(encoding="utf-8")
+        )
+
+        def digest(relative: str) -> str:
+            return hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
+
+        self.assertEqual(manifest["generator_version"], "v2.11.2")
+        self.assertEqual(
+            manifest["generator_commit"],
+            "de7fad7ead9b73cea7eb17afa02c6ce9ce17a6ab",
+        )
+        self.assertEqual(manifest["source_sha256"], digest(manifest["source"]))
+        self.assertEqual(manifest["output_sha256"], digest(manifest["output"]))
+        page = (ROOT / manifest["output"]).read_text(encoding="utf-8")
+        for token in ("Manufacturer", "MPN", "LCSC", "JLCPCB", "Netlist"):
+            self.assertIn(token, page)
+        launcher = (ROOT / "Open-IR-Spoke-Sensor.cmd").read_text()
+        self.assertIn("interactive_bom.py", launcher)
+        self.assertIn("--watch --serve --open", launcher)
+
     def test_datasheet_values_cross_validate_manifest(self):
-        o, a = CFG["optical"], CFG["analog_frontend"]
+        o, a, p = CFG["optical"], CFG["analog_frontend"], CFG["power"]
         self.assertEqual(o["led_peak_nm"], DS["VSMB1940X01"]["peak_wavelength_nm_typ"])
         self.assertEqual(
             o["emitter_radiant_intensity_mw_sr_at_100ma_typ"],
@@ -40,6 +109,36 @@ class TestSystem(unittest.TestCase):
         self.assertEqual(
             a["comparator_delay_ns_typ"],
             DS["TLV7011"]["propagation_delay_ns_typ"],
+        )
+        self.assertTrue(DS["VEMD10940FX01"]["daylight_blocking_filter"])
+        self.assertEqual(
+            p["esp32_wifi_tx_peak_ma"],
+            DS["ESP32_S3_POWER"]["wifi_tx_peak_ma_80211b_21dbm"],
+        )
+        self.assertEqual(
+            p["opamp_quiescent_ua_per_amplifier_typ"],
+            DS["TLV9062"]["quiescent_current_ua_per_amplifier_typ"],
+        )
+        self.assertEqual(
+            p["comparator_quiescent_ua_typ"],
+            DS["TLV7011"]["quiescent_current_ua_typ"],
+        )
+        self.assertEqual(
+            p["xiao_3v3_regulator_capacity_ma"],
+            DS["ESP32_S3_POWER"]["xiao_3v3_output_current_ma"],
+        )
+        can = CFG["can"]
+        self.assertEqual(
+            can["controller_oscillator_hz"],
+            DS["SEEED_XIAO_CAN"]["oscillator_hz"],
+        )
+        self.assertEqual(
+            p["can_controller_active_ma_max"],
+            DS["MCP2515"]["active_current_ma_max"],
+        )
+        self.assertEqual(
+            p["can_transceiver_recessive_ma_max"],
+            DS["SN65HVD230"]["recessive_supply_current_ma_max"],
         )
         for values in DS.values():
             self.assertTrue((ROOT / values["source"]).is_file())
@@ -120,6 +219,25 @@ class TestSystem(unittest.TestCase):
                 result["derived"]["comparator_hysteresis_mv_typ"] / 1000,
             )
 
+    def test_every_transient_has_centered_blockage_and_extended_traces(self):
+        for duration_ms in (2, 6, 12, 40):
+            result = SIM_MODULE.simulate(parameters={"duration_ms": duration_ms})
+            self.assertTrue(result["derived"]["center_blockage_visible"])
+            time = np.asarray(result["traces"]["time_ms"])
+            path = np.asarray(result["traces"]["transmission"])
+            blocked_time = time[path < 0.5]
+            self.assertTrue(blocked_time.size)
+            self.assertAlmostEqual(
+                float(np.mean(blocked_time)), duration_ms / 2, delta=0.15
+            )
+            for trace in (
+                "irradiance_w_m2", "photodiode_ua", "tia_v",
+                "ac_coupled_v", "bandpass_v", "threshold_v",
+                "comparator_ideal", "comparator",
+                "rmt_carrier_present", "blocked_digital",
+            ):
+                self.assertEqual(len(result["traces"][trace]), len(time))
+
     def test_transient_detection_headroom_and_robustness(self):
         d = SIM["derived"]
         self.assertGreater(d["tia_min_v"], 0.1)
@@ -177,6 +295,14 @@ class TestSystem(unittest.TestCase):
         self.assertIn(".frequency_hz = config->carrier_hz", rmt)
         self.assertIn("rmt_apply_carrier(rx_channel", rmt)
         self.assertIn("rmt_transmit(tx_channel", rmt)
+        self.assertIn("rmt_new_copy_encoder", rmt)
+        self.assertIn("rmt_rx_register_event_callbacks", rmt)
+        self.assertIn("config->rmt_resolution_hz", rmt)
+        self.assertIn("config->rmt_mem_block_symbols", rmt)
+        self.assertIn("config->rmt_tx_queue_depth", rmt)
+        self.assertIn("config->rx_demod_duty", rmt)
+        self.assertIn("ticks_to_us", rmt)
+        self.assertIn("cursor_us", rmt)
         self.assertNotIn("mcpwm_new_capture", rmt)
 
     def test_portable_c_module_boundaries(self):
@@ -191,11 +317,77 @@ class TestSystem(unittest.TestCase):
         self.assertNotIn("freertos/", source.lower())
         self.assertNotIn("driver/rmt", source.lower())
 
+    def test_optional_xiao_can_has_no_pin_conflicts_and_fits_power_budget(self):
+        can = CFG["can"]
+        ir_pins = {CFG["esp32"]["tx_gpio"], CFG["esp32"]["rx_gpio"]}
+        can_pins = {
+            can["int_gpio_d6"], can["cs_gpio_d7"], can["sck_gpio_d8"],
+            can["miso_gpio_d9"], can["mosi_gpio_d10"],
+        }
+        self.assertTrue(ir_pins.isdisjoint(can_pins))
+        self.assertLessEqual(
+            can["spi_clock_hz"],
+            DS["MCP2515"]["spi_clock_hz_max_at_3v3_16mhz"],
+        )
+        result = SIM_MODULE.simulate(parameters={
+            "can_enabled": 1,
+            "can_bus_activity_duty": 1.0,
+        })
+        self.assertTrue(result["derived"]["within_xiao_3v3_capacity"])
+        self.assertTrue(
+            result["derived"]["within_esp32_recommended_supply_capacity"]
+        )
+        self.assertGreater(result["derived"]["can_current_ma_peak"], 0)
+        adapter = (
+            ROOT / "firmware/main/ir_spoke_can_mcp2515_adapter.c"
+        ).read_text()
+        self.assertIn("spi_bus_initialize", adapter)
+        self.assertIn("_Static_assert", adapter)
+
     def test_no_integrated_receiver_in_bom(self):
         bom = (ROOT / "hardware/ir_spoke_link/bom_jlcpcb.csv").read_text()
         self.assertNotRegex(bom, r"TSOP57|integrated 38")
         for mpn in ("VEMD10940FX01", "TLV9062IDDFR", "TLV7011DCKR"):
             self.assertIn(mpn, bom)
+
+    def test_panel_and_jlc_export_are_versioned_and_fail_closed(self):
+        layout = json.loads(
+            (ROOT / "hardware/ir_spoke_link/layout_manifest.json").read_text()
+        )
+        self.assertTrue(layout["required_drc"]["fabrication_ready"])
+        self.assertEqual(layout["required_drc"]["violations"], 0)
+        self.assertEqual(layout["required_drc"]["unconnected_pads"], 0)
+        self.assertEqual(
+            layout["footprint_rotations_deg"],
+            {"U1": 0, "U2": 270, "J3": 0, "J4": 180, "D1": 0, "D2": 0},
+        )
+        self.assertEqual(
+            layout["jlc_rotation_offsets_deg"],
+            {"U1": 90, "U2": 90, "J3": 180, "J4": 180, "D1": 180, "D2": 0},
+        )
+        with (
+            ROOT / "hardware/jlc_export/IR_Spoke_Sensor_R4_2L"
+            / "IR_Spoke_Sensor_R4_2L_CPL.csv"
+        ).open(newline="", encoding="utf-8") as stream:
+            rotations = {
+                row["Designator"]: float(row["Rotation"])
+                for row in csv.DictReader(stream)
+            }
+        self.assertEqual(
+            {ref: rotations[ref] for ref in ("U1", "U2", "J3", "J4", "D1", "D2")},
+            {"U1": 90.0, "U2": 0.0, "J3": 180.0, "J4": 0.0, "D1": 180.0, "D2": 0.0},
+        )
+        export = (ROOT / "hardware/export_jlc.ps1").read_text()
+        for token in (
+            "IR_Spoke_Sensor_${Revision}_2L",
+            "breakaway_tab_mm",
+            "mouse_bite",
+            "temporary_links",
+            "Found 0 DRC violations",
+            "Found 0 unconnected pads",
+            "generate_jlc_assembly.py",
+        ):
+            self.assertIn(token, export)
 
     def test_live_jlc_snapshot_covers_all_procured_parts(self):
         snapshot = json.loads(
@@ -207,7 +399,6 @@ class TestSystem(unittest.TestCase):
         expected = set()
         for relative in (
             "hardware/ir_spoke_link/bom_jlcpcb.csv",
-            "hardware/remote_emitter/bom_jlcpcb.csv",
             "hardware/cable_bom.csv",
         ):
             with (ROOT / relative).open(newline="", encoding="utf-8-sig") as f:
@@ -221,12 +412,127 @@ class TestSystem(unittest.TestCase):
     def test_spice_uses_generated_optical_current_and_correct_direction(self):
         netlist = (ROOT / "simulation/ir_spoke_link.cir").read_text()
         generated = (ROOT / "simulation/generated_params.inc").read_text()
+        connectivity = (
+            ROOT / "simulation/generated_connectivity.inc"
+        ).read_text()
         self.assertIn(".param IPHOTO_SIGNAL=", generated)
-        self.assertIn("BPHOTO PD_K PD_A", netlist)
+        self.assertIn(".include generated_connectivity.inc", netlist)
+        self.assertIn("BPHOTO +3V3 PD_ANODE", connectivity)
+        self.assertIn("RHARNESS_K LED_K_SWITCHED LED_K_REMOTE", connectivity)
+        self.assertIn("RHARNESS_3V3 +3V3 +3V3_LED", connectivity)
+        self.assertIn("BESP +3V3 GND", connectivity)
+        self.assertIn("V3V3 +3V3 GND {VSUP}", connectivity)
+        self.assertIn("V(+3V3_LED,LED_A)>0.039", netlist)
+        self.assertIn(".param SUPPLY_RISE=", generated)
         self.assertNotRegex(netlist, r"\.param IPHOTO_SIGNAL=")
+        self.assertIn("TRAN_STOP/2-SPOKE_BLOCK/2", netlist)
+
+    def test_canonical_connectivity_drives_simulation_and_probes(self):
+        manifest = json.loads(
+            (ROOT / "hardware/connectivity.json").read_text()
+        )
+        main = manifest["boards"]["main"]["components"]
+        remote = manifest["boards"]["remote"]["components"]
+        self.assertEqual(main["J2"]["5"], main["J3"]["2"])
+        self.assertEqual(main["J3"]["2"], "+3V3")
+        self.assertEqual(main["Q1"]["2"], main["J3"]["1"])
+        self.assertEqual(remote["J4"]["1"], remote["D1"]["1"])
+        self.assertNotEqual(main["J3"]["1"], remote["J4"]["1"])
+        self.assertNotEqual(main["J3"]["2"], remote["J4"]["2"])
+        probe_nets = {
+            pins["1"] for ref, pins in main.items() if ref.startswith("TP")
+        }
+        self.assertTrue(
+            set(manifest["simulation"]["probe_nets"]) <= probe_nets
+        )
+        self.assertNotIn("PD_ANODE", probe_nets)
+        generated = (
+            ROOT / "simulation/generated_connectivity.inc"
+        ).read_text()
+        self.assertIn(
+            f"CONNECTIVITY_SHA256={SIM['derived']['connectivity_sha256']}",
+            generated,
+        )
+
+    def test_kicad_native_netlist_matches_canonical_connectivity(self):
+        spec = importlib.util.spec_from_file_location(
+            "validate_kicad_netlist",
+            ROOT / "tools/validate_kicad_netlist.py",
+        )
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        module.validate()
+
+    def test_power_budget_and_transient_traces(self):
+        d = SIM["derived"]
+        self.assertTrue(d["within_xiao_3v3_capacity"])
+        self.assertTrue(d["within_esp32_recommended_supply_capacity"])
+        self.assertLess(d["gpio_source_current_utilization"], 0.1)
+        self.assertLess(d["xiao_regulator_peak_utilization"], 0.7)
+        self.assertGreater(d["system_current_ma_peak_estimate"], 380)
+        self.assertGreater(d["system_current_ma_steady_average"], 80)
+        for trace in (
+            "led_current_ma", "esp32_current_ma", "afe_current_ma",
+            "can_current_ma", "system_current_ma", "supply_voltage_v",
+            "system_power_mw",
+        ):
+            self.assertEqual(
+                len(SIM["traces"][trace]),
+                len(SIM["traces"]["time_ms"]),
+            )
+
+    def test_konnect_database_matches_expected_schema_and_scope(self):
+        manifest = json.loads(
+            (ROOT / "hardware/konnect_database_manifest.json").read_text()
+        )
+        database = Path(manifest["database_path"])
+        self.assertTrue(database.is_file())
+        self.assertIn("subset", manifest["scope"])
+        with sqlite3.connect(database) as connection:
+            self.assertEqual(
+                connection.execute("PRAGMA integrity_check").fetchone()[0], "ok"
+            )
+            columns = {
+                row[1] for row in connection.execute("PRAGMA table_info(components)")
+            }
+            self.assertTrue({
+                "LCSC", "MFR_Part", "Package", "Manufacturer", "Library_Type",
+                "Description", "Price", "Stock", "Category",
+            }.issubset(columns))
+            count = connection.execute(
+                "SELECT COUNT(*) FROM components"
+            ).fetchone()[0]
+            self.assertEqual(count, manifest["rows"])
+            self.assertEqual(
+                connection.execute(
+                    "SELECT COUNT(*) FROM components WHERE Stock > 0"
+                ).fetchone()[0],
+                count,
+            )
+            library_counts = dict(connection.execute(
+                "SELECT Library_Type, COUNT(*) FROM components GROUP BY Library_Type"
+            ))
+            self.assertEqual(library_counts, {
+                "Basic": manifest["basic_rows"],
+                "Extended": manifest["extended_rows"],
+            })
+            self.assertEqual(
+                connection.execute(
+                    "SELECT Library_Type FROM components WHERE LCSC='C2146'"
+                ).fetchone()[0],
+                "Basic",
+            )
+            self.assertEqual(
+                connection.execute(
+                    "SELECT Library_Type FROM components WHERE LCSC='C7104273'"
+                ).fetchone()[0],
+                "Extended",
+            )
 
     def test_technical_html_documents_implemented_chain(self):
-        page = (ROOT / "public/technical.html").read_text(encoding="utf-8")
+        page = (
+            ROOT / "local_simulator/technical.html"
+        ).read_text(encoding="utf-8")
         HTMLParser().feed(page)
         for token in (
             "25–50 kHz",
@@ -237,7 +543,13 @@ class TestSystem(unittest.TestCase):
             "RMT RX",
             "MCPWM",
             "16–48",
-            "41 open connections",
+            "197 segments",
+            "392.27 mA",
+            "460.27 mA",
+            "MCP2515",
+            "7.5 × 1.5 mm conductive tab",
+            "70/70 pin-net matches",
+            "daylight-blocking",
             "ESP-IDF target compile",
         ):
             self.assertIn(token, page)

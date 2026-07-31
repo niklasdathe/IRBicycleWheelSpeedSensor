@@ -1,5 +1,6 @@
 {
   "collection": {
+    "project": "IR Spoke Sensor",
     "name": "IR Spoke Wheel Speed Sensor",
     "key": "MANPYY9A",
     "parent": "91 PCB-Design"
@@ -25,18 +26,49 @@
       "local_pdf": "docs/datasheets/TLV7011.pdf",
       "revision": "current local manufacturer PDF checked 2026-07-27"
     },
-    "JST_GH": {
-      "zotero_key": "PR2Q7MHX",
-      "local_pdf": "docs/datasheets/JST_GH.pdf"
+    "JST_SM02B_GHS_TB": {
+      "zotero_key": "C9NZH5NX",
+      "attachment_key": "UNAEGYMF",
+      "local_pdf": "docs/datasheets/components/C189893_JST_SM02B-GHS-TB_GH.pdf",
+      "lcsc": "C189893",
+      "revision_checked": "2026-07-28"
     },
     "ESP32_S3_TRM": {
       "zotero_key": "C5MIHHD4",
       "local_pdf": "docs/datasheets/ESP32-S3_TRM.pdf"
     },
+    "ESP32_S3_DATASHEET": {
+      "zotero_key": "Z92JDP8Y",
+      "local_pdf": "docs/datasheets/ESP32-S3_Datasheet.pdf",
+      "revision": "2.2"
+    },
     "S8050_J3Y": {
       "zotero_key": "UB36J75K",
       "local_pdf": "docs/datasheets/S8050_J3Y.pdf",
       "revision": "2.0"
+    },
+    "SEEED_XIAO_CAN_BOARD": {
+      "zotero_key": "2CMY7WBF",
+      "type": "webpage",
+      "official_design": "docs/datasheets/components/Seeed_XIAO_CAN_DEV_XIAO_Official_Design.zip"
+    },
+    "MCP2515": {
+      "zotero_key": "F4I3QT8Y",
+      "attachment_key": "FABDJV2D",
+      "local_pdf": "docs/datasheets/components/Seeed_XIAO_CAN_MCP2515.pdf",
+      "revision": "DS20001801J"
+    },
+    "SN65HVD230": {
+      "zotero_key": "XI3E4RUF",
+      "attachment_key": "K4JBV595",
+      "local_pdf": "docs/datasheets/components/TI_SN65HVD230.pdf",
+      "revision": "SLLS498O"
+    },
+    "SEEED_XIAO_ESP32S3_SCHEMATIC_V1_4": {
+      "zotero_key": "QCJBGMZM",
+      "attachment_key": "8583Q45N",
+      "local_pdf": "docs/datasheets/components/Seeed_XIAO_ESP32S3_v1.4_Schematic.pdf",
+      "revision": "1.4"
     },
     "JLCPCB_CAPABILITIES": {
       "zotero_key": "5RKW9KLZ",
@@ -45,6 +77,11 @@
     "JLCPCB_ASSEMBLY_FAQ": {
       "zotero_key": "L4FKT4U2",
       "type": "webpage"
+    },
+    "JLCPCB_VCUT_STANDARDS": {
+      "zotero_key": "RQ9VWS3I",
+      "type": "webpage",
+      "checked": "2026-07-28"
     }
   }
 }

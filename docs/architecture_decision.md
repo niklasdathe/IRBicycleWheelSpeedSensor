@@ -8,10 +8,20 @@ frequency whenever the optical path is clear and stops while a spoke blocks
 the beam.
 
 ESP32-S3 RMT is the better fit for that signal because the peripheral supports
-RX carrier demodulation, glitch filtering, symbol-duration capture and RX DMA.
-The firmware can receive missing-carrier windows without servicing every
-carrier edge. The RX demodulator frequency is derived at runtime as 0.66 times
-the selected TX frequency, not stored as a second fixed frequency.
+TX carrier modulation, RX carrier demodulation, input filtering and
+symbol-duration capture. The firmware uses ESP-IDF's official channel,
+copy-encoder, carrier, callback, receive and transmit abstractions instead of
+register access. It receives missing-carrier windows without processing every
+carrier edge in an application ISR.
+
+The RX demodulator frequency is derived at runtime as a configurable ratio of
+the selected TX frequency. The default 0.66 follows Espressif's documented
+38 kHz TX / 25 kHz RX tolerance example and is not a second fixed frequency.
+TX and RX GPIO, RMT resolution, channel memory, TX queue depth, carrier duty,
+RX ratio/duty, minimum pulse, blockage acceptance and link-loss timeout are all
+members of the validated runtime configuration. Callback timestamps are
+reconstructed from captured RMT symbol durations instead of assigning the
+callback time to every event.
 
 MCPWM Capture has a high-resolution APB-clock timestamp and is excellent when
 the input is already a baseband edge. On ESP32-S3 its requested resolution is

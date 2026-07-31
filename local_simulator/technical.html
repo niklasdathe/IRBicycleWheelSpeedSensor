@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IR Spoke Sensor — Technical Reference</title>
+<style>
+body{font:13px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;max-width:1040px;margin:30px auto;padding:0 18px;color:#18181b}
+h1,h2{font-family:system-ui,sans-serif}h1{font-size:24px}h2{font-size:15px;margin:28px 0 8px;border-bottom:1px solid #ddd;padding-bottom:5px}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:6px 8px;text-align:left;vertical-align:top}th{background:#f5f5f5}
+pre,code{background:#f5f5f5}pre{padding:10px;overflow:auto}a{color:#075985}.ok{color:#166534}.open{color:#9a3412}
+</style>
+</head>
+<body>
+<h1>IR Spoke Sensor / technical reference</h1>
+<p>Single editable baseline: <code>config/system.json</code>. Generated C/C++,
+SPICE and visualization values are derived from it.</p>
+
+<h2>1 / Physical timing</h2>
+<table>
+<tr><th>parameter</th><th>design</th><th>range / gate</th></tr>
+<tr><td>wheel diameter</td><td>0.702 m</td><td>configuration</td></tr>
+<tr><td>speed</td><td>60 km/h</td><td>80 km/h stress</td></tr>
+<tr><td>spokes</td><td>32</td><td>16–48 inferred</td></tr>
+<tr><td>spoke width / beam radius</td><td>2.0 mm / 0.25 m</td><td>70–600 µs accepted</td></tr>
+</table>
+<pre>f_wheel = v/(πD) = 7.557 Hz at 60 km/h
+f_event = N·f_wheel = 241.831 Hz
+t_block = w/(2π·f_wheel·r) = 168.48 µs</pre>
+
+<h2>2 / Modulation</h2>
+<pre>runtime carrier: 25–50 kHz, 50% duty, 38 kHz default
+RMT TX → S8050 → 600 mm pair → 39 Ω → VSMB1940X01 940 nm
+                                            ↓ spoke: transmission 1.00 → 0.05
+                                      VEMD10940FX01</pre>
+<p>Typical installed LED current: 45.02 mA including 0.3168 Ω maximum
+harness/contact loop resistance. At 60 km/h and the default, one blockage
+removes 6.40 carrier cycles.</p>
+<p>Reliability mechanism: DC sunlight and slow shadows contain little energy
+at the selected carrier. The AC-coupled receiver accepts that temporal
+signature, the comparator restores logic edges, and RMT classifies a spoke only
+when several consecutive carrier cycles disappear. A single amplitude sample
+would not provide those independent rejection mechanisms.</p>
+
+<h2>3 / Custom analog receiver</h2>
+<table>
+<tr><th>stage</th><th>installed values</th><th>model</th></tr>
+<tr><td>photodiode</td><td>VEMD10940FX01; 3.3 pF typ.</td><td>3 µA at 10 W/m² typ.; 100 ns typ.</td></tr>
+<tr><td>TIA</td><td>TLV9062; 33 kΩ ∥ 120 pF</td><td>40.19 kHz pole; 1.65 V reference</td></tr>
+<tr><td>AC rejection</td><td>1 nF / 16 kΩ</td><td>9.947 kHz high-pass</td></tr>
+<tr><td>gain / low-pass</td><td>10 kΩ; 560 kΩ ∥ 4.7 pF</td><td>57 V/V DC gain; 60.47 kHz pole</td></tr>
+<tr><td>decision</td><td>TLV7011; 10 kΩ / 1 MΩ</td><td>37.2 mV total typ. hysteresis</td></tr>
+</table>
+<p>No prebuilt carrier receiver and no AGC. The configured carrier range is an
+installed-filter constraint. Nominal simulated band-pass swing is 0.364 Vpp.
+The VEMD10940FX01 includes an 830–950 nm matched daylight-blocking optical
+filter. Sunlight still contains 940 nm energy; TIA headroom, AC filtering and
+carrier-loss timing provide the remaining rejection.</p>
+
+<h2>4 / Demodulation and capture</h2>
+<pre>selected carrier → comparator carrier
+                 → RMT RX carrier removal at 0.66·f_TX
+                 → missing-carrier duration
+                 → 70–600 µs detector
+                 → timestamp → pattern learner</pre>
+<p>RMT RX is used because it removes the carrier in hardware. MCPWM Capture is
+appropriate only after an external envelope detector; otherwise it exposes
+each carrier edge.</p>
+<p>ESP-IDF abstraction used: TX/RX channel allocation, copy encoder,
+<code>rmt_apply_carrier</code>, receive callback, <code>rmt_receive</code> and
+<code>rmt_transmit</code>. GPIOs, RMT resolution, TX duty, RX frequency ratio,
+RX duty, glitch filter and interval limits share one runtime config. The
+default 0.66 RX/TX ratio follows Espressif's 25/38 kHz tolerance example.</p>
+
+<h2>5 / Reusable C interfaces</h2>
+<table>
+<tr><th>module</th><th>input → output</th></tr>
+<tr><td><code>ir_spoke_config</code></td><td>runtime carrier/duty → validated RMT settings</td></tr>
+<tr><td><code>ir_spoke_geometry</code></td><td>wheel geometry/speed → timing bounds</td></tr>
+<tr><td><code>ir_spoke_detector</code></td><td>blockage duration → accept/reject + counters</td></tr>
+<tr><td><code>ir_spoke_pattern</code></td><td>accepted timestamps → count/confidence/LUT/speed</td></tr>
+<tr><td><code>ir_spoke_pipeline</code></td><td>detector + pattern composition</td></tr>
+<tr><td><code>ir_spoke_can</code></td><td>estimate → transport-independent 8-byte CAN frame</td></tr>
+<tr><td><code>ir_spoke_rmt_adapter</code></td><td>ESP-IDF RMT ISR/task → portable pipeline</td></tr>
+<tr><td><code>ir_spoke_can_mcp2515_adapter</code></td><td>ESP-IDF SPI → official XIAO MCP2515 board</td></tr>
+</table>
+<p>Core: C99, caller-owned state, no heap, no RTOS dependency. Count matching
+compares adjacent N-length interval windows for N=16–48. Locked LUT cells use
+an 0.08 EMA with bounded residual rejection. Uniform spacing is not sufficient
+to identify an absolute spoke count and therefore remains confidence-limited.</p>
+
+<h2>6 / Datasheet cross-check</h2>
+<table>
+<tr><th>part</th><th>values used</th><th>revision</th></tr>
+<tr><td>VSMB1940X01</td><td>3/6/12 mW/sr min/typ/max at 100 mA; 1.35 V typ.</td><td>1.6 / 2025-03-24</td></tr>
+<tr><td>VEMD10940FX01</td><td>3 µA typ. at 10 W/m²; 3.3 pF typ.</td><td>1.4 / 2025-10-28</td></tr>
+<tr><td>TLV9062</td><td>10 MHz GBW; 6.5 V/µs; 10 nV/√Hz</td><td>2026-07</td></tr>
+<tr><td>TLV7011</td><td>260 ns typ.; 1.2/4.2/14 mV hysteresis</td><td>local current PDF</td></tr>
+<tr><td>ESP32-S3</td><td>340 mA Wi-Fi TX peak; ≥500 mA recommended supply; GPIO source 40 mA typ.</td><td>2.2</td></tr>
+<tr><td>MCP2515</td><td>3.3 V; 10 MHz SPI; 10 mA active maximum</td><td>DS20001801J</td></tr>
+<tr><td>SN65HVD230</td><td>3.3 V CAN; 17 mA recessive maximum; 1 Mbit/s</td><td>SLLS498O</td></tr>
+</table>
+
+<h2>7 / Simulation scope</h2>
+<p>Numerical transient: optical inverse-square scaling, cable drop, component
+RC poles, ambient DC, shot/Johnson/op-amp noise plus adjustable interference,
+comparator propagation delay/hysteresis and RMT missing-carrier behavior. Every
+window contains a centered physical blockage. 10,000-case sweep: 99.80% pass; p01 decision margin
+1.29×; p01 TIA headroom 0.44 V. The sweep is not a substitute for optical
+alignment, sunlight, contamination or wheel tests.</p>
+
+<h2>8 / Power transient</h2>
+<table>
+<tr><th>quantity</th><th>default modeled result</th></tr>
+<tr><td>LED peak / average</td><td>45.02 / 22.51 mA</td></tr>
+<tr><td>ESP32 scenario average</td><td>60.35 mA</td></tr>
+<tr><td>complete 3.3 V average</td><td>85.36 mA / 281.69 mW</td></tr>
+<tr><td>coincident peak estimate</td><td>392.27 mA</td></tr>
+<tr><td>XIAO 700 mA utilization</td><td>56.0%</td></tr>
+<tr><td>Espressif 500 mA supply utilization</td><td>78.5%</td></tr>
+<tr><td>CAN enabled, 100% dominant stress</td><td>68.0 mA CAN; 460.27 mA system peak; 92.1% of 500 mA</td></tr>
+</table>
+<p>Traces include LED/base carrier current, ESP32 CPU/Wi-Fi state, AFE
+quiescent current, optional MCP2515/SN65HVD230 current, VREF/local-capacitor
+startup, 3.3 V rise, total current and total power.
+Cold USB/regulator inrush requires an assembled-board measurement.</p>
+
+<h2>9 / Connectivity and probes</h2>
+<pre>hardware/connectivity.json
+  ├─ KiCad schematic generator → native XML: 70/70 pin-net matches
+  ├─ combined carrier/emitter PCB pad nets → footprint audit
+  └─ SPICE include + SHA guard → Python/local simulation fails if stale</pre>
+<table>
+<tr><th>pad</th><th>net</th><th>correlation</th></tr>
+<tr><td>TP1 / TP2 / TP3</td><td>GND / +3V3 / VREF</td><td>supply and threshold reference</td></tr>
+<tr><td>TP4</td><td>TX_CARRIER_GPIO1</td><td>carrier</td></tr>
+<tr><td>TP5 / TP6</td><td>TIA_OUT / BANDPASS</td><td>analog transient</td></tr>
+<tr><td>TP7 / TP8</td><td>COMP_OUT / RX_RMT_GPIO2</td><td>decision and RMT input</td></tr>
+</table>
+<p>No testpoint is fitted at PD_ANODE because probe capacitance changes TIA
+behavior. No threshold potentiometer is fitted: fixed hysteresis avoids
+vibration/drift and distance is verified at TP5/TP6 before selecting fixed
+gain values.</p>
+
+<h2>10 / Fabrication state</h2>
+<table>
+<tr><th>assembly</th><th>state</th></tr>
+<tr><td>R3 connected board</td><td>21 × 37.9 mm, 2 layers; exact 17.8 × 21.4 mm carrier + 21 × 15 mm routed emitter</td></tr>
+<tr><td>breakaway</td><td class="ok">7.5 × 1.5 mm conductive tab; five 0.5 mm mouse-bites; four rounded corners per finished board</td></tr>
+<tr><td>temporary test path</td><td class="ok">3V3 and switched LED cathode cross two board-only net ties and are severed at snap-off</td></tr>
+<tr><td>captured generator state</td><td class="ok">197 segments; 12 vias; 44 panel footprints including user logo; DRC 0 / opens 0</td></tr>
+<tr><td>JLC export</td><td class="ok">R4 versioned Gerber/BOM/CPL configured; physical rotations preserved; CPL-only placement offsets</td></tr>
+<tr><td>JLC selection</td><td>9 live Basic / 12 live Extended catalog records; no safe active-device consolidation</td></tr>
+<tr><td>XIAO CAN</td><td class="ok">D6–D10 MCP2515/SN65HVD230 option; no conflict with IR D0/D1</td></tr>
+<tr><td>ESP-IDF target compile</td><td class="open">adapter implemented; target toolchain verification pending</td></tr>
+<tr><td>physical validation</td><td class="open">sunlight, water, alignment and vibration pending</td></tr>
+</table>
+
+<h2>11 / Reproduce</h2>
+<pre>py -3.14 tools/generate_constants.py
+py -3.14 tools/generate_connectivity.py
+py -3.14 simulation/ir_spoke_sim.py --monte-carlo 10000
+py -3.14 tools/validate_kicad_netlist.py
+py -3.14 tools/build_konnect_jlc_db.py
+py -3.14 simulation/local_server.py
+py -3.14 -m unittest discover -s tests -v
+powershell -ExecutionPolicy Bypass -File hardware/export_jlc.ps1</pre>
+<p>Local interactive model: <code>http://127.0.0.1:8765/</code>. The UI calls
+the Python transient directly and downloads a C configuration generated from
+the same submitted values.</p>
+</body>
+</html>

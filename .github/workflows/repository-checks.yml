@@ -1,0 +1,25 @@
+name: Repository checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  linked-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check Python sources
+        run: >-
+          python -m compileall -q
+          tools simulation firmware tests
+      - name: Check interactive BOM synchronization
+        run: python tools/interactive_bom.py --check
+      - name: Check canonical paths and documentation
+        run: python tools/audit_project.py
