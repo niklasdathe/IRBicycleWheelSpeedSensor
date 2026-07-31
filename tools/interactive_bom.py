@@ -53,6 +53,13 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def text_sha256(path: Path) -> str:
+    """Hash UTF-8 text with canonical LF endings on every platform."""
+    with path.open("r", encoding="utf-8", newline=None) as stream:
+        content = stream.read()
+    return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
+
 def require_generator() -> None:
     missing = [path for path in (KICAD_PYTHON, GENERATOR) if not path.is_file()]
     if missing:
@@ -86,7 +93,7 @@ def generate() -> dict[str, str]:
         "source": str(PCB.relative_to(ROOT)).replace("\\", "/"),
         "source_sha256": sha256(PCB),
         "output": str(OUTPUT.relative_to(ROOT)).replace("\\", "/"),
-        "output_sha256": sha256(OUTPUT),
+        "output_sha256": text_sha256(OUTPUT),
         "options": list(GENERATOR_OPTIONS),
     }
     MANIFEST.write_text(
@@ -109,7 +116,7 @@ def check() -> dict[str, str]:
         "source": str(PCB.relative_to(ROOT)).replace("\\", "/"),
         "source_sha256": sha256(PCB),
         "output": str(OUTPUT.relative_to(ROOT)).replace("\\", "/"),
-        "output_sha256": sha256(OUTPUT),
+        "output_sha256": text_sha256(OUTPUT),
         "options": list(GENERATOR_OPTIONS),
     }
     mismatches = {
@@ -133,7 +140,7 @@ class LiveState:
 
     def update(self) -> None:
         with self.lock:
-            self.version = sha256(OUTPUT)
+            self.version = text_sha256(OUTPUT)
             self.last_error = ""
 
     def error(self, message: str) -> None:
