@@ -3,7 +3,7 @@
   "machine_slug": "ir_spoke_sensor",
   "legacy_kicad_basename": "ir_spoke_link",
   "revision": "R4",
-  "hardware_version": "V0.1",
+  "hardware_version": "V0.2-dev",
   "ordered_hardware_version": "V0.1",
   "software_version": "SW-V0.1.0-dev",
   "canonical": {

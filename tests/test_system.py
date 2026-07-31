@@ -373,7 +373,7 @@ class TestSystem(unittest.TestCase):
         )
         project = json.loads((ROOT / "project_manifest.json").read_text())
         export_dir = ROOT / project["canonical"]["jlc_export"]
-        product = f"IR_Spoke_Sensor_{project['hardware_version']}_2L"
+        product = f"IR_Spoke_Sensor_{project['ordered_hardware_version']}_2L"
         with (export_dir / f"{product}_CPL.csv").open(
             newline="", encoding="utf-8"
         ) as stream:

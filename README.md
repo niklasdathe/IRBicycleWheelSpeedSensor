@@ -2,6 +2,7 @@
 
 [![Repository checks](https://github.com/niklasdathe/IRBicycleWheelSpeedSensor/actions/workflows/repository-checks.yml/badge.svg)](https://github.com/niklasdathe/IRBicycleWheelSpeedSensor/actions/workflows/repository-checks.yml)
 [![Documentation](https://github.com/niklasdathe/IRBicycleWheelSpeedSensor/actions/workflows/pages.yml/badge.svg)](https://niklasdathe.github.io/IRBicycleWheelSpeedSensor/)
+[![Hardware release](https://img.shields.io/github/v/release/niklasdathe/IRBicycleWheelSpeedSensor?filter=V*&label=hardware)](https://github.com/niklasdathe/IRBicycleWheelSpeedSensor/releases/tag/V0.1)
 
 Configurable 940 nm through-beam spoke sensor for a Seeed Studio XIAO
 ESP32-S3. A discrete analog front end restores a 25-50 kHz optical carrier;
@@ -16,8 +17,9 @@ is generated directly from the authoritative KiCad PCB.
 
 ## Status
 
-**Hardware V0.1 (KiCad CAD revision R4) was ordered; electrical simulation and
-fabrication checks pass, while physical validation is still open.**
+**Hardware V0.1 (KiCad CAD revision R4) was ordered and is preserved as a
+[GitHub release](https://github.com/niklasdathe/IRBicycleWheelSpeedSensor/releases/tag/V0.1).
+`main` is now hardware V0.2-dev; physical validation is still open for V0.1.**
 
 | Area | Current evidence |
 |---|---|
@@ -66,7 +68,7 @@ listed in [TODO.md](TODO.md).
 .\Open-Interactive-BOM.cmd
 py -3.14 simulation\local_server.py
 powershell -ExecutionPolicy Bypass -File tests\run_all.ps1
-powershell -ExecutionPolicy Bypass -File hardware\export_jlc.ps1 -Revision V0.1
+powershell -ExecutionPolicy Bypass -File hardware\export_jlc.ps1 -Revision V0.2
 ```
 
 The KiCad launcher also starts the InteractiveHtmlBom watcher at

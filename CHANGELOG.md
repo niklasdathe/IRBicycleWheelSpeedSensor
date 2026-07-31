@@ -5,6 +5,14 @@ manufactured PCB states; software entries describe firmware behavior.
 
 ## Hardware
 
+### V0.2 — Unreleased
+
+Changes relative to the ordered V0.1 baseline:
+
+- Development line opened; no electrical, mechanical, placement or routing
+  change has been made yet.
+- Hardware changes must be recorded here before a future V0.2 release.
+
 ### V0.1 — 2026-07-31
 
 Ordered baseline, corresponding to KiCad CAD revision R4 and Git tag `V0.1`.

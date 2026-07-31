@@ -20,13 +20,21 @@ The tab intentionally carries `3V3` and `LED_K` for pre-snap testing. Snapping
 severs both traces. The two boards then reconnect through J3/J4 and the JST-GH
 harness.
 
-## Generate the JLC package
+## Retrieve or reproduce V0.1
+
+Download the immutable order assets from the
+[Hardware V0.1 GitHub release](https://github.com/niklasdathe/IRBicycleWheelSpeedSensor/releases/tag/V0.1).
+To reproduce them without changing the V0.2 development checkout, create a
+separate worktree at the tag:
 
 ```powershell
+git worktree add ..\IR-Spoke-Sensor-V0.1 V0.1
+Set-Location ..\IR-Spoke-Sensor-V0.1
 powershell -ExecutionPolicy Bypass -File hardware\export_jlc.ps1 -Revision V0.1
 ```
 
-The export is fail-closed: captured-layout restoration and footprint audit run
+The exporter rejects a version that does not match the checked-out project.
+It is also fail-closed: captured-layout restoration and footprint audit run
 first, and no manufacturing files are accepted unless DRC reports 0 violations
 and 0 unconnected pads.
 
