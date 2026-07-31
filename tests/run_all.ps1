@@ -21,6 +21,8 @@ try {
     Assert-NativeSuccess "Konnect database build"
     py -3.14 tools\interactive_bom.py --check
     Assert-NativeSuccess "interactive BOM sync"
+    py -3.14 tools\readme_pcb_render.py --check
+    Assert-NativeSuccess "README PCB render sync"
     py -3.14 tools\audit_project.py
     Assert-NativeSuccess "project link audit"
     py -3.14 -m unittest discover -s tests -v

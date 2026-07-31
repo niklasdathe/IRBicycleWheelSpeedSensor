@@ -6,7 +6,7 @@
   "source": "hardware/ir_spoke_link/ir_spoke_link.kicad_pcb",
   "source_sha256": "add742abe3ee2e82f2ac7b2080bab3a63637b439c6e7066c24f229f5cdd8c285",
   "output": "docs/interactive_bom.html",
-  "output_sha256": "a6357cda1a7ed049df43db97c695793d6949d4d9dcabad2c3b36ca824d132231",
+  "output_sha256": "123dee49d7b4228f91151299e31edd3a91a464c95532c98567e366ac7e323cff",
   "options": [
     "--dark-mode",
     "--show-fabrication",

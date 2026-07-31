@@ -69,9 +69,18 @@ never route.
 
 5. Review the PDF/PCB visually and run the complete suite.
 
+6. Regenerate the README image from the captured board:
+
+   ```powershell
+   py -3.14 tools\readme_pcb_render.py --generate
+   ```
+
 `layout_manifest.json` records schematic, PCB, logical routing, raw route text,
 preferences, rotations, DRC requirements and endpoint count. A component move
 does not authorize automated rerouting.
+
+The render manifest beside the PNG records both the PCB and image hashes. CI
+fails when the README still shows an older captured PCB.
 
 ## Acceptance checklist
 

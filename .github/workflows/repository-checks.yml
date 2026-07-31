@@ -21,5 +21,7 @@ jobs:
           tools simulation firmware tests
       - name: Check interactive BOM synchronization
         run: python tools/interactive_bom.py --check
+      - name: Check README PCB render synchronization
+        run: python tools/readme_pcb_render.py --check
       - name: Check canonical paths and documentation
         run: python tools/audit_project.py

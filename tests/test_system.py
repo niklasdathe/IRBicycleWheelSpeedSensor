@@ -76,13 +76,19 @@ class TestSystem(unittest.TestCase):
         def digest(relative: str) -> str:
             return hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
 
+        def text_digest(relative: str) -> str:
+            content = (ROOT / relative).read_text(encoding="utf-8")
+            return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
         self.assertEqual(manifest["generator_version"], "v2.11.2")
         self.assertEqual(
             manifest["generator_commit"],
             "de7fad7ead9b73cea7eb17afa02c6ce9ce17a6ab",
         )
         self.assertEqual(manifest["source_sha256"], digest(manifest["source"]))
-        self.assertEqual(manifest["output_sha256"], digest(manifest["output"]))
+        self.assertEqual(
+            manifest["output_sha256"], text_digest(manifest["output"])
+        )
         page = (ROOT / manifest["output"]).read_text(encoding="utf-8")
         for token in ("Manufacturer", "MPN", "LCSC", "JLCPCB", "Netlist"):
             self.assertIn(token, page)

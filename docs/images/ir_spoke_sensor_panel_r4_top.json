@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "generator": "KiCad CLI pcb render",
+  "source": "hardware/ir_spoke_link/ir_spoke_link.kicad_pcb",
+  "source_sha256": "add742abe3ee2e82f2ac7b2080bab3a63637b439c6e7066c24f229f5cdd8c285",
+  "output": "docs/images/ir_spoke_sensor_panel_r4_top.png",
+  "output_sha256": "55e717ea1e521449e62eb38dd317a185c3be1ed023db8c04b0ee14b6c0dd9107",
+  "render_width": 1200,
+  "render_height": 1800,
+  "image_width": 1176,
+  "image_height": 1768,
+  "options": [
+    "--width",
+    "1200",
+    "--height",
+    "1800",
+    "--side",
+    "top",
+    "--background",
+    "opaque",
+    "--quality",
+    "high",
+    "--preset",
+    "follow_pcb_editor",
+    "--floor",
+    "--zoom",
+    "0.95"
+  ]
+}
