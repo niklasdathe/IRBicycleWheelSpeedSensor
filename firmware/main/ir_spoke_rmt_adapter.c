@@ -33,8 +33,6 @@ static ir_spoke_runtime_config_t runtime_config;
 static volatile uint32_t rx_capture_count;
 static volatile uint32_t rx_queue_drops;
 static volatile uint32_t rx_last_symbol_count;
-static volatile uint32_t rx_last_clear_us;
-static volatile uint32_t rx_last_max_blocked_us;
 
 static uint32_t ticks_to_us(uint32_t ticks) {
     return (uint32_t)(((uint64_t)ticks * 1000000u +
@@ -48,75 +46,31 @@ static bool rx_done(rmt_channel_handle_t channel,
     BaseType_t wake = pdFALSE;
     const uint64_t now = (uint64_t)esp_timer_get_time();
     uint64_t captured_us = 0;
-    uint32_t clear_us = 0;
-    uint32_t max_blocked_us = 0;
-
     for (size_t i = 0; i < data->num_symbols; ++i) {
         captured_us += ticks_to_us(data->received_symbols[i].duration0);
         captured_us += ticks_to_us(data->received_symbols[i].duration1);
     }
-
     uint64_t cursor_us = now > captured_us ? now - captured_us : 0;
     for (size_t i = 0; i < data->num_symbols; ++i) {
         const rmt_symbol_word_t s = data->received_symbols[i];
-        const uint32_t duration0_us = ticks_to_us(s.duration0);
-        const uint32_t duration1_us = ticks_to_us(s.duration1);
-        const uint8_t levels[2] = {s.level0, s.level1};
-        const uint32_t durations[2] = {duration0_us, duration1_us};
-        const uint64_t timestamps[2] = {
-            cursor_us,
-            cursor_us + duration0_us,
+        const blockage_event_t phases[2] = {
+            {.timestamp_us = cursor_us,
+             .duration_us = s.level0 ? 0u : ticks_to_us(s.duration0)},
+            {.timestamp_us = cursor_us + ticks_to_us(s.duration0),
+             .duration_us = s.level1 ? 0u : ticks_to_us(s.duration1)},
         };
-
         for (unsigned phase = 0; phase < 2; ++phase) {
-            if (!durations[phase]) continue;
-            if (levels[phase]) {
-                clear_us += durations[phase];
-            } else {
-                if (durations[phase] > max_blocked_us) {
-                    max_blocked_us = durations[phase];
-                }
-                const blockage_event_t event = {
-                    .timestamp_us = timestamps[phase],
-                    .duration_us = durations[phase],
-                };
-                if (xQueueSendFromISR(event_queue, &event, &wake) != pdTRUE) {
-                    ++rx_queue_drops;
-                }
+            if (phases[phase].duration_us &&
+                xQueueSendFromISR(event_queue, &phases[phase], &wake) != pdTRUE) {
+                ++rx_queue_drops;
             }
         }
-        cursor_us += duration0_us + duration1_us;
+        cursor_us += ticks_to_us(s.duration0) + ticks_to_us(s.duration1);
     }
-
-    rx_last_clear_us = clear_us;
-    rx_last_max_blocked_us = max_blocked_us;
     rx_last_symbol_count = (uint32_t)data->num_symbols;
     ++rx_capture_count;
     vTaskNotifyGiveFromISR(receive_task, &wake);
     return wake == pdTRUE;
-}
-
-static void update_link_state(const ir_spoke_runtime_config_t *config,
-                              uint32_t symbols,
-                              uint32_t clear_us,
-                              uint32_t max_blocked_us) {
-    if (clear_us > 0) {
-        ir_spoke_debug_link_state(IR_SPOKE_LINK_UP,
-                                  clear_us, max_blocked_us);
-        return;
-    }
-
-    const uint32_t down_threshold_us =
-        config->link_loss_us > 100u ? config->link_loss_us - 100u
-                                    : config->link_loss_us;
-    if (symbols == 0 || max_blocked_us >= down_threshold_us) {
-        ir_spoke_debug_link_state(IR_SPOKE_LINK_DOWN,
-                                  clear_us, max_blocked_us);
-        return;
-    }
-
-    ir_spoke_debug_link_state(IR_SPOKE_LINK_UNKNOWN,
-                              clear_us, max_blocked_us);
 }
 
 static void receive_loop(void *argument) {
@@ -133,7 +87,6 @@ static void receive_loop(void *argument) {
         "RX task started min_signal=%luns max_signal=%luns",
         (unsigned long)receive_config.signal_range_min_ns,
         (unsigned long)receive_config.signal_range_max_ns);
-    ir_spoke_debug_link_state(IR_SPOKE_LINK_UNKNOWN, 0, 0);
 
     for (;;) {
         const esp_err_t receive_result = rmt_receive(
@@ -149,16 +102,10 @@ static void receive_loop(void *argument) {
         const uint32_t capture_count = rx_capture_count;
         const uint32_t symbols = rx_last_symbol_count;
         const uint32_t drops = rx_queue_drops;
-        const uint32_t clear_us = rx_last_clear_us;
-        const uint32_t max_blocked_us = rx_last_max_blocked_us;
-
-        update_link_state(config, symbols, clear_us, max_blocked_us);
         ir_spoke_debug_event(
             IR_SPOKE_DEBUG_RMT_CAPTURE,
-            "capture=%" PRIu32 " symbols=%" PRIu32
-            " clear=%" PRIu32 "us max_blocked=%" PRIu32
-            "us queue_drops=%" PRIu32,
-            capture_count, symbols, clear_us, max_blocked_us, drops);
+            "capture=%" PRIu32 " symbols=%" PRIu32 " queue_drops=%" PRIu32,
+            capture_count, symbols, drops);
         if (drops != reported_queue_drops) {
             ir_spoke_debug_event(
                 IR_SPOKE_DEBUG_ERROR,
