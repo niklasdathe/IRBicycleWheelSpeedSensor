@@ -1,6 +1,8 @@
 #ifndef IR_SPOKE_DEBUG_H
 #define IR_SPOKE_DEBUG_H
 
+#include <stdint.h>
+
 #include "esp_err.h"
 
 #ifdef __cplusplus
@@ -11,6 +13,7 @@ typedef enum {
     IR_SPOKE_DEBUG_STARTUP = 0,
     IR_SPOKE_DEBUG_RMT,
     IR_SPOKE_DEBUG_RMT_CAPTURE,
+    IR_SPOKE_DEBUG_LINK,
     IR_SPOKE_DEBUG_PULSE_ACCEPTED,
     IR_SPOKE_DEBUG_PULSE_REJECTED,
     IR_SPOKE_DEBUG_ESTIMATOR,
@@ -22,9 +25,18 @@ typedef enum {
     IR_SPOKE_DEBUG_ERROR,
 } ir_spoke_debug_event_t;
 
+typedef enum {
+    IR_SPOKE_LINK_UNKNOWN = 0,
+    IR_SPOKE_LINK_DOWN,
+    IR_SPOKE_LINK_UP,
+} ir_spoke_link_state_t;
+
 esp_err_t ir_spoke_debug_init(void);
 void ir_spoke_debug_event(ir_spoke_debug_event_t event,
                           const char *format, ...);
+void ir_spoke_debug_link_state(ir_spoke_link_state_t state,
+                               uint32_t clear_us,
+                               uint32_t max_blocked_us);
 
 #ifdef __cplusplus
 }
