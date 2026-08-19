@@ -2,6 +2,7 @@
 #include <cstring>
 extern "C" {
 #include "ir_spoke_ble_csc.h"
+#include "ir_spoke_debug.h"
 #include "host/ble_gap.h"
 #include "host/ble_gatt.h"
 #include "host/ble_hs.h"
@@ -58,6 +59,9 @@ int access(std::uint16_t conn, std::uint16_t attr, ble_gatt_access_ctxt* ctxt, v
                                   (std::uint32_t{request[4]} << 24);
       service.set_cumulative(value);
       result = 0x01;  // Success
+      ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                           "CSC cumulative wheel value set to %lu",
+                           static_cast<unsigned long>(value));
     } else {
       result = 0x04;  // Operation Failed
     }
@@ -71,6 +75,8 @@ int access(std::uint16_t conn, std::uint16_t attr, ble_gatt_access_ctxt* ctxt, v
   const int rc = ble_gatts_indicate_custom(conn, control_point_handle, om);
   if (rc != 0) {
     service.cancel_control_procedure();
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_ERROR,
+                         "BLE control-point indication failed rc=%d", rc);
   }
   return rc == 0 ? 0 : BLE_ATT_ERR_UNLIKELY;
 }
@@ -131,8 +137,16 @@ int NimbleService::start_advertising() {
   // 30-60 ms is the profile's recommended initial advertising range.
   parameters.itvl_min = 0x0030;
   parameters.itvl_max = 0x0060;
-  return ble_gap_adv_start(own_address_type, nullptr, BLE_HS_FOREVER,
-                           &parameters, gap_event, this);
+  rc = ble_gap_adv_start(own_address_type, nullptr, BLE_HS_FOREVER,
+                         &parameters, gap_event, this);
+  if (rc == 0) {
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                         "advertising active as 'Bicycle Speed Sensor'");
+  } else {
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_ERROR,
+                         "BLE advertising start failed rc=%d", rc);
+  }
+  return rc;
 }
 
 int NimbleService::gap_event(ble_gap_event* event, void* arg) {
@@ -143,10 +157,19 @@ int NimbleService::gap_event(ble_gap_event* event, void* arg) {
         portENTER_CRITICAL(&service.state_lock_);
         service.connection_handle_ = event->connect.conn_handle;
         portEXIT_CRITICAL(&service.state_lock_);
+        ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                             "connected handle=%u",
+                             event->connect.conn_handle);
         return 0;
       }
+      ir_spoke_debug_event(IR_SPOKE_DEBUG_ERROR,
+                           "BLE connection failed status=%d; restarting advertising",
+                           event->connect.status);
       return service.start_advertising();
     case BLE_GAP_EVENT_DISCONNECT:
+      ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                           "disconnected reason=%d; restarting advertising",
+                           event->disconnect.reason);
       portENTER_CRITICAL(&service.state_lock_);
       service.connection_handle_ = BLE_HS_CONN_HANDLE_NONE;
       service.control_connection_handle_ = BLE_HS_CONN_HANDLE_NONE;
@@ -171,10 +194,16 @@ int NimbleService::gap_event(ble_gap_event* event, void* arg) {
         portENTER_CRITICAL(&service.state_lock_);
         service.measurement_subscribed_ = event->subscribe.cur_notify != 0;
         portEXIT_CRITICAL(&service.state_lock_);
+        ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                             "CSC measurement notifications %s",
+                             event->subscribe.cur_notify ? "enabled" : "disabled");
       } else if (event->subscribe.attr_handle == control_point_handle) {
         portENTER_CRITICAL(&service.state_lock_);
         service.control_indications_enabled_ = event->subscribe.cur_indicate != 0;
         portEXIT_CRITICAL(&service.state_lock_);
+        ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                             "CSC control-point indications %s",
+                             event->subscribe.cur_indicate ? "enabled" : "disabled");
       }
       return 0;
     default:
@@ -228,7 +257,21 @@ int NimbleService::notify() {
   portEXIT_CRITICAL(&state_lock_);
   if (connection == BLE_HS_CONN_HANDLE_NONE || !subscribed) return BLE_HS_ENOTCONN;
   auto* om = ble_hs_mbuf_from_flat(value.bytes.data(), value.size);
-  return om ? ble_gatts_notify_custom(connection, measurement_handle, om) : BLE_HS_ENOMEM;
+  if (!om) {
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_ERROR,
+                         "BLE CSC notification allocation failed");
+    return BLE_HS_ENOMEM;
+  }
+  const int rc = ble_gatts_notify_custom(connection, measurement_handle, om);
+  if (rc == 0) {
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE_NOTIFY,
+                         "CSC measurement notified handle=%u bytes=%u",
+                         connection, value.size);
+  } else {
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_ERROR,
+                         "BLE CSC notification failed rc=%d", rc);
+  }
+  return rc;
 }
 }  // namespace bicycle::csc
 
@@ -236,6 +279,8 @@ namespace {
 std::uint64_t last_notification_us;
 
 void on_nimble_sync() {
+  ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                       "NimBLE host synchronized");
   (void)bicycle::csc::NimbleService::instance().start_advertising();
 }
 
@@ -246,20 +291,38 @@ void nimble_host_task(void*) {
 }  // namespace
 
 extern "C" int ir_spoke_ble_csc_start(void) {
+  ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                       "initializing NimBLE CSC service");
   esp_err_t rc = nvs_flash_init();
   if (rc == ESP_ERR_NVS_NO_FREE_PAGES || rc == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                         "NVS requires erase/reinitialize");
     rc = nvs_flash_erase();
     if (rc == ESP_OK) rc = nvs_flash_init();
   }
-  if (rc != ESP_OK) return rc;
+  if (rc != ESP_OK) {
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_ERROR,
+                         "NVS initialization for BLE failed rc=%d", rc);
+    return rc;
+  }
   rc = nimble_port_init();
-  if (rc != ESP_OK) return rc;
+  if (rc != ESP_OK) {
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_ERROR,
+                         "nimble_port_init failed rc=%d", rc);
+    return rc;
+  }
   ble_svc_gap_init();
   ble_svc_gatt_init();
   rc = bicycle::csc::NimbleService::instance().register_service();
-  if (rc != 0) return rc;
+  if (rc != 0) {
+    ir_spoke_debug_event(IR_SPOKE_DEBUG_ERROR,
+                         "CSC service registration failed rc=%d", rc);
+    return rc;
+  }
   ble_hs_cfg.sync_cb = on_nimble_sync;
   nimble_port_freertos_init(nimble_host_task);
+  ir_spoke_debug_event(IR_SPOKE_DEBUG_BLE,
+                       "NimBLE host task started; waiting for sync");
   return 0;
 }
 

@@ -20,3 +20,9 @@ CONFIG_BT_NIMBLE_ROLE_CENTRAL=n
 CONFIG_BT_NIMBLE_ROLE_OBSERVER=n
 CONFIG_BT_NIMBLE_GATT_CLIENT=n
 CONFIG_BT_NIMBLE_GATT_SERVER=y
+
+# Bench-debug defaults. Fine-grained event switches live in the
+# ir_spoke_debug component Kconfig and remain editable through menuconfig.
+CONFIG_IR_SPOKE_DEBUG_ENABLE=y
+CONFIG_IR_SPOKE_DEBUG_SERIAL=y
+CONFIG_IR_SPOKE_DEBUG_LED=y

@@ -1,0 +1,145 @@
+menu "IR spoke sensor debug"
+
+config IR_SPOKE_DEBUG_ENABLE
+    bool "Enable IR spoke sensor debug instrumentation"
+    default y
+    help
+        Enables the lightweight debug event layer used by the serial monitor
+        and the XIAO ESP32-S3 user LED. Individual sinks and event classes can
+        be switched independently below.
+
+if IR_SPOKE_DEBUG_ENABLE
+
+menu "Serial monitor"
+
+config IR_SPOKE_DEBUG_SERIAL
+    bool "Enable serial debug output"
+    default y
+
+if IR_SPOKE_DEBUG_SERIAL
+
+config IR_SPOKE_DEBUG_SERIAL_STARTUP
+    bool "Startup/configuration messages"
+    default y
+
+config IR_SPOKE_DEBUG_SERIAL_RMT
+    bool "RMT lifecycle messages"
+    default y
+
+config IR_SPOKE_DEBUG_SERIAL_RMT_CAPTURES
+    bool "Raw RMT capture summaries"
+    default n
+    help
+        Logs one line for each completed RMT receive transaction. This can be
+        very verbose while the wheel is moving and is disabled by default.
+
+config IR_SPOKE_DEBUG_SERIAL_PULSE_ACCEPTED
+    bool "Accepted spoke pulses"
+    default y
+    help
+        Logs each pulse that passes the configured blockage-duration filter.
+        Disable for normal riding if serial output becomes too busy.
+
+config IR_SPOKE_DEBUG_SERIAL_PULSE_REJECTED
+    bool "Rejected spoke pulses"
+    default y
+    help
+        Logs pulses rejected as too short or too long. Useful while aligning
+        the optical path and tuning thresholds; can be noisy in bad lighting.
+
+config IR_SPOKE_DEBUG_SERIAL_ESTIMATOR
+    bool "Spoke-count estimator state changes"
+    default y
+
+config IR_SPOKE_DEBUG_SERIAL_REVOLUTION
+    bool "Completed wheel revolutions"
+    default y
+
+config IR_SPOKE_DEBUG_SERIAL_BLE
+    bool "BLE lifecycle/subscription messages"
+    default y
+
+config IR_SPOKE_DEBUG_SERIAL_BLE_NOTIFY
+    bool "BLE CSC notification messages"
+    default n
+
+config IR_SPOKE_DEBUG_SERIAL_CAN
+    bool "CAN lifecycle messages"
+    default y
+
+config IR_SPOKE_DEBUG_SERIAL_CAN_TX
+    bool "CAN telemetry publish messages"
+    default n
+
+config IR_SPOKE_DEBUG_SERIAL_ERRORS
+    bool "Debug error messages"
+    default y
+
+endif
+endmenu
+
+menu "XIAO user LED"
+
+config IR_SPOKE_DEBUG_LED
+    bool "Enable XIAO user LED debug signalling"
+    default y
+    help
+        Uses the XIAO ESP32-S3 onboard USER_LED. Seeed documents this LED on
+        GPIO21 and active low.
+
+if IR_SPOKE_DEBUG_LED
+
+config IR_SPOKE_DEBUG_LED_GPIO
+    int "User LED GPIO"
+    range 0 48
+    default 21
+
+config IR_SPOKE_DEBUG_LED_ACTIVE_LOW
+    bool "LED is active low"
+    default y
+
+config IR_SPOKE_DEBUG_LED_STARTUP
+    bool "Blink on startup"
+    default y
+
+config IR_SPOKE_DEBUG_LED_RMT
+    bool "Blink when RMT becomes ready"
+    default y
+
+config IR_SPOKE_DEBUG_LED_PULSE_ACCEPTED
+    bool "Flash on accepted spoke pulse"
+    default y
+    help
+        Gives immediate optical-path feedback. At high wheel speed the LED may
+        appear continuously lit because pulses arrive faster than the eye can
+        resolve.
+
+config IR_SPOKE_DEBUG_LED_PULSE_REJECTED
+    bool "Flash on rejected spoke pulse"
+    default n
+
+config IR_SPOKE_DEBUG_LED_ESTIMATOR
+    bool "Blink on estimator lock/unlock"
+    default y
+
+config IR_SPOKE_DEBUG_LED_REVOLUTION
+    bool "Blink on completed wheel revolution"
+    default y
+
+config IR_SPOKE_DEBUG_LED_BLE
+    bool "Blink on BLE lifecycle events"
+    default y
+
+config IR_SPOKE_DEBUG_LED_CAN
+    bool "Blink on CAN lifecycle events"
+    default y
+
+config IR_SPOKE_DEBUG_LED_ERRORS
+    bool "Long blink on errors"
+    default y
+
+endif
+endmenu
+
+endif
+endmenu
