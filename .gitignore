@@ -1,13 +1,31 @@
-# Generated evidence and local caches
+# ESP-IDF / CMake build artifacts
 /build/
 /firmware/build/
 /firmware/sdkconfig
+/firmware/sdkconfig.old
+/firmware/managed_components/
+
+# Generated local evidence and caches
 /tmp/
 /coverage/
+.cache/
+
+# Python caches
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# C/C++ tooling caches
+.clangd/
 
 # Editor and operating-system state
 .DS_Store
+Thumbs.db
 *.lck
-.env*
+*~
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
