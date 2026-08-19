@@ -5,6 +5,7 @@
 #include "ir_spoke_can_mcp2515_adapter.h"
 #include "ir_spoke_config.h"
 #include "ir_spoke_debug.h"
+#include "ir_spoke_link_monitor.h"
 #include "ir_spoke_pipeline.h"
 #include "ir_spoke_rmt_adapter.h"
 
@@ -78,6 +79,15 @@ void app_main(void) {
                              "RMT start failed rc=%d", rmt_result);
     }
     ESP_ERROR_CHECK(rmt_result == 0 ? ESP_OK : ESP_FAIL);
+
+    const esp_err_t link_result =
+        ir_spoke_link_monitor_start(&runtime_config);
+    if (link_result != ESP_OK) {
+        ir_spoke_debug_event(
+            IR_SPOKE_DEBUG_ERROR,
+            "optical carrier link monitor unavailable: %s",
+            esp_err_to_name(link_result));
+    }
 
     ir_spoke_debug_event(IR_SPOKE_DEBUG_STARTUP,
                          "startup complete; sensor is running");
