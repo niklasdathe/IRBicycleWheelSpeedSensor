@@ -82,7 +82,7 @@
     "rmt_tx_queue_depth": 2,
     "rx_demod_frequency_ratio": 0.66,
     "rx_demod_duty": 0.5,
-    "rx_glitch_filter_us": 4,
+    "rx_glitch_filter_us": 3,
     "minimum_blocked_us": 70,
     "maximum_blocked_us": 600,
     "link_loss_timeout_us": 15000,
