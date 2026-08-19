@@ -10,6 +10,28 @@ config IR_SPOKE_DEBUG_ENABLE
 
 if IR_SPOKE_DEBUG_ENABLE
 
+menu "Optical link detector"
+
+config IR_SPOKE_DEBUG_LINK_SAMPLE_MS
+    int "Carrier measurement window (ms)"
+    range 20 1000
+    default 100
+    help
+        PCNT counts rising edges on the raw comparator/RMT RX GPIO for this
+        interval. At the default 38 kHz carrier, 100 ms contains about 3800
+        rising edges when the optical link is healthy.
+
+config IR_SPOKE_DEBUG_LINK_MIN_CARRIER_PERCENT
+    int "Minimum expected carrier rate for LINK UP (%)"
+    range 5 90
+    default 25
+    help
+        LINK UP requires the measured raw carrier edge rate to reach at least
+        this percentage of the configured transmitter carrier frequency. The
+        intentionally tolerant default is useful during bench alignment.
+
+endmenu
+
 menu "Serial monitor"
 
 config IR_SPOKE_DEBUG_SERIAL
@@ -37,10 +59,9 @@ config IR_SPOKE_DEBUG_SERIAL_LINK
     bool "Optical link UP/DOWN state"
     default y
     help
-        Reports whether the demodulated IR carrier is present across the
-        emitter-receiver path. LINK UP means carrier energy is being received;
-        LINK DOWN means carrier has been absent for the configured RMT
-        link-loss interval.
+        Reports the carrier frequency measured by the ESP32-S3 PCNT peripheral
+        on the raw comparator output. LINK UP means a sufficient fraction of
+        the configured IR carrier is actually reaching the receiver path.
 
 config IR_SPOKE_DEBUG_SERIAL_LINK_HEARTBEAT
     bool "Repeat optical link status periodically"
@@ -124,7 +145,7 @@ config IR_SPOKE_DEBUG_LED_LINK_STATUS
     help
         Makes link state visible even when no spokes are moving. LINK UP is
         solid ON. LINK DOWN is a short heartbeat once per second. UNKNOWN is a
-        faster blink while the first RMT link observation is pending.
+        faster blink while the first carrier measurement is pending.
 
 config IR_SPOKE_DEBUG_LED_STARTUP
     bool "Blink on startup"
