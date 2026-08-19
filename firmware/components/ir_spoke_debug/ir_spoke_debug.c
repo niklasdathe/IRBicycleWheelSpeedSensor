@@ -11,11 +11,17 @@
 
 #define DEBUG_TAG "ir_debug"
 #define DEBUG_MESSAGE_SIZE 224
+#define LED_STATUS_TICK_US 100000ULL
 
 static bool initialized;
+static ir_spoke_link_state_t link_state = IR_SPOKE_LINK_UNKNOWN;
+static int64_t last_link_report_us;
 
 #if defined(CONFIG_IR_SPOKE_DEBUG_ENABLE) && defined(CONFIG_IR_SPOKE_DEBUG_LED)
 static esp_timer_handle_t led_off_timer;
+static esp_timer_handle_t led_status_timer;
+static volatile bool led_event_active;
+static volatile uint32_t led_status_tick;
 
 static int led_level(bool on) {
 #ifdef CONFIG_IR_SPOKE_DEBUG_LED_ACTIVE_LOW
@@ -25,10 +31,44 @@ static int led_level(bool on) {
 #endif
 }
 
+static void set_led(bool on) {
+    gpio_set_level((gpio_num_t)CONFIG_IR_SPOKE_DEBUG_LED_GPIO,
+                   led_level(on));
+}
+
+static bool link_status_led_on(void) {
+#ifdef CONFIG_IR_SPOKE_DEBUG_LED_LINK_STATUS
+    switch (link_state) {
+        case IR_SPOKE_LINK_UP:
+            return true;
+        case IR_SPOKE_LINK_DOWN:
+            /* 100 ms ON every second: visible proof that debug is alive. */
+            return (led_status_tick % 10u) == 0u;
+        case IR_SPOKE_LINK_UNKNOWN:
+        default:
+            /* 200 ms ON / 200 ms OFF while waiting for first observation. */
+            return (led_status_tick % 4u) < 2u;
+    }
+#else
+    return false;
+#endif
+}
+
+static void apply_led_base_state(void) {
+    if (!initialized || led_event_active) return;
+    set_led(link_status_led_on());
+}
+
 static void led_off(void *argument) {
     (void)argument;
-    gpio_set_level((gpio_num_t)CONFIG_IR_SPOKE_DEBUG_LED_GPIO,
-                   led_level(false));
+    led_event_active = false;
+    apply_led_base_state();
+}
+
+static void led_status_tick_callback(void *argument) {
+    (void)argument;
+    ++led_status_tick;
+    apply_led_base_state();
 }
 #endif
 
@@ -37,6 +77,7 @@ static const char *event_name(ir_spoke_debug_event_t event) {
         case IR_SPOKE_DEBUG_STARTUP: return "startup";
         case IR_SPOKE_DEBUG_RMT: return "rmt";
         case IR_SPOKE_DEBUG_RMT_CAPTURE: return "rmt-capture";
+        case IR_SPOKE_DEBUG_LINK: return "link";
         case IR_SPOKE_DEBUG_PULSE_ACCEPTED: return "pulse-ok";
         case IR_SPOKE_DEBUG_PULSE_REJECTED: return "pulse-reject";
         case IR_SPOKE_DEBUG_ESTIMATOR: return "estimator";
@@ -61,6 +102,9 @@ static bool serial_enabled(ir_spoke_debug_event_t event) {
 #endif
 #ifdef CONFIG_IR_SPOKE_DEBUG_SERIAL_RMT_CAPTURES
         case IR_SPOKE_DEBUG_RMT_CAPTURE: return true;
+#endif
+#ifdef CONFIG_IR_SPOKE_DEBUG_SERIAL_LINK
+        case IR_SPOKE_DEBUG_LINK: return true;
 #endif
 #ifdef CONFIG_IR_SPOKE_DEBUG_SERIAL_PULSE_ACCEPTED
         case IR_SPOKE_DEBUG_PULSE_ACCEPTED: return true;
@@ -154,8 +198,8 @@ static uint32_t led_pulse_ms(ir_spoke_debug_event_t event) {
 static void signal_led(ir_spoke_debug_event_t event) {
 #if defined(CONFIG_IR_SPOKE_DEBUG_ENABLE) && defined(CONFIG_IR_SPOKE_DEBUG_LED)
     if (!initialized || !led_off_timer || !led_enabled(event)) return;
-    gpio_set_level((gpio_num_t)CONFIG_IR_SPOKE_DEBUG_LED_GPIO,
-                   led_level(true));
+    led_event_active = true;
+    set_led(true);
     (void)esp_timer_stop(led_off_timer);
     (void)esp_timer_start_once(led_off_timer,
         (uint64_t)led_pulse_ms(event) * 1000ULL);
@@ -176,13 +220,22 @@ esp_err_t ir_spoke_debug_init(void) {
     };
     esp_err_t rc = gpio_config(&led_config);
     if (rc != ESP_OK) return rc;
-    gpio_set_level((gpio_num_t)CONFIG_IR_SPOKE_DEBUG_LED_GPIO,
-                   led_level(false));
-    const esp_timer_create_args_t timer_args = {
+    set_led(false);
+
+    const esp_timer_create_args_t off_timer_args = {
         .callback = led_off,
-        .name = "ir_dbg_led",
+        .name = "ir_dbg_led_off",
     };
-    rc = esp_timer_create(&timer_args, &led_off_timer);
+    rc = esp_timer_create(&off_timer_args, &led_off_timer);
+    if (rc != ESP_OK) return rc;
+
+    const esp_timer_create_args_t status_timer_args = {
+        .callback = led_status_tick_callback,
+        .name = "ir_dbg_led_status",
+    };
+    rc = esp_timer_create(&status_timer_args, &led_status_timer);
+    if (rc != ESP_OK) return rc;
+    rc = esp_timer_start_periodic(led_status_timer, LED_STATUS_TICK_US);
     if (rc != ESP_OK) return rc;
 #endif
     initialized = true;
@@ -227,5 +280,42 @@ void ir_spoke_debug_event(ir_spoke_debug_event_t event,
 #else
     (void)event;
     (void)format;
+#endif
+}
+
+void ir_spoke_debug_link_state(ir_spoke_link_state_t state,
+                               uint32_t clear_us,
+                               uint32_t max_blocked_us) {
+#ifdef CONFIG_IR_SPOKE_DEBUG_ENABLE
+    const int64_t now = esp_timer_get_time();
+    const bool changed = state != link_state;
+    bool heartbeat = last_link_report_us == 0;
+#ifdef CONFIG_IR_SPOKE_DEBUG_SERIAL_LINK_HEARTBEAT
+    if (last_link_report_us != 0 &&
+        now - last_link_report_us >=
+            (int64_t)CONFIG_IR_SPOKE_DEBUG_SERIAL_LINK_HEARTBEAT_MS * 1000LL) {
+        heartbeat = true;
+    }
+#endif
+
+    link_state = state;
+#if defined(CONFIG_IR_SPOKE_DEBUG_LED)
+    led_status_tick = 0;
+    apply_led_base_state();
+#endif
+
+    if (changed || heartbeat) {
+        const char *name = state == IR_SPOKE_LINK_UP ? "UP" :
+                           state == IR_SPOKE_LINK_DOWN ? "DOWN" : "UNKNOWN";
+        ir_spoke_debug_event(
+            IR_SPOKE_DEBUG_LINK,
+            "OPTICAL LINK %s clear=%luus max_blocked=%luus",
+            name, (unsigned long)clear_us, (unsigned long)max_blocked_us);
+        last_link_report_us = now;
+    }
+#else
+    (void)state;
+    (void)clear_us;
+    (void)max_blocked_us;
 #endif
 }
