@@ -85,7 +85,9 @@ esp_err_t ir_spoke_link_monitor_start(
     const pcnt_chan_config_t channel_config = {
         .edge_gpio_num = config->rx_gpio,
         .level_gpio_num = -1,
-        .virt_level_io_level = 1,
+        .flags = {
+            .virt_level_io_level = 1,
+        },
     };
     rc = pcnt_new_channel(link_unit, &channel_config, &link_channel);
     if (rc != ESP_OK) return rc;
