@@ -2,6 +2,7 @@
 #include "esp_log.h"
 #include "ir_spoke_can.h"
 #include "ir_spoke_can_mcp2515_adapter.h"
+#include "ir_spoke_ble_csc.h"
 #include "ir_spoke_config.h"
 #include "ir_spoke_pipeline.h"
 #include "ir_spoke_rmt_adapter.h"
@@ -15,6 +16,7 @@ void app_main(void) {
     /* Application code may change carrier_hz before start, within the
        generated analog-compatible bounds. */
     ir_spoke_pipeline_init(&pipeline);
+    ESP_ERROR_CHECK(ir_spoke_ble_csc_start());
     if (IR_SPOKE_CAN_ENABLED_DEFAULT) {
         ir_spoke_can_transport_t transport = {0};
         const int can_result = ir_spoke_can_mcp2515_start(&transport);
