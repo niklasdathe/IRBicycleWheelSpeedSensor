@@ -14,7 +14,7 @@
 #define LED_STATUS_TICK_US 100000ULL
 
 static bool initialized;
-static ir_spoke_link_state_t link_state = IR_SPOKE_LINK_UNKNOWN;
+static volatile ir_spoke_link_state_t link_state = IR_SPOKE_LINK_UNKNOWN;
 static int64_t last_link_report_us;
 
 #if defined(CONFIG_IR_SPOKE_DEBUG_ENABLE) && defined(CONFIG_IR_SPOKE_DEBUG_LED)
@@ -42,11 +42,9 @@ static bool link_status_led_on(void) {
         case IR_SPOKE_LINK_UP:
             return true;
         case IR_SPOKE_LINK_DOWN:
-            /* 100 ms ON every second: visible proof that debug is alive. */
             return (led_status_tick % 10u) == 0u;
         case IR_SPOKE_LINK_UNKNOWN:
         default:
-            /* 200 ms ON / 200 ms OFF while waiting for first observation. */
             return (led_status_tick % 4u) < 2u;
     }
 #else
@@ -286,6 +284,18 @@ void ir_spoke_debug_event(ir_spoke_debug_event_t event,
 void ir_spoke_debug_link_state(ir_spoke_link_state_t state,
                                uint32_t clear_us,
                                uint32_t max_blocked_us) {
+    /* RMT stop-symbol observations cannot by themselves prove whether the raw
+     * carrier is present. The dedicated PCNT carrier monitor is authoritative. */
+    (void)state;
+    (void)clear_us;
+    (void)max_blocked_us;
+}
+
+void ir_spoke_debug_carrier_link_state(ir_spoke_link_state_t state,
+                                       uint32_t measured_carrier_hz,
+                                       uint32_t expected_carrier_hz,
+                                       uint32_t rising_edges,
+                                       uint32_t sample_ms) {
 #ifdef CONFIG_IR_SPOKE_DEBUG_ENABLE
     const int64_t now = esp_timer_get_time();
     const bool changed = state != link_state;
@@ -309,13 +319,19 @@ void ir_spoke_debug_link_state(ir_spoke_link_state_t state,
                            state == IR_SPOKE_LINK_DOWN ? "DOWN" : "UNKNOWN";
         ir_spoke_debug_event(
             IR_SPOKE_DEBUG_LINK,
-            "OPTICAL LINK %s clear=%luus max_blocked=%luus",
-            name, (unsigned long)clear_us, (unsigned long)max_blocked_us);
+            "OPTICAL LINK %s carrier=%luHz expected=%luHz edges=%lu/%lums",
+            name,
+            (unsigned long)measured_carrier_hz,
+            (unsigned long)expected_carrier_hz,
+            (unsigned long)rising_edges,
+            (unsigned long)sample_ms);
         last_link_report_us = now;
     }
 #else
     (void)state;
-    (void)clear_us;
-    (void)max_blocked_us;
+    (void)measured_carrier_hz;
+    (void)expected_carrier_hz;
+    (void)rising_edges;
+    (void)sample_ms;
 #endif
 }
