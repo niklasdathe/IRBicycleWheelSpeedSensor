@@ -33,6 +33,26 @@ config IR_SPOKE_DEBUG_SERIAL_RMT_CAPTURES
         Logs one line for each completed RMT receive transaction. This can be
         very verbose while the wheel is moving and is disabled by default.
 
+config IR_SPOKE_DEBUG_SERIAL_LINK
+    bool "Optical link UP/DOWN state"
+    default y
+    help
+        Reports whether the demodulated IR carrier is present across the
+        emitter-receiver path. LINK UP means carrier energy is being received;
+        LINK DOWN means carrier has been absent for the configured RMT
+        link-loss interval.
+
+config IR_SPOKE_DEBUG_SERIAL_LINK_HEARTBEAT
+    bool "Repeat optical link status periodically"
+    default y
+    depends on IR_SPOKE_DEBUG_SERIAL_LINK
+
+config IR_SPOKE_DEBUG_SERIAL_LINK_HEARTBEAT_MS
+    int "Optical link status repeat period (ms)"
+    range 1000 60000
+    default 5000
+    depends on IR_SPOKE_DEBUG_SERIAL_LINK_HEARTBEAT
+
 config IR_SPOKE_DEBUG_SERIAL_PULSE_ACCEPTED
     bool "Accepted spoke pulses"
     default y
@@ -97,6 +117,14 @@ config IR_SPOKE_DEBUG_LED_GPIO
 config IR_SPOKE_DEBUG_LED_ACTIVE_LOW
     bool "LED is active low"
     default y
+
+config IR_SPOKE_DEBUG_LED_LINK_STATUS
+    bool "Use persistent LED optical-link indication"
+    default y
+    help
+        Makes link state visible even when no spokes are moving. LINK UP is
+        solid ON. LINK DOWN is a short heartbeat once per second. UNKNOWN is a
+        faster blink while the first RMT link observation is pending.
 
 config IR_SPOKE_DEBUG_LED_STARTUP
     bool "Blink on startup"
