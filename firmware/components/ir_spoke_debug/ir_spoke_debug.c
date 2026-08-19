@@ -281,16 +281,6 @@ void ir_spoke_debug_event(ir_spoke_debug_event_t event,
 #endif
 }
 
-void ir_spoke_debug_link_state(ir_spoke_link_state_t state,
-                               uint32_t clear_us,
-                               uint32_t max_blocked_us) {
-    /* RMT stop-symbol observations cannot by themselves prove whether the raw
-     * carrier is present. The dedicated PCNT carrier monitor is authoritative. */
-    (void)state;
-    (void)clear_us;
-    (void)max_blocked_us;
-}
-
 void ir_spoke_debug_carrier_link_state(ir_spoke_link_state_t state,
                                        uint32_t measured_carrier_hz,
                                        uint32_t expected_carrier_hz,
